@@ -1,0 +1,113 @@
+<div class="modal-header" ng-class="modalClass">
+
+    <button type="button" class="close" data-ng-click="close()"><span aria-hidden="true">&times;</span>
+        <span class="sr-only">Close</span></button>
+    <h4 class="modal-title">{{headerText}}</h4>
+</div>
+<div class="modal-body" ng-class="modalClass">
+    <form name="userMain">
+        <fieldset>
+            <h4>Name/Company</h4>
+
+            <div class="form-group">
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" required="required"
+                           ng-model="doctor.first_name" placeholder="First Name" tooltip-placement="bottom"
+                           tooltip="First name"/>
+                </div>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" required="required"
+                           ng-model="doctor.last_name" placeholder="Last Name" tooltip-placement="bottom"
+                           tooltip="Last name"/>
+                </div>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" required="required"
+                           ng-model="doctor.company_name" placeholder="Company Name" tooltip-placement="bottom"
+                           tooltip="Company name"/>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+
+    <h4>Active <input class="checkbox checkbox-inline" type="checkbox" ng-model="doctor.active" style="margin: 0"/></h4>
+
+    <!-- doctor contacts-->
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#contacts">Locations</a> <span
+                    class="caret"></span>
+            </h4>
+        </div>
+        <div id="contacts" class="panel-collapse collapse in">
+            <div class="panel-body">
+                <!-- Address stuff -->
+                <div class="panel-body">
+                    <location doctor="doctor"></location>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Specialties -->
+
+    <div>
+        <fieldset>
+
+            <h4>Specialties</h4>
+
+            <ui-select multiple ng-model="doctor.specialtyObjects" ng-disabled="disabled" style="width: 300px;">
+                <ui-select-match placeholder="Specialties...">{{$item.name}}</ui-select-match>
+                <ui-select-choices
+                        repeat="specialty.id as specialty in specialties | filter:$select.search | orderBy: 'name'">
+                    <div ng-bind-html="specialty.name.htmlSafe | highlight: $select.search"></div>
+                    {{specialty.name}}
+                </ui-select-choices>
+            </ui-select>
+        </fieldset>
+    </div>
+
+    <!-- Insureance Accepted -->
+    <fieldset>
+
+        <h4>Insurance Accepted</h4>
+
+        <ui-select multiple ng-model="doctor.insurance_accepted" style="width: 300px;">
+            <ui-select-match placeholder="Insurance...">{{$item.name}}</ui-select-match>
+            <ui-select-choices
+                    repeat="carrier._id as carrier in insuranceCarriers | filter:$select.search | orderBy: 'name'">
+                <div ng-bind-html="carrier.name.htmlSafe | highlight: $select.search"></div>
+                {{carrier.name}}
+            </ui-select-choices>
+        </ui-select>
+    </fieldset>
+
+    <!-- Sales persons -->
+    <fieldset>
+
+        <h4>Sales Person(s)</h4>
+
+        <ui-select multiple ng-model="doctor.assigned" ng-disabled="disabled"
+                   style="width: 300px;">
+            <ui-select-match placeholder="Select people...">{{$item.first_name}}, {{$item.last_name}}
+            </ui-select-match>
+            <ui-select-choices repeat="name._id as name in usernames | filter:$select.search | orderBy: 'name'">
+                <div ng-bind-html="name.name.htmlSafe | highlight: $select.search"></div>
+                {{name.last_name}}, {{name.first_name}}
+            </ui-select-choices>
+        </ui-select>
+    </fieldset>
+
+    <br/>
+
+    <h4>Notes</h4>
+    <textarea class="form-control" rows="3" data-ng-model="doctor.notes"></textarea>
+
+</div>
+
+<div class="modal-footer" ng-class="modalClass">
+    <button type="button" class="btn" data-ng-click="close()">Cancel</button>
+    <button class="btn btn-primary" data-ng-click="ok()">
+        Save
+    </button>
+</div>

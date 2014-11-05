@@ -1,0 +1,26 @@
+<div class="well">
+
+    <ng-include src="'shared/partials/list-header.html'" onload="title = 'Doctors'">
+    </ng-include>
+
+    <div ng-include="'shared/partials/list-nav-tabs.html'" onload="tabs = [
+        {title:'Referring', class:'active', href:'#referring'},
+        {title:'Specialsts', class:'', href:'#specialists'},
+        {title:'Inactive', class:'', href:'#inactive'}
+    ]"></div>
+
+    <ng-include src="'shared/partials/list.html'" onload="
+        id = '#specialists'
+        rows = 'doctors';
+        headings=['Actions', 'Name', 'Specialty','Address', 'Phone'];
+        fields=[
+            {type:'buttons', buttons:['Edit']},
+            {type:'multi-value', fieldNames:['firstName','lastName'], delimiter:', ' },
+            {type:'function', function: function(doctor){doctor.getSpecialtyNames(specialties)}},
+            {type:'template', fieldName: 'locations', template: 'template'},
+            {type:'single-value', fieldName:'phone'}];">
+    </ng-include>
+
+
+
+</div>

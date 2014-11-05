@@ -1,0 +1,26 @@
+<table class="table table-condensed table-striped table-hover">
+    <thead>
+    <tr>
+        <th ng-repeat="heading in headings">{{heading}}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr id="sdfds" ng-repeat="row in rows | filter: filterExpression | filter: searchText">
+        <td ng-repeat="field in fields">
+            <span ng-if="field.type=='buttons'" ng-repeat="button in field.buttons">
+                <input type="button" class="btn btn-xs btn-info" ng-click="editFunction(row['_id'])" value="{{button}}">
+            </span>
+
+            <span ng-if="field.type=='single-value'">{{row[field.fieldName]}} {{searchText}}</span>
+
+            <span ng-if="field.type=='multi-value'" ng-repeat="fieldName in field.fieldNames">{{row[fieldName]}}&nbsp;</span>
+
+            <div
+                ng-if="field.type=='template'"
+                ng-include="'/' + field.template + '.html'"
+                onload="items = row[field.fieldName]">
+            </div>
+        </td>
+    </tr>
+    </tbody>
+</table>

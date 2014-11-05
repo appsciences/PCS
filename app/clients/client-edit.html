@@ -1,0 +1,149 @@
+<div class="modal-header" ng-class="modalClass">
+    <button type="button" class="close" data-dismiss="modal" data-ng-click="close()"><span
+            aria-hidden="true">&times;</span>
+        <span class="sr-only">Close</span></button>
+    <h4 class="modal-title">{{headerText}}</h4>
+</div>
+<div class="modal-body" ng-class="modalClass">
+    <form name="userMain">
+        <fieldset>
+            <div class="form-group">
+                <div class="row" style="margin-bottom: 10px">
+
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" required="required"
+                               ng-model="human.first_name" placeholder="First Name" tooltip-placement="bottom"
+                               tooltip="First name"/>
+                    </div>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" required="required"
+                               ng-model="human.last_name" placeholder="Last Name" tooltip-placement="bottom"
+                               tooltip="Last name"/>
+                    </div>
+                </div>
+                <div class="row" style="margin-bottom: 10px">
+                    <div class="col-sm-4">
+                        <input type="date" placeholder="Birthdate" class="form-control" required="required"
+                               ng-model="human.birth" tooltip="Date of birth"/>
+                    </div>
+                    <div class="col-sm-5">
+                        <ui-select multiple ng-model="human.insurance_carriers" style="width: 400px;">
+                            <ui-select-match placeholder="Insurance...">{{$item.name}}</ui-select-match>
+                            <ui-select-choices repeat="carrier._id as carrier in insuranceCarriers | filter:$select.search | orderBy: 'name'">
+                                <div ng-bind-html="carrier.name.htmlSafe | highlight: $select.search"></div>
+                                {{carrier.name}}
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+
+            </div>
+        </fieldset>
+        <h4>Active <input class="checkbox checkbox-inline" type="checkbox" ng-model="human.active" style="margin: 0"/></h4>
+
+    </form>
+
+    <!-- Human contacts-->
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#contacts">Contacts</a>
+                <span class="caret"></span>
+            </h4>
+        </div>
+        <div id="contacts" class="panel-collapse collapse in">
+            <div class="panel-body">
+                <!-- Address stuff -->
+                <div class="col-sm-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#address">Address</a>
+                                <span class="caret"></span>
+                                <span class="glyphicon glyphicon-home pull-right"></span>
+                            </h4>
+                        </div>
+                        <div id="address" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <address addresses="human.addresses"></address>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- email stuff -->
+                <div class="col-sm-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#emails">Email</a>
+                                <span class="caret"></span>
+                                <span class="glyphicon glyphicon-envelope pull-right"></span>
+                            </h4>
+                        </div>
+                        <div id="emails" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <email emails="human.email"></email>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Phoness stuff -->
+                <div class="col-sm-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#phones">Phone</a>
+                                <span class="caret"></span>
+                                <span class="glyphicon glyphicon-phone pull-right"></span>
+                            </h4>
+                        </div>
+                        <div id="phones" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <phone phones="human.phones"></phone>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Sales person special -->
+    <div ng-if="human.entity_type == 'sales_person'">
+        <h3>Sales area</h3>
+
+        <div class="sales-areas">
+            <div class="checkbox checkbox-inline" ng-repeat="spec in salesAreas">
+                <label for="spec-{{$index}}">
+                    <input type="checkbox" checklist-value="spec._id" name="spec-{{$index}}" id="spec-{{$index}}"
+                           checklist-model="human.sales_area"/>
+                    {{spec.name}}
+                </label>
+            </div>
+
+            <div class="selected">
+                <h4>You selected:</h4>
+                <span class="label label-primary" ng-repeat="(ke, value) in human.sales_area">{{ getSalesAreaNameById(value) }}</span>
+            </div>
+
+        </div>
+
+    </div>
+    <br/>
+
+    <hr/>
+    <h4>Notes</h4>
+    <textarea class="form-control" rows="3" data-ng-model="human.notes"></textarea>
+
+</div>
+
+<div class="modal-footer" ng-class="modalClass">
+    <button type="button" class="btn" data-ng-click="close()">Cancel</button>
+    <button class="btn btn-primary" data-ng-click="ok()">
+        {{actionButtonText}}
+    </button>
+</div>
