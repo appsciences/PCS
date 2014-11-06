@@ -9,10 +9,10 @@ factory('parseService', function() {
 
     //filter collection1 retaining only objects that have ids in collection 2
     parseService.filterByIds = function(collection1, collection2) {
-        var col2Ids = _.pick(collection2, 'id');
+        var col2Ids = _.pluck(collection2, 'id');
 
         return collection1.filter(function (col1Member) {
-            _.contains(col2Ids, col1Member.id);
+            return _.contains(col2Ids, col1Member.id);
         })
     }
 
@@ -29,6 +29,8 @@ factory('parseService', function() {
 
         })
     }
+
+
 
     return parseService;
     }

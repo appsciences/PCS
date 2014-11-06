@@ -12,17 +12,17 @@
             <div class="form-group">
                 <div class="col-sm-4">
                     <input type="text" class="form-control" required="required"
-                           ng-model="doctor.first_name" placeholder="First Name" tooltip-placement="bottom"
+                           ng-model="doctor.firstName" placeholder="First Name" tooltip-placement="bottom"
                            tooltip="First name"/>
                 </div>
                 <div class="col-sm-4">
                     <input type="text" class="form-control" required="required"
-                           ng-model="doctor.last_name" placeholder="Last Name" tooltip-placement="bottom"
+                           ng-model="doctor.lastName" placeholder="Last Name" tooltip-placement="bottom"
                            tooltip="Last name"/>
                 </div>
                 <div class="col-sm-4">
                     <input type="text" class="form-control" required="required"
-                           ng-model="doctor.company_name" placeholder="Company Name" tooltip-placement="bottom"
+                           ng-model="doctor.company" placeholder="Company Name" tooltip-placement="bottom"
                            tooltip="Company name"/>
                 </div>
             </div>
@@ -56,47 +56,48 @@
 
             <h4>Specialties</h4>
 
-            <ui-select multiple ng-model="doctor.specialtyObjects" ng-disabled="disabled" style="width: 300px;">
+            <ui-select multiple ng-model="doctor.specialties" ng-disabled="disabled" style="width: 300px;">
                 <ui-select-match placeholder="Specialties...">{{$item.name}}</ui-select-match>
                 <ui-select-choices
-                        repeat="specialty.id as specialty in specialties | filter:$select.search | orderBy: 'name'">
+                        repeat="specialty in specialties | filter:$select.search | orderBy: 'name'">
                     <div ng-bind-html="specialty.name.htmlSafe | highlight: $select.search"></div>
                     {{specialty.name}}
                 </ui-select-choices>
             </ui-select>
         </fieldset>
+        Hello:{{doctor.specialties}}
     </div>
 
     <!-- Insureance Accepted -->
-    <fieldset>
+    <!--<fieldset>-->
 
-        <h4>Insurance Accepted</h4>
+        <!--<h4>Insurance Accepted</h4>-->
 
-        <ui-select multiple ng-model="doctor.insurance_accepted" style="width: 300px;">
-            <ui-select-match placeholder="Insurance...">{{$item.name}}</ui-select-match>
-            <ui-select-choices
-                    repeat="carrier._id as carrier in insuranceCarriers | filter:$select.search | orderBy: 'name'">
-                <div ng-bind-html="carrier.name.htmlSafe | highlight: $select.search"></div>
-                {{carrier.name}}
-            </ui-select-choices>
-        </ui-select>
-    </fieldset>
+        <!--<ui-select multiple ng-model="doctor.insurance_accepted" style="width: 300px;">-->
+            <!--<ui-select-match placeholder="Insurance...">{{$item.name}}</ui-select-match>-->
+            <!--<ui-select-choices-->
+                    <!--repeat="carrier._id as carrier in insuranceCarriers | filter:$select.search | orderBy: 'name'">-->
+                <!--<div ng-bind-html="carrier.name.htmlSafe | highlight: $select.search"></div>-->
+                <!--{{carrier.name}}-->
+            <!--</ui-select-choices>-->
+        <!--</ui-select>-->
+    <!--</fieldset>-->
 
     <!-- Sales persons -->
-    <fieldset>
+    <!--<fieldset>-->
 
-        <h4>Sales Person(s)</h4>
+        <!--<h4>Sales Person(s)</h4>-->
 
-        <ui-select multiple ng-model="doctor.assigned" ng-disabled="disabled"
-                   style="width: 300px;">
-            <ui-select-match placeholder="Select people...">{{$item.first_name}}, {{$item.last_name}}
-            </ui-select-match>
-            <ui-select-choices repeat="name._id as name in usernames | filter:$select.search | orderBy: 'name'">
-                <div ng-bind-html="name.name.htmlSafe | highlight: $select.search"></div>
-                {{name.last_name}}, {{name.first_name}}
-            </ui-select-choices>
-        </ui-select>
-    </fieldset>
+        <!--<ui-select multiple ng-model="doctor.assigned" ng-disabled="disabled"-->
+                   <!--style="width: 300px;">-->
+            <!--<ui-select-match placeholder="Select people...">{{$item.first_name}}, {{$item.last_name}}-->
+            <!--</ui-select-match>-->
+            <!--<ui-select-choices repeat="name._id as name in usernames | filter:$select.search | orderBy: 'name'">-->
+                <!--<div ng-bind-html="name.name.htmlSafe | highlight: $select.search"></div>-->
+                <!--{{name.last_name}}, {{name.first_name}}-->
+            <!--</ui-select-choices>-->
+        <!--</ui-select>-->
+    <!--</fieldset>-->
 
     <br/>
 
@@ -107,7 +108,5 @@
 
 <div class="modal-footer" ng-class="modalClass">
     <button type="button" class="btn" data-ng-click="close()">Cancel</button>
-    <button class="btn btn-primary" data-ng-click="ok()">
-        Save
-    </button>
+    <button class="btn btn-primary" data-ng-click="save()">Save</button>
 </div>

@@ -9,18 +9,16 @@
         {title:'Inactive', class:'', href:'#inactive'}
     ]"></div>
 
-    <ng-include src="'shared/partials/list.html'" onload="
-        id = '#specialists'
-        rows = 'doctors';
-        headings=['Actions', 'Name', 'Specialty','Address', 'Phone'];
-        fields=[
-            {type:'buttons', buttons:['Edit']},
-            {type:'multi-value', fieldNames:['firstName','lastName'], delimiter:', ' },
-            {type:'function', function: function(doctor){doctor.getSpecialtyNames(specialties)}},
-            {type:'template', fieldName: 'locations', template: 'template'},
-            {type:'single-value', fieldName:'phone'}];">
-    </ng-include>
-
-
-
+    <list
+            rows="doctors"
+            headings="['Actions', 'Name', 'Specialty','Address']"
+            searchText="search"
+            editFunction="load"
+            fields="[
+                {type:'buttons', buttons:['Edit']},
+                {type:'multi-value', fieldNames:['firstName','lastName']},
+                {type:'multi-function', func: getSpecialtyNames},
+                {type:'multi-function', func: getSpecialtyNames}]"
+            >
+    </list>
 </div>

@@ -7,31 +7,28 @@ angular.module('csp.doctors.ctrl', [])
         '$scope',
         '$modal',
         'doctors',
-        'specialties'
-        function($scope, $modal, Doctor, doctors, specialties) {
-
-            //$scope.search = {searchString:"aa"};
+        'specialties',
+        'doctorService',
+        function($scope, $modal, doctors, specialties, Doctor) {
 
             $scope.doctors = doctors;
-            //doctorService.list().then(function(doctors) {
-            //    $scope.doctors = doctors;
-            //}, function(err) {
-            //    // Something went wrong, handle the error
-            //});
 
-            $scope.specialtiesList(specialtyIds){
-                specialties
+            $scope.getSpecialtyNames = function(doctor){
+                return doctor.getSpecialtyNames(specialties);
             }
 
-            var modal = function(doctorId)
+            //TODO: encapsulate and refactor
+            var showModal = function(doctorId)
             {
                 var modalInstance = $modal.open({
-                    templateUrl: 'doctor-edit.html',
+                    templateUrl: 'doctors/doctor-edit.html',
                     controller: 'DoctorEditCtrl',
                     resolve: {
-                        doctorId: function () {
-                            return doctorId;
-                        }
+                        doctor: function () {
+                            return doctorId ? Doctor.get(doctorId) : new Doctor()
+                        },
+                        specialties:
+                            function(){return specialties;}
                     },
                     size: 'lg',
                     backdrop: 'static'
@@ -39,25 +36,23 @@ angular.module('csp.doctors.ctrl', [])
 
                 modalInstance.result.then(function (doctor) {
 
-                    doctor.save().then(function (doc) {
-                        if(id)
-                            $scope.doctors.push(doc);
+                    doctor.save().then(function (doctor) {
+                            $scope.doctors.requery();
                     }, function(err){
-                        //TODO:
+                        //TODO: Docor Save Error
                     });
 
-                }, function () {
-                    //TODO;
+                }, function (err) {
+                    //TODO: Modal Result Error
                 });
 
             }
 
             $scope.add = function(){
-                modal(null);
+                showModal(null);
             }
 
             $scope.edit = function (id) {
-                modal(id);
+                showModal(id);
             };
-
 }]);

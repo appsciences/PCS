@@ -9,39 +9,18 @@ angular.module('csp.doctors.ctrl')
         '$scope',
         '$modalInstance',
         'doctor',
-        //'doctorService',
-        //'specialtyService',
-        //'locationService',
-        //'insCarrierService',
-        function($scope, $modalInstance, doctor, doctorService, specialtyService, locationService, insCarrierService) {
+        'specialties',
+        function($scope, $modalInstance, doctor, specialties) {
 
             //header text
             $scope.headerText = doctor == 'edit' ? 'Edit Doctor' : 'New Doctor';
 
             $scope.doctor = doctor;
 
-            //
-            //specialtyService.listCached().then(function(specialties) {
-            //    $scope.specialties = specialties;
-            //}, function(err) {
-            //    // Something went wrong, handle the error
-            //});
-
-            ////lets see if we can resolve this via resolve
-            //locationService.list().then(function(locations) {
-            //    $scope.locations = locations;
-            //}, function(err) {
-            //    // Something went wrong, handle the error
-            //});
-            //
-            //insCarrierService.list().then(function(insCarriers) {
-            //    $scope.insCarriers = insCarriers;
-            //}, function(err) {
-            //    // Something went wrong, handle the error
-            //});
+            $scope.specialties = specialties;
 
             $scope.save = function () {
-                $modalInstance.close($scope.doctor);
+                 $modalInstance.close($scope.doctor);
             };
 
             $scope.close = function () {

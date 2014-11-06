@@ -9,26 +9,33 @@ factory('doctorService',
                     this.active = true;
                 },
                 getSpecialtyObjects: function(allSpecialties){
-                    return parse.intersect(allSpecialties, this.get('specialities'));
+                    return parse.filterByIds(allSpecialties, this.get('specialties'));
                 },
 
-                getSpecialtyNames: function(specialties){
-                    return _.pick(this.getSpecialtyObjects(specialties), 'name');
+                getSpecialtyNames: function(allSpecialties){
+                    return _.pluck(this.getSpecialtyObjects(allSpecialties), 'name');
                 }
 
             },
             {// Class methods
+                getById: function(id) {
+                    return new Parse.Query(Doctor).get(id);
+                }
+
             }
 
         );
+
 
         //create simple props
         parse.toJSObj(
             Doctor, [
                 {name: "firstName", template: "="},
                 {name: "lastName", template: "="},
+                {name: "company", template: "="},
                 {name: "active", template: "="},
-                {name: "phone", template: "="}
+                {name: "specialties", template: "="},
+                {name: "note", template: "="}
             ]
         );
 

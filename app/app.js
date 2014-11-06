@@ -14,18 +14,18 @@ angular.module('csp', [
     'csp.services.doctor',
     'csp.services.insCarrier',
     'csp.services.location',
-    'csp.services.speciality',
+    'csp.services.specialty',
     'csp.services.parse'
-
 ]).
-
+//need a loading indicator for routes if backend and thus resolve is slow
 config(['$routeProvider', function($routeProvider) {
     $routeProvider.
         when('/doctors', {
             templateUrl: 'doctors/doctors.html',
             controller: 'DoctorsListCtrl',
             resolve:{
-                doctors: 'doctorListService'
+                doctors: 'doctorListService',
+                specialties: 'specialtyListService'
             }
         }).
         when('/patients', {

@@ -9,39 +9,6 @@ angular.module('csp.services.location',[]).
         }, {
             // Class methods
 
-            list: function() {
-                var defer = $q.defer();
-
-                var query = new Parse.Query(this);
-                query.find({
-                    success : function(locations) {
-                        defer.resolve(locations);
-                    },
-                    error : function(errors) {
-                        defer.reject(errors);
-                    }
-                });
-
-                return defer.promise;
-            },
-
-            add: function(location) {
-                var defer = $q.defer();
-
-                var query = new Parse.Query(this);
-                query.find({
-                    success : function(locations) {
-                        defer.resolve(locations);
-                    },
-                    error : function(errors) {
-                        defer.reject(errors);
-                    }
-                });
-
-                return defer.promise;
-            },
-
-            save: function(location){}
         });
 
         // Properties

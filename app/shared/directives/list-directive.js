@@ -13,9 +13,8 @@ angular.module('csp.directive.listDirective', [])
                 editFunction: "=",
                 fields: "="
             },
-            templateUrl: '../partials/list.html',
+            templateUrl: 'shared/partials/list.html',
             replace: true,
             transclude: false
         };
     });
-
