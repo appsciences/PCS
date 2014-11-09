@@ -11,6 +11,7 @@ angular.module('csp', [
     'csp.doctors.ctrl',
 //  'csp.Appointments',
     'csp.directive.listDirective',
+    'csp.directive.multiSelectDirective',
     'csp.services.doctor',
     'csp.services.insCarrier',
     'csp.services.location',
@@ -21,16 +22,20 @@ angular.module('csp', [
 config(['$routeProvider', function($routeProvider) {
     $routeProvider.
         when('/doctors', {
-            templateUrl: 'doctors/doctors.html',
-            controller: 'DoctorsListCtrl',
+            templateUrl: 'doctors/doctor-list.html',
+            controller: 'doctorListCtrl',
             resolve:{
                 doctors: 'doctorListService',
                 specialties: 'specialtyListService'
             }
         }).
         when('/patients', {
-            templateUrl: 'patients.html',
-            controller: 'PatientsListCtrl'
+            templateUrl: 'patients/patients.html',
+            controller: 'patientListCtrl'
+        }).
+        when('/appointments', {
+            templateUrl: 'appointments/appts.html',
+            controller: 'apptListCtrl'
         }).
         otherwise({
             redirectTo: '/'

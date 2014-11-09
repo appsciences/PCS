@@ -14,27 +14,37 @@ factory('parseService', function() {
         return collection1.filter(function (col1Member) {
             return _.contains(col2Ids, col1Member.id);
         })
-    }
+    };
 
-    parseService.toJSObj =  function(parseObj, props) {
+    parseService.toJSObj =  function(parseObj, attributes) {
 
-        props.forEach(function (prop) {
+        attributes.forEach(function (attr) {
+            switch(attr.type)
+            {
+                case "property":
+                    Object.defineProperty(parseObj.prototype, attr.name, {
+                        get: (attr.template == "set" ? undefined : function (){return this.get(attr.name);}),
+                        set:(attr.template == "get" ? undefined : function (val) { this.set(attr.name, val);})
+                    });
+                    break;
 
-            if (angular.isString(prop.template)) {
-                Object.defineProperty(parseObj.prototype, prop.name, {
-                    get: (prop.template == "set" ? undefined : function (){return this.get(prop.name);}),
-                    set:(prop.template == "get" ? undefined : function (val) { this.set(prop.name, val);})
-                });
+                case "collection":
+                    Object.defineProperty(parseObj.prototype, attr.name, {
+                        get: function () {
+                            return this.get(attr.collection).map(function(val){
+                                return val.get('name');
+                            }).join(attr.delimiter);
+                        }
+                    });
+                    break;
             }
+        });
 
-        })
-    }
-
-
+    };
 
     return parseService;
     }
-)
+);
 /**
  * Created by levushka on 11/3/14.
  */

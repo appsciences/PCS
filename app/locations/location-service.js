@@ -1,25 +1,14 @@
-/**
- * Created by levushka on 11/1/14.
- */
 angular.module('csp.services.location',[]).
-    factory('locationService', ['$q', function($q) {
 
-        var location = Parse.Object.extend("location", {
-            // Instance methods
-        }, {
-            // Class methods
+    factory('locationService',['parseService', function(parse) {
 
-        });
+        var Location = Parse.Object.extend("Location");
 
-        // Properties
-        Object.defineProperty(location.prototype, "name", {
-            get: function() {
-                return this.get("name");
-            },
-            set: function(val) {
-                this.set("name", val);
-            }
-        });
-
-        return location;
+        //create simple props
+        parse.toJSObj(
+            Location, [
+                {name: "name", type:"property", template: "="}
+            ]
+        );
+        return Location;
     }]);

@@ -5,25 +5,19 @@
 angular.module('csp.doctors.ctrl')
 
 .controller(
-    'doctorEditCtrl', [
+    'DoctorEditCtrl', [
         '$scope',
-        '$log',
         '$modalInstance',
         'doctor',
         'specialties',
-        'locationService',
-        function($scope, $log, $modalInstance, doctor, specialties, Location) {
+        function($scope, $modalInstance, doctor, specialties) {
 
             //header text
             $scope.headerText = doctor ? 'Edit Doctor' : 'New Doctor';
 
-            $scope.$log = $log;
-
             $scope.doctor = doctor;
 
             $scope.specialties = specialties;
-
-            $scope.location = new Location();
 
             $scope.save = function () {
                  $modalInstance.close($scope.doctor);
@@ -33,14 +27,4 @@ angular.module('csp.doctors.ctrl')
                 $modalInstance.dismiss('cancel');
             };
 
-            $scope.addLocation = function () {
-                doctor.addLocation(location);
-                $scope.location = new Location();
-            };
-
-            $scope.deleteLocation = function () {
-                doctor.removeLocation(location);
-            };
-
-
-        }]);
+}]);

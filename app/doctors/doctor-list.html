@@ -1,0 +1,27 @@
+<pcs-list
+        show-header = "true"
+        show-tabs = "true"
+        title = "'Doctors'"
+        $log = "$log"
+        buttons="[
+            {label:'Add Referring', click:addReferring},
+            {label:'Add Specialist', click:addSpecialist}]"
+        tabs="[
+            {title:'Referring', class:'active', href:'#referring'},
+            {title:'Specialists', class:'', href:'#specialists'},
+            {title:'Inactive', class:'', href:'#inactive'}]"
+
+        headings="['Actions', 'Name', 'Specialty','Address']"
+        filter-expression="{active:true, type:'referring'}"
+        fields="[
+            {type:'buttons', buttons:[{
+                label:'Edit',
+                click:edit
+            }]},
+            {type:'multi-value', fieldNames:['firstName','lastName']},
+            {type:'value', fieldName:'specialtyNames'},
+            {type:'value', fieldName:'specialtyNames'}
+        ]"
+        rows="doctors"
+        >
+</pcs-list>

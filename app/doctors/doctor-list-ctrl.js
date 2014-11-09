@@ -3,29 +3,47 @@
 angular.module('csp.doctors.ctrl', [])
 
 .controller(
-    'DoctorsListCtrl', [
+    'doctorListCtrl', [
         '$scope',
+        '$log',
         '$modal',
         'doctors',
         'specialties',
-        'doctorService',
-        function($scope, $modal, doctors, specialties, Doctor) {
+        'DoctorService',
+        function($scope, $log, $modal, doctors, specialties, Doctor) {
+
+            $scope.$log = $log;
 
             $scope.doctors = doctors;
 
-            $scope.getSpecialtyNames = function(doctor){
-                return doctor.getSpecialtyNames(specialties);
+            $scope.addReferring = function () {
+                showModal(null, "referring");
             }
 
+            $scope.addSpecialist = function(){
+                showModal(null,"specialist");
+            }
+
+            $scope.edit = function (id) {
+                showModal(id);
+            };
+
+
             //TODO: encapsulate and refactor
-            var showModal = function(doctorId)
+            var showModal = function(doctorId, type)
             {
                 var modalInstance = $modal.open({
                     templateUrl: 'doctors/doctor-edit.html',
-                    controller: 'DoctorEditCtrl',
+                    controller: 'doctorEditCtrl',
                     resolve: {
                         doctor: function () {
-                            return doctorId ? Doctor.get(doctorId) : new Doctor()
+                            if(doctorId)
+                                return Doctor.getById(doctorId);
+                            else {
+                                var doc = new Doctor();
+                                doc.type = type;
+                                return doc;
+                            }
                         },
                         specialties:
                             function(){return specialties;}
@@ -35,7 +53,6 @@ angular.module('csp.doctors.ctrl', [])
                 });
 
                 modalInstance.result.then(function (doctor) {
-
                     doctor.save().then(function (doctor) {
                             $scope.doctors.requery();
                     }, function(err){
@@ -48,11 +65,4 @@ angular.module('csp.doctors.ctrl', [])
 
             }
 
-            $scope.add = function(){
-                showModal(null);
-            }
-
-            $scope.edit = function (id) {
-                showModal(id);
-            };
-}]);
+    }]);

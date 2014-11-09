@@ -7,7 +7,7 @@ factory('specialtyService',['parseService', function(parse) {
     //create simple props
     parse.toJSObj(
         Specialty, [
-            {name: "name", template: "="}
+            {name: "name", type:"property", template: "="}
         ]
     );
     return Specialty;

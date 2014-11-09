@@ -1,5 +1,5 @@
 angular.module('csp.services.doctor',[]).
-factory('doctorService',
+factory('DoctorService',
     ['parseService',
     function(parse) {
         var Doctor = Parse.Object.extend("Doctor", {
@@ -7,37 +7,53 @@ factory('doctorService',
 
                 initialize: function(attrs, options) {
                     this.active = true;
-                },
-                getSpecialtyObjects: function(allSpecialties){
-                    return parse.filterByIds(allSpecialties, this.get('specialties'));
+                    this.locations = [];
                 },
 
-                getSpecialtyNames: function(allSpecialties){
-                    return _.pluck(this.getSpecialtyObjects(allSpecialties), 'name');
+                addLocation: function(location)
+                {
+                    this.add("locations", location);
+                },
+                removeLocation: function(location)
+                {
+                    this.remove("locations", location);
                 }
-
             },
             {// Class methods
                 getById: function(id) {
-                    return new Parse.Query(Doctor).get(id);
+                    var query = new Parse.Query(Doctor);
+                    query.include('specialties');
+                    query.include('locations');
+                    return query.get(id);
                 }
-
             }
-
         );
 
-
-        //create simple props
         parse.toJSObj(
             Doctor, [
-                {name: "firstName", template: "="},
-                {name: "lastName", template: "="},
-                {name: "company", template: "="},
-                {name: "active", template: "="},
-                {name: "specialties", template: "="},
-                {name: "note", template: "="}
+                {name: "type", type:"property", template: "="},
+                {name: "firstName", type:"property", template: "="},
+                {name: "lastName", type:"property", template: "="},
+                {name: "company", type:"property", template: "="},
+                {name: "active", type:"property", template: "="},
+                {name: "specialties", type:"property", template: "="},
+                {name: "locations", type:"property", template: "="},
+                {name: "specialtyNames", type:"collection", collection: "specialties", property: "name", delimiter: ", "},
+                {name: "note", template: "="},
+
             ]
         );
 
-    return Doctor;
+        Object.defineProperty(Doctor.prototype, "locationList", {
+            get: function () {
+                out = [];
+
+                this.locations.forEach(function(location){
+                    out.push(location.address + ', ' + location.city);
+                })
+                return out.join(' ');
+            }
+        });
+
+        return Doctor;
 }]);
