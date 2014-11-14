@@ -7,16 +7,16 @@ factory('DoctorService',
 
                 initialize: function(attrs, options) {
                     this.active = true;
-                    this.locations = [];
+                    //this.locations = [];
                 },
 
-                addLocation: function(location)
-                {
+                addLocation: function(location){
                     this.add("locations", location);
                 },
-                removeLocation: function(location)
-                {
-                    this.remove("locations", location);
+
+                removeLocation: function(location){
+                    //cannot be called after add this.remove("locations", location);
+                    this.set("locations", _.without(this.locations, location));
                 }
             },
             {// Class methods
@@ -34,6 +34,7 @@ factory('DoctorService',
                 {name: "type", type:"property", template: "="},
                 {name: "firstName", type:"property", template: "="},
                 {name: "lastName", type:"property", template: "="},
+                {name: "fullName", type:"properties", propNames: ['firstName', 'lastName'], template: "get"},
                 {name: "company", type:"property", template: "="},
                 {name: "active", type:"property", template: "="},
                 {name: "specialties", type:"property", template: "="},
@@ -46,12 +47,13 @@ factory('DoctorService',
 
         Object.defineProperty(Doctor.prototype, "locationList", {
             get: function () {
-                out = [];
+                return _.pluck(this.locations, "fullAddress").join('<br>');
+            }
+        });
 
-                this.locations.forEach(function(location){
-                    out.push(location.address + ', ' + location.city);
-                })
-                return out.join(' ');
+        Object.defineProperty(Doctor.prototype, "typeString", {
+            get: function () {
+                return this.type == "referring" ? "Referring" : "Specialist";
             }
         });
 

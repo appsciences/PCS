@@ -7,9 +7,8 @@ angular.module('csp.patients.ctrl', [])
         '$scope',
         '$modal',
         'patients',
-        'specialties',
         'PatientService',
-        function($scope, $modal, patients, specialties, Patient) {
+        function($scope, $modal, patients, Patient) {
 
             $scope.patients = patients;
 
@@ -24,7 +23,8 @@ angular.module('csp.patients.ctrl', [])
                     resolve: {
                         patient: function () {
                             return patientId ? patient.getById(patientId) : new Patient()
-                        }
+                        },
+                        insCarriers: 'insCarrierListService'
                     },
                     size: 'lg',
                     backdrop: 'static'
@@ -50,4 +50,29 @@ angular.module('csp.patients.ctrl', [])
             $scope.edit = function (id) {
                 showModal(id);
             };
-}]);
+}]).
+
+controller(
+'PatientEditCtrl', [
+    '$scope',
+    '$modalInstance',
+    'doctor',
+    'specialties',
+    function($scope, $modalInstance, doctor, specialties) {
+
+        //header text
+        $scope.headerText = doctor ? 'Edit Doctor' : 'New Doctor';
+
+        $scope.doctor = doctor;
+
+        $scope.specialties = specialties;
+
+        $scope.save = function () {
+            $modalInstance.close($scope.doctor);
+        };
+
+        $scope.close = function () {
+            $modalInstance.dismiss('cancel');
+        };
+
+    }]);

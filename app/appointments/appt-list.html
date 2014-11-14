@@ -1,24 +1,33 @@
-<div class="well">
-
-    <ng-include src="'shared/partials/list-header.html'" onload="title = 'Appointments'; buttons=[
-        {label:'Add', click:add}]
-        ">
-    </ng-include>
-
-    <div ng-include="'../shared/partials/list-nav-tabs.html'" onload="tabs = [
-        {title:'All', class:'active', href:'#all'},
-        {title:'Inactive', class:'', href:'#inactive'}
-    ]"></div>
-    <!--<h1>Search: {{searchOptions}}</h1>-->
-    <list
-            rows="appts"
-            headings="['Actions', 'Name', 'Address', 'Phone']"
-            searchOptions="searchOptions"
-            fields="[
-                {type:'buttons', buttons:[{label:'Edit', click:edit}]},
-                {type:'multi-value', fieldNames:['firstName','lastName']},
-                {type:'value', fieldName:'address'},
-                {type:'value', fieldName:'phone'}
-            ]">
-    </list>
-</div>
+<pcs-list
+    show-header = "true"
+    show-tabs = "true"
+    title = "'Appointments'"
+    $log = "$log"
+    buttons="[
+        {label:'Add', click:add, accesskey:'N'}]"
+    tabs="[
+        {title:'All', class:'active', href:'#referring'},
+        {title:'Upcoming', class:'', href:'#specialists'}]"
+    headings="['', 'Client', 'Doctor','Location', 'Date/Time']"
+    filter-expression="{active:true, type:'referring'}"
+    fields="[
+        {type:'buttons', buttons:[
+            {
+                label:'Edit',
+                click:edit
+            },
+            {
+                label:'Confirm1',
+                click:confirmFirs
+            },
+            {
+                label:'Confirm2',
+                click:confirmFirs
+            }]
+        },
+        {type:'value', field:['clientFullName']},
+        {type:'value', fieldName:'doctorFullName'},
+        {type:'value', fieldName:'locationsList'}
+    ]"
+    rows="appts"
+>

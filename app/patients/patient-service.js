@@ -1,34 +1,37 @@
 angular.module('csp.services.patient',[]).
 factory('PatientService',
-    ['parseService',
+['parseService',
     function(parse) {
         var Patient = Parse.Object.extend("Patient", {
-            // Instance methods
+                // Instance methods
 
             },
             {// Class methods
                 getById: function(id) {
-                    return new Parse.Query(Patient).get(id);
+                    var query = new Parse.Query(Patient);
+                    return query.get(id);
                 }
-
             }
-
         );
 
-
-        //create simple props
         parse.toJSObj(
             Patient, [
                 {name: "firstName", type:"property", template: "="},
                 {name: "lastName", type:"property", template: "="},
+                {name: "fullName", type:"properties", propNames: ['firstName', 'lastName'], template: "get", delimiter: ' '},
                 {name: "active", type:"property", template: "="},
-                {name: "address", type:"property", template: "="},
-                {name: "phone", type:"collection", collection: "specialties", property: "name", delimiter: ", "},
-                {name: "note", template: "="},
-
+                {name: "dob", type:"property", template: "="},
+                {name: "insCarriers", type:"property", template: "="},
+                {name: "note", template: "="}
             ]
         );
 
+        return Patient;
+}]).
 
-    return Patient;
+service('patientListService', ['patientService', function (Patient) {
+
+    var query = new Parse.Query(Patient);
+    return query.find();
 }]);
+

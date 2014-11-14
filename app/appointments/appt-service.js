@@ -1,5 +1,5 @@
 angular.module('csp.services.appt',[]).
-factory('ApptService',
+factory('apptService',
     ['parseService',
     function(parse) {
         var Appt = Parse.Object.extend("Appt", {
@@ -8,13 +8,16 @@ factory('ApptService',
             },
             {// Class methods
                 getById: function(id) {
-                    return new Parse.Query(Appt).get(id);
+                    new Parse.Query(Appt);
+                    query.include('patient');
+                    query.include('doctor');
+                    query.include('location');
+                    return query.get(id);
                 }
 
             }
 
         );
-
 
         //create simple props
         parse.toJSObj(
@@ -31,4 +34,13 @@ factory('ApptService',
 
 
     return Appt;
+}]).
+
+service('apptListService', ['apptService', function (Appt) {
+
+    var query = new Parse.Query(Appt);
+    query.include('patient');
+    query.include('doctor');
+    query.include('location');
+    return query.find();
 }]);

@@ -6,17 +6,25 @@ angular.module('csp', [
     'ui.bootstrap',
     'ui.select',
     'ngSanitize',
-    //'csp.Dashboard',
-    //'csp.Clients',
-    'csp.doctors.ctrl',
-//  'csp.Appointments',
-    'csp.directive.listDirective',
-    'csp.directive.multiSelectDirective',
+    'ui.grid',
+
+    //Services
+    'csp.services.parse',
     'csp.services.doctor',
+    'csp.services.patient',
+    'csp.services.appt',
     'csp.services.insCarrier',
     'csp.services.location',
     'csp.services.specialty',
-    'csp.services.parse'
+
+    //Controllers
+    'csp.doctor.ctrl',
+    'csp.appt.ctrl',
+
+    //Directives
+    'csp.directive.listDirective'
+    //'csp.directive.multiSelectDirective',
+
 ]).
 //need a loading indicator for routes if backend and thus resolve is slow
 config(['$routeProvider', function($routeProvider) {
@@ -31,11 +39,17 @@ config(['$routeProvider', function($routeProvider) {
         }).
         when('/patients', {
             templateUrl: 'patients/patients.html',
-            controller: 'patientListCtrl'
+            controller: 'patientListCtrl',
+            resolve:{
+                insCarriers: 'insCarriersListService'
+            }
         }).
         when('/appointments', {
-            templateUrl: 'appointments/appts.html',
-            controller: 'apptListCtrl'
+            templateUrl: 'appointments/appt-list.html',
+            controller: 'apptCtrl',
+            resolve:{
+                appts: 'apptListService'
+            }
         }).
         otherwise({
             redirectTo: '/'

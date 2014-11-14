@@ -27,6 +27,21 @@ factory('parseService', function() {
                         set:(attr.template == "get" ? undefined : function (val) { this.set(attr.name, val);})
                     });
                     break;
+                case "properties":
+                    //TODO: factor this out into utils
+                    Object.defineProperty(parseObj.prototype, attr.names, {
+
+                        get: (attr.template == "set" ? undefined : function (){
+
+                            var out = [];
+
+                            attr.propNames.forEach(function(propName){
+                                out.push(this.get('propName'));
+                            });
+                            return out.join(attr.delimiter);
+                        })
+                    });
+                    break;
 
                 case "collection":
                     Object.defineProperty(parseObj.prototype, attr.name, {

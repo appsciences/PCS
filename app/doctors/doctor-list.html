@@ -11,17 +11,23 @@
             {title:'Specialists', class:'', href:'#specialists'},
             {title:'Inactive', class:'', href:'#inactive'}]"
 
-        headings="['Actions', 'Name', 'Specialty','Address']"
+        headings="['Actions', 'Name', 'Specialty','Locations']"
         filter-expression="{active:true, type:'referring'}"
         fields="[
             {type:'buttons', buttons:[{
                 label:'Edit',
                 click:edit
             }]},
-            {type:'multi-value', fieldNames:['firstName','lastName']},
+            {type:'value', fieldName:'fullName'},
             {type:'value', fieldName:'specialtyNames'},
-            {type:'value', fieldName:'specialtyNames'}
+            {type:'value', fieldName:'locationsList'}
         ]"
         rows="doctors"
         >
 </pcs-list>
+
+
+
+<div>
+    <div ui-grid="gridOptions"></div>
+</div>

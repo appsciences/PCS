@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('csp.doctors.ctrl', [])
+angular.module('csp.doctor.ctrl', [])
 
 .controller(
     'doctorListCtrl', [
@@ -8,6 +8,7 @@ angular.module('csp.doctors.ctrl', [])
         '$log',
         '$modal',
         'doctors',
+        //TODO: don't need specialties, just the service, specialities can be loaded for the pop-up
         'specialties',
         'DoctorService',
         function($scope, $log, $modal, doctors, specialties, Doctor) {
@@ -20,6 +21,42 @@ angular.module('csp.doctors.ctrl', [])
                 showModal(null, "referring");
             }
 
+            //test data
+            $scope.myData = [
+                {
+                    "firstName": "Cox",
+                    "lastName": "Carney",
+                    "company": "Enormo",
+                    "employed": true
+                },
+                {
+                    "firstName": "Lorraine",
+                    "lastName": "Wise",
+                    "company": "Comveyer",
+                    "employed": false
+                },
+                {
+                    "firstName": "Nancy",
+                    "lastName": "Waters",
+                    "company": "Fuelton",
+                    "employed": false
+                }
+            ];
+
+            $scope.gridOptions = {
+                enableFiltering: true,
+                columnDefs:[
+                    { name: 'firstName' },
+                    { name: 'lastName'},
+                    { name: 'company'},
+                    { name: 'employed'},
+                ],
+                data: $scope.myData,
+                filterOptions: {
+                    filterText: "searchText"
+                }
+            };
+
             $scope.addSpecialist = function(){
                 showModal(null,"specialist");
             }
@@ -27,6 +64,7 @@ angular.module('csp.doctors.ctrl', [])
             $scope.edit = function (id) {
                 showModal(id);
             };
+
 
 
             //TODO: encapsulate and refactor
@@ -53,8 +91,10 @@ angular.module('csp.doctors.ctrl', [])
                 });
 
                 modalInstance.result.then(function (doctor) {
+                    //TODO: need to geocode
                     doctor.save().then(function (doctor) {
-                            $scope.doctors.requery();
+                        //TODO: Need to refresh the list
+                        $scope.doctors.requery();
                     }, function(err){
                         //TODO: Docor Save Error
                     });

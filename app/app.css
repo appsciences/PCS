@@ -32,3 +32,8 @@ body {
   content: "";
   padding: 0;
 }
+
+.ngHeaderCell {
+  background-color: transparent !important;
+  color: transparent !important;
+}

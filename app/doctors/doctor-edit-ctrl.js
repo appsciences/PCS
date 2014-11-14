@@ -2,7 +2,7 @@
 //TODO: error handling
 //TODO: asynch handling
 //module already declared
-angular.module('csp.doctors.ctrl')
+angular.module('csp.doctor.ctrl')
 
 .controller(
     'doctorEditCtrl', [
@@ -11,11 +11,11 @@ angular.module('csp.doctors.ctrl')
         '$modalInstance',
         'doctor',
         'specialties',
-        'locationService',
-        function($scope, $log, $modalInstance, doctor, specialties, Location) {
+        'locations',
+        function($scope, $log, $modalInstance, doctor, specialties, locations) {
 
-            //header text
-            $scope.headerText = doctor ? 'Edit Doctor' : 'New Doctor';
+            //TODO: header text doesn't work
+            $scope.headerText = doctor.isNew() ? 'New ' + doctor.typeString + ' Doctor' : 'Edit ' + doctor.typeString + ' Doctor';
 
             $scope.$log = $log;
 
@@ -24,6 +24,14 @@ angular.module('csp.doctors.ctrl')
             $scope.specialties = specialties;
 
             $scope.location = new Location();
+
+            var Day = function(){
+                this.day = "";
+                this.startTime = "";
+                this.endTime = "";
+            }
+
+            $scope.day = new Day();
 
             $scope.save = function () {
                  $modalInstance.close($scope.doctor);
@@ -34,13 +42,21 @@ angular.module('csp.doctors.ctrl')
             };
 
             $scope.addLocation = function () {
-                doctor.addLocation(location);
+                doctor.addLocation($scope.location);
                 $scope.location = new Location();
             };
 
-            $scope.deleteLocation = function () {
+            $scope.deleteLocation = function (location) {
                 doctor.removeLocation(location);
             };
 
+            $scope.addDay = function () {
+                $scope.location.addDay($scope.day);
+                $scope.day = new Day();
+            };
+
+            $scope.deleteDay = function () {
+                $scope.location.removeDay($scope.day);
+            };
 
         }]);

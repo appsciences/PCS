@@ -11,7 +11,7 @@
                     <input type="text" class="form-control" placeholder="Search" data-ng-model="searchText">
                 </div>
                 <div ng-repeat="button in buttons" class="form-group">
-                    <button type="submit" class="btn btn-primary button" data-ng-click="button.click()">{{button.label}}</button>&nbsp;
+                    <button type="submit" class="btn btn-primary button" data-ng-click="button.click()" accesskey="button.accesskey">{{button.label}}</button>&nbsp;
                 </div>
             </form>
         </div>
@@ -31,20 +31,21 @@
     <tbody>
     <tr ng-repeat="row in rows | filter: filterExpression | filter: searchText">
         <td ng-repeat="field in fields">
-
+            {{$log.log("from list" + row.get("address"))}}
             <input
                 ng-if="field.type=='buttons'"
                 ng-repeat="button in field.buttons"
                 type="button"
                 class="btn btn-xs btn-info"
                 ng-click="button.click(row.id)"
-                ng-value="button.label">
+                ng-value="button.label"
+                accesskey="field.accesskey">
 
             <button
                 ng-if="field.type=='deleteButton'"
                 type="button"
                 class="btn btn-danger btn-sm"
-                ng-click="button.click(row.id)">
+                ng-click="field.click(row)">
                 <span class="glyphicon glyphicon-trash"></span>
             </button>
 
