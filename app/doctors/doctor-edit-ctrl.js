@@ -1,62 +1,90 @@
-'use strict';
 //TODO: error handling
-//TODO: asynch handling
 //module already declared
 angular.module('csp.doctor.ctrl')
 
-.controller(
-    'doctorEditCtrl', [
-        '$scope',
-        '$log',
-        '$modalInstance',
-        'doctor',
-        'specialties',
-        'locations',
-        function($scope, $log, $modalInstance, doctor, specialties, locations) {
+    .controller(
+        'doctorEditCtrl',
+        [
+            '$scope',
+            '$log',
+            '$modalInstance',
+            'doctor',
+            'specialties',
+            'insCarriers',
+            'salesPeople',
+            'LocationService',
+            'OfficeHoursService',
+            function ($scope, $log, $modalInstance, doctor, specialties, insCarriers, salesPeople, Location, OfficeHours) {
 
-            //TODO: header text doesn't work
-            $scope.headerText = doctor.isNew() ? 'New ' + doctor.typeString + ' Doctor' : 'Edit ' + doctor.typeString + ' Doctor';
+                //TODO: header text doesn't work
+                $scope.headerText = (doctor.isNew() ? 'New ' : 'Edit ') + doctor.typeString;
 
-            $scope.$log = $log;
+                $scope.$log = $log;
 
-            $scope.doctor = doctor;
+                $scope.doctor = doctor;
 
-            $scope.specialties = specialties;
+                $scope.specialties = specialties;
 
-            $scope.location = new Location();
+                $scope.insCarriers = insCarriers;
 
-            var Day = function(){
-                this.day = "";
-                this.startTime = "";
-                this.endTime = "";
-            }
+                $scope.salesPeople = salesPeople;
 
-            $scope.day = new Day();
-
-            $scope.save = function () {
-                 $modalInstance.close($scope.doctor);
-            };
-
-            $scope.close = function () {
-                $modalInstance.dismiss('cancel');
-            };
-
-            $scope.addLocation = function () {
-                doctor.addLocation($scope.location);
                 $scope.location = new Location();
-            };
 
-            $scope.deleteLocation = function (location) {
-                doctor.removeLocation(location);
-            };
 
-            $scope.addDay = function () {
-                $scope.location.addDay($scope.day);
-                $scope.day = new Day();
-            };
+                $scope.save = function () {
+                    $modalInstance.close($scope.doctor);
+                };
 
-            $scope.deleteDay = function () {
-                $scope.location.removeDay($scope.day);
-            };
+                $scope.close = function () {
+                    $modalInstance.dismiss('cancel');
+                };
 
-        }]);
+                $scope.addLocation = function () {
+                    doctor.addLocation($scope.location);
+                    $scope.location = new Location();
+                };
+
+                $scope.deleteLocation = function (location) {
+                    doctor.removeLocation(location);
+                };
+
+                var daysOfTheWeek = ["Monday",
+                    "Tuesday",
+                    "Wednesday",
+                    "Thursday",
+                    "Friday",
+                    "Saturday",
+                    "Sunday"], dayCounter = 0;
+
+                $scope.day = new OfficeHours(daysOfTheWeek[dayCounter]);
+
+                $scope.addDay = function () {
+                    $scope.location.addDay($scope.day);
+                    dayCounter = dayCounter + 1;
+                    if (dayCounter === daysOfTheWeek.length) {
+                        dayCounter = 0;
+                    }
+
+                    $scope.day = new OfficeHours(daysOfTheWeek[dayCounter]);
+                };
+
+                $scope.deleteDay = function (day) {
+                    $scope.location.removeDay(day);
+                };
+
+                $scope.locationFields = [
+                    {type: 'deleteButton', click: $scope.deleteLocation},
+                    {type: 'value', fieldName: 'fullAddress'},
+                    {type: 'value', fieldName: 'phone'},
+                    {type: 'value', fieldName: 'email'},
+                    {type: 'list', fieldName: 'officeHoursList'}
+                ];
+
+                $scope.officeHoursFields = [
+                    {type: 'deleteButton', click: $scope.deleteDay},
+                    {type: 'value', fieldName: 'schedule'}
+                ];
+
+            }]
+    );

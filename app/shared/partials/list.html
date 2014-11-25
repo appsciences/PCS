@@ -1,66 +1,46 @@
-<div class="well">
+<div ng-class="class">
+    <table class="table table-condensed table-striped table-hover">
+        <thead>
+        <tr>
+            <th ng-repeat="heading in headings">{{heading}}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="row in rows | filter: filterExpression | filter: searchText">
+            <td ng-repeat="field in fields">
+                <input
+                    ng-if="field.type=='buttons'"
+                    ng-repeat="button in field.buttons"
+                    type="button"
+                    class="btn btn-xs btn-info"
+                    ng-click="button.click(row.id)"
+                    ng-value="button.label"
+                    accesskey="field.accesskey">
 
-<nav ng-if="showHeader" class="navbar navbar-default" role="navigation">
-    <div class="container-fluid">
-        <div class="navbar-header navbar-brand">
-            {{title}}
-        </div>
-        <div class="collapse navbar-collapse">
-            <form class="navbar-form navbar-left" role="search">
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Search" data-ng-model="searchText">
+                <button
+                    ng-if="field.type=='deleteButton'"
+                    type="button"
+                    class="btn btn-danger btn-sm"
+                    ng-click="field.click(row)">
+                    <span class="glyphicon glyphicon-trash"></span>
+                </button>
+
+                <span ng-if="field.type=='value'">{{row[field.fieldName]}}</span>
+
+                <!--TODO: The below is incorrect as it introduces extra space at the end-->
+                <span ng-if="field.type=='multi-value'" ng-repeat="fieldName in field.fieldNames">{{row[fieldName]}}&nbsp;</span>
+
+                <ul ng-if="field.type=='list'" class="list-unstyled">
+                    <li ng-repeat="value in row[field.fieldName]">{{value}}</li>
+                </ul>
+
+                <div
+                    ng-if="field.type=='template'"
+                    ng-include="'shared/partials/' + field.template + '.html'"
+                    onload="items = row[field.fieldName]">
                 </div>
-                <div ng-repeat="button in buttons" class="form-group">
-                    <button type="submit" class="btn btn-primary button" data-ng-click="button.click()" accesskey="button.accesskey">{{button.label}}</button>&nbsp;
-                </div>
-            </form>
-        </div>
-    </div>
-</nav>
-
-<ul ng-if="showTabs" class="nav nav-tabs" role="tablist">
-    <li ng-repeat="tab in tabs" ng-class="tab.class"><a href="{{tab.href}}" role="tab" data-toggle="tab">{{tab.title}}</a></li>
-</ul>
-
-<table class="table table-condensed table-striped table-hover">
-    <thead>
-    <tr>
-        <th ng-repeat="heading in headings">{{heading}}</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr ng-repeat="row in rows | filter: filterExpression | filter: searchText">
-        <td ng-repeat="field in fields">
-            {{$log.log("from list" + row.get("address"))}}
-            <input
-                ng-if="field.type=='buttons'"
-                ng-repeat="button in field.buttons"
-                type="button"
-                class="btn btn-xs btn-info"
-                ng-click="button.click(row.id)"
-                ng-value="button.label"
-                accesskey="field.accesskey">
-
-            <button
-                ng-if="field.type=='deleteButton'"
-                type="button"
-                class="btn btn-danger btn-sm"
-                ng-click="field.click(row)">
-                <span class="glyphicon glyphicon-trash"></span>
-            </button>
-
-            <span ng-if="field.type=='value'">{{row[field.fieldName]}}</span>
-
-            <!--TODO: The below is incorrect as it introduces extra space at the end-->
-            <span ng-if="field.type=='multi-value'" ng-repeat="fieldName in field.fieldNames">{{row[fieldName]}}&nbsp;</span>
-
-            <div
-                ng-if="field.type=='template'"
-                ng-include="'shared/partials/' + field.template + '.html'"
-                onload="items = row[field.fieldName]">
-            </div>
-        </td>
-    </tr>
-    </tbody>
-</table>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>

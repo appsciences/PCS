@@ -1,20 +1,18 @@
 'use strict';
 
-angular.module('csp.patients.ctrl', [])
+angular.module('csp.patient.ctrl', [])
 
 .controller(
-    'PatientsListCtrl', [
+    'patientListCtrl', [
         '$scope',
         '$modal',
         'patients',
+        'insCarrierListService',
         'PatientService',
-        function($scope, $modal, patients, Patient) {
+        function($scope, $modal, patients, insCarriers, Patient) {
 
             $scope.patients = patients;
 
-            $scope.searchOptions = {};
-
-            //TODO: encapsulate and refactor
             var showModal = function(patientId)
             {
                 var modalInstance = $modal.open({
@@ -22,9 +20,9 @@ angular.module('csp.patients.ctrl', [])
                     controller: 'patientEditCtrl',
                     resolve: {
                         patient: function () {
-                            return patientId ? patient.getById(patientId) : new Patient()
+                            return patientId ? Patient.getById(patientId) : new Patient()
                         },
-                        insCarriers: 'insCarrierListService'
+                        insCarriers: function(){return insCarriers;}
                     },
                     size: 'lg',
                     backdrop: 'static'
@@ -53,22 +51,22 @@ angular.module('csp.patients.ctrl', [])
 }]).
 
 controller(
-'PatientEditCtrl', [
+'patientEditCtrl', [
     '$scope',
     '$modalInstance',
-    'doctor',
-    'specialties',
-    function($scope, $modalInstance, doctor, specialties) {
+    'patient',
+    'insCarriers',
+    function($scope, $modalInstance, patient, insCarriers) {
 
         //header text
-        $scope.headerText = doctor ? 'Edit Doctor' : 'New Doctor';
+        $scope.headerText = patient ? 'Edit Patient' : 'New Patient';
 
-        $scope.doctor = doctor;
+        $scope.patient = patient;
 
-        $scope.specialties = specialties;
+        $scope.insCarriers = insCarriers;
 
         $scope.save = function () {
-            $modalInstance.close($scope.doctor);
+            $modalInstance.close($scope.patient);
         };
 
         $scope.close = function () {

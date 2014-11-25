@@ -1,33 +1,68 @@
-<pcs-list
-        show-header = "true"
-        show-tabs = "true"
-        title = "'Doctors'"
-        $log = "$log"
-        buttons="[
-            {label:'Add Referring', click:addReferring},
-            {label:'Add Specialist', click:addSpecialist}]"
-        tabs="[
-            {title:'Referring', class:'active', href:'#referring'},
-            {title:'Specialists', class:'', href:'#specialists'},
-            {title:'Inactive', class:'', href:'#inactive'}]"
+<div class="well">
+    <pcs-list-header
+            title = "'Doctors'"
+            $log = "$log"
+            buttons="[
+                {label:'Add Referring', click:addReferring},
+                {label:'Add Specialist', click:addSpecialist}]"
+            ></pcs-list-header>
 
-        headings="['Actions', 'Name', 'Specialty','Locations']"
-        filter-expression="{active:true, type:'referring'}"
-        fields="[
+    <tabset>
+        <tab heading="Referring">
+            {{tab.content}}
+            <pcs-list
+                    class="'tab-pane active'"
+                    headings="['Actions', 'Name', 'Specialty','Locations']"
+                    filter-expression="{active:true, type:'referring'}"
+                    fields="[
             {type:'buttons', buttons:[{
                 label:'Edit',
-                click:edit
+                click:editReffering
             }]},
             {type:'value', fieldName:'fullName'},
             {type:'value', fieldName:'specialtyNames'},
-            {type:'value', fieldName:'locationsList'}
+            {type:'list', fieldName:'locationList'}
         ]"
-        rows="doctors"
-        >
-</pcs-list>
+                    rows="doctors"
+                    ></pcs-list>
+        </tab>
 
+        <tab heading="Specialists">
 
+            <pcs-list
+                    class="'tab-pane'"
+                    headings="['Actions', 'Name', 'Specialty','Locations']"
+                    filter-expression="{active:true, type:'specialist'}"
+                    fields="[
+                {type:'buttons', buttons:[{
+                    label:'Edit',
+                    click:editSpecialist
+                }]},
+                {type:'value', fieldName:'fullName'},
+                {type:'value', fieldName:'specialtyNames'},
+                {type:'list', fieldName:'locationList'}
+            ]"
+                    rows="doctors"
+                    ></pcs-list>
+        </tab>
 
-<div>
-    <div ui-grid="gridOptions"></div>
+        <tab heading="Inactive">
+            <pcs-list
+                    class="'tab-pane'"
+                    headings="['Actions', 'Name', 'Specialty','Locations']"
+                    filter-expression="{active:false}"
+                    fields="[
+                {type:'buttons', buttons:[{
+                    label:'Edit',
+                    click:editSpecialist
+                }]},
+                {type:'value', fieldName:'fullName'},
+                {type:'value', fieldName:'specialtyNames'},
+                {type:'list', fieldName:'locationList'}
+            ]"
+                    rows="doctors"
+                    ></pcs-list>
+        </tab>
+
+    </tabset>
 </div>

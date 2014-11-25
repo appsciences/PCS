@@ -1,23 +1,16 @@
-'use strict';
-
 angular.module('csp.directive.listDirective', [])
-    .directive('pcsList', function() {
+    .directive('pcsList', function () {
         return {
             restrict: "E",
             scope: {
-                title: "=",
-                showHeader: "=",
-                showTabs: "=",
-                buttons: "=",
-                tabs: "=",
+                class: "=",
                 rows: "=",
                 headings: "=",
                 fields: "=",
-                $log:"=",
+                $log: "=",
                 filterExpression: "="
             },
             templateUrl: 'shared/partials/list.html',
-            replace: true,
-            transclude: false
+            replace: true
         };
     });

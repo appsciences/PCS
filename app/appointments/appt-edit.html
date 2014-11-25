@@ -1,4 +1,5 @@
 <ng-include src="'shared/partials/modal-header.html'"></ng-include>
+
 <div class="modal-body" ng-class="modalClass">
     <!--Doctor Search-->
     <div class="panel panel-default">
@@ -13,27 +14,62 @@
         <div id="doctorSearch" class="panel-collapse collapse in">
             <div class="panel-body">
                 <form name="doctorSearchForm" class="form-horizontal">
-                    <!--Specialty-->
                     <div class="form-group">
+
+                        <!--Name-->
                         <div class="col-sm-4">
-                            <ui-select ng-model="appt.client" ng-disabled="disabled">
-                                <ui-select-match placeholder="specialty...">{{$item.name}}</ui-select-match>
-                                <ui-select-choices repeat="specialty in specialties | filter:$select.search">
-                                    <div ng-bind-html="specialty.name.htmlSafe | highlight: $select.search"></div>
-                                    {{specialty.name}}
-                                </ui-select-choices>
-                            </ui-select>
+                            <div class="input-group">
+                                <ui-select ng-model="searchParams.doctorFullName" ng-disabled="disabled">
+                                    <ui-select-match placeholder="Specialist Name...">{{$select.selected.fullName}}</ui-select-match>
+                                    <ui-select-choices repeat="doctor.fullName as doctor in doctors | filter:$select.search | orderBy: 'name'">
+                                        <div ng-bind-html="doctor.fullName.htmlSafe | highlight: $select.search"></div>
+                                        {{doctor.fullName}}
+                                    </ui-select-choices>
+                                </ui-select>
+                                <span class="input-group-btn">
+                                    <button ng-click="searchParams.doctorFullName = undefined" class="btn btn-default">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </button>
+                                </span>
+                            </div>
                         </div>
 
-                    <!--Insproviders-->
+
+                        <!--Specialty-->
+                        <!--TODO: Filtering should be "or"-->
                         <div class="col-sm-4">
-                            <ui-select ng-model="appt.insProvider" ng-disabled="disabled">
-                                <ui-select-match placeholder="Insurance...">{{$item.name}}</ui-select-match>
-                                <ui-select-choices repeat="insprovider in insproviders | filter:$select.search">
-                                    <div ng-bind-html="insprovider.fullName.htmlSafe | highlight: $select.search"></div>
-                                    {{insprovider.fullName}}
-                                </ui-select-choices>
-                            </ui-select>
+                            <div class="input-group">
+                                <ui-select ng-model="searchParams.doctorSpecialties" ng-disabled="disabled">
+                                    <ui-select-match placeholder="Specialty...">{{$select.selected.name}}</ui-select-match>
+                                    <ui-select-choices repeat="specialty.name as specialty in specialties | filter:$select.search | orderBy: 'name'">
+                                        <div ng-bind-html="specialty.name.htmlSafe | highlight: $select.search"></div>
+                                        {{specialty.name}}
+                                    </ui-select-choices>
+                                </ui-select>
+                                <span class="input-group-btn">
+                                    <button ng-click="searchParams.doctorSpecialties = undefined" class="btn btn-default">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+
+                        <!--insCarriers-->
+                        <div class="col-sm-4">
+                            <div class="input-group">
+                                <ui-select ng-model="searchParams.doctorInsCarriers" ng-disabled="disabled">
+                                    <ui-select-match placeholder="Insurance...">{{$select.selected.fullName}}</ui-select-match>
+                                    <ui-select-choices repeat="insCarrier.name as insCarrier in insCarriers | filter:$select.search | orderBy: 'name'">
+                                        <div ng-bind-html="insCarrier.name.htmlSafe | highlight: $select.search"></div>
+                                        {{insCarrier.name}}
+                                    </ui-select-choices>
+                                </ui-select>
+                                <span class="input-group-btn">
+                                    <button ng-click="searchParams.doctorInsCarriers = undefined" class="btn btn-default">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </button>
+                                </span>
+                            </div>
                         </div>
                     </div>
 
@@ -41,44 +77,58 @@
                     <div class="form-group">
                         <!--City-->
                         <div class="col-sm-4">
-                            <ui-select-match ng-model="search.city" placeholder="City...">{{$time}}</ui-select-match>
-                            <ui-select-choices repeat="city in search.cities | filter:$select.search">
-                                <div ng-bind-html="city.htmlSafe | highlight: $select.search"></div>
-                                {{city}}
-                            </ui-select-choices>
+                            <input type="text" ng-model="searchParams.city" class="form-control" placeholder="City">
                         </div>
                         <!--Zip-->
                         <div class="col-sm-4">
-                            <input type="text" class="form-control" maxlength="5" placeholder="Zip">
+                            <input type="text" ng-model="searchParams.zip"  class="form-control" maxlength="5" placeholder="Zip">
                         </div>
                     </div>
-
-                    <!--Time-->
                     <div class="form-group">
+                        <!--Time-->
                         <div class="col-sm-4">
-                            <ui-select-match ng-model="search.timePeriod" placeholder="Time...">{{$time}}</ui-select-match>
-                            <ui-select-choices repeat="timePeriod in search.timePeriods | filter:$select.search">
-                                <div ng-bind-html="timePeriod.htmlSafe | highlight: $select.search"></div>
-                                {{timePeriod}}
-                            </ui-select-choices>
+
+                            <ui-select ng-model="searchParams.days" ng-disabled="disabled">
+                                <ui-select-match multiple placeholder="Day...">{{$select.selected}}</ui-select-match>
+                                <ui-select-choices repeat="day in daysOfTheWeek | filter:$select.search">
+                                    <div ng-bind-html="day.htmlSafe | highlight: $select.search"></div>
+                                    {{day}}
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+
+                        <div class="col-sm-4">
+
+                            <ui-select ng-model="searchParams.timePeriods" ng-disabled="disabled">
+                                <ui-select-match multiple placeholder="Time...">{{$select.selected}}</ui-select-match>
+                                <ui-select-choices repeat="timePeriod in timePeriods | filter:$select.search">
+                                    <div ng-bind-html="timePeriod.htmlSafe | highlight: $select.search"></div>
+                                    {{timePeriod}}
+                                </ui-select-choices>
+                            </ui-select>
                         </div>
                     </div>
 
                 </form>
-                
-                
-
             </div>
         </div>
     </div>
     <!--Appt Details-->
+    Search Params: {{searchParams}}
 
+    <pcs-list
+            $log = $log
+            headings="resultHeadings"
+            filter-expression="searchParams"
+            fields="resultFields"
+            rows="resultRows"
+    ></pcs-list>
     <!--Patient-->
     <form name="mainForm" class="form-horizontal">
         <!--Patients-->
         <div class="form-group">
             <div class="col-sm-4">
-                <ui-select ng-model="appt.client" ng-disabled="disabled">
+                <ui-select ng-model="appt.patient" ng-disabled="disabled">
                     <ui-select-match placeholder="Patient...">{{$item.name}}</ui-select-match>
                     <ui-select-choices repeat="patient in patients | filter:$select.search">
                         <div ng-bind-html="patient.name.htmlSafe | highlight: $select.search"></div>
@@ -86,39 +136,8 @@
                     </ui-select-choices>
                 </ui-select>
             </div>
-        </div>
 
-        <!--Doctors-->
-        <div class="form-group">
-            <div class="col-sm-4">
-                <ui-select ng-model="appt.doctor" ng-disabled="disabled">
-                    <ui-select-match placeholder="Doctor...">{{$item.name}}</ui-select-match>
-                    <ui-select-choices repeat="doctor in doctors | filter:$select.search">
-                        <div ng-bind-html="doctor.fullName.htmlSafe | highlight: $select.search"></div>
-                        {{doctor.fullName}}
-                    </ui-select-choices>
-                </ui-select>
-            </div>
-            <div class="col-sm-2">
-                <button type="submit" class="btn btn-primary button" data-ng-click="searchDoctors()">Find Doctor</button>
-            </div>
-        </div>
-
-        <!--Locations-->
-        <div class="form-group">
-            <div class="col-sm-4">
-                <ui-select ng-model="appt.location" ng-disabled="disabled">
-                    <ui-select-match placeholder="Location...">{{$item.name}}</ui-select-match>
-                    <ui-select-choices repeat="location in doctor.locations | filter:$select.search">
-                        <div ng-bind-html="location.fullAddress.htmlSafe | highlight: $select.search"></div>
-                        {{location.fullAddress}}
-                    </ui-select-choices>
-                </ui-select>
-            </div>
-        </div>
-
-        <!--Date and Time-->
-        <div class="form-group">
+            <!--Date and Time-->
             <div class="col-sm-3">
                 <input type="date" ng-model="appt.date" class="form-control">
             </div>

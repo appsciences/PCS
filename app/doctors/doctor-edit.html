@@ -1,94 +1,91 @@
-<ng-include src="'shared/partials/modal-header.html'"></ng-include>
+<ng-include src="'shared/partials/modal-header.html'" xmlns="http://www.w3.org/1999/html"></ng-include>
 <div class="modal-body" ng-class="modalClass">
-    <form name="userMain">
-        <fieldset>
-            <h4>Name/Company</h4>
-            <div class="form-group">
-                <div class="col-sm-4">
-                    <input type="text" class="form-control" required="required"
-                           ng-model="doctor.firstName" autofocus placeholder="First Name" tooltip-placement="bottom"
-                           tooltip="First name"/>
-                </div>
-                <div class="col-sm-4">
-                    <input type="text" class="form-control" required="required"
-                           ng-model="doctor.lastName" placeholder="Last Name" tooltip-placement="bottom"
-                           tooltip="Last name"/>
-                </div>
-                <div class="col-sm-4">
-                    <input type="text" class="form-control" required="required"
-                           ng-model="doctor.company" placeholder="Company Name" tooltip-placement="bottom"
-                           tooltip="Company name"/>
-                </div>
+    <div class="form-group">
+        <fieldset style="margin-bottom: 10px">
+            <legend>Name/Company</legend>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" required="required"
+                       ng-model="doctor.firstName" autofocus placeholder="First Name" tooltip-placement="bottom"
+                       tooltip="First name"/>
+            </div>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" required="required"
+                       ng-model="doctor.lastName" placeholder="Last Name" tooltip-placement="bottom"
+                       tooltip="Last name"/>
+            </div>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" required="required"
+                       ng-model="doctor.company" placeholder="Company Name" tooltip-placement="bottom"
+                       tooltip="Company name"/>
             </div>
         </fieldset>
-    </form>
+        <!--TODO: Accordions don't work mother father-->
+        <!-- locations -->
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#locations">Locations <span
+                            class="caret"></span></a>
+                </h4>
+            </div>
 
-    <h4>Active <input class="checkbox checkbox-inline" type="checkbox" ng-model="doctor.active" style="margin: 0"/></h4>
-    <!--TODO: Accordions don't work mother father-->
-    <!-- locations -->
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h4 class="panel-title">
-                <a data-toggle="collapse" data-parent="#accordion" href="#locations">Locations <span
-                    class="caret"></span></a>
-            </h4>
-        </div>
-
-        <div id="locations" class="panel-collapse collapse in">
-            <div class="panel-body">
-                <!-- Address stuff -->
+            <div id="locations" class="panel-collapse collapse in">
                 <div class="panel-body">
-                    <div class="location">
-                        <!--TODO: form is not validating-->
-                        <form id="locationForm">
-                        <div class="form-group">
-                            <div class="row" style="margin-bottom: 10px">
-                                <div class="col-sm-5">
-                                    <input type="text" name="location" class="form-control input-sm" autofocus placeholder="Address"
-                                           ng-model="location.address"/>
-                                </div>
-                                <div class="col-sm-3">
-                                    <input type="text" name="city" class="form-control input-sm" placeholder="City/Town"
-                                           ng-model="location.city"/>
-                                </div>
-                                <div class="col-sm-1">
-                                    <input type="text"
-                                           name="state"
-                                           maxlength="2"
-                                           pattern="[A-Z]{2}"
-                                           class="form-control input-sm"
-                                           placeholder="NY"
-                                           defaultValue="NY"
-                                           ng-model="location.state"/>
-                                </div>
+                    <!-- Address stuff -->
+                    <div class="panel-body">
+                        <div class="location">
+                            <!--TODO: form is not validating-->
+                            <div class="form-group">
+                                <div class="row" style="margin-bottom: 10px">
+                                    <div class="col-sm-5">
+                                        <input type="text" name="location" class="form-control input-sm" autofocus placeholder="Address"
+                                               ng-model="location.address"/>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="text" name="city" class="form-control input-sm" placeholder="City/Town"
+                                               ng-model="location.city"/>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <input type="text"
+                                               name="state"
+                                               maxlength="2"
+                                               pattern="[A-Z]{2}"
+                                               class="form-control input-sm"
+                                               placeholder="NY"
+                                               defaultValue="NY"
+                                               ng-model="location.state"/>
+                                    </div>
 
-                                <div class="col-md-2">
-                                    <input type="text" name="zip" maxlegth="5" pattern="[1-9]{5}" class="form-control input-sm" placeholder="Zip"
-                                           ng-model="location.zip"/>
-                                </div>
+                                    <div class="col-md-2">
+                                        <input type="text"
+                                               name="zip"
+                                               maxlegth="5"
+                                               class="form-control input-sm"
+                                               placeholder="Zip"
+                                               ng-model="location.zip"
+                                               title="Zip Code e.g. 11355"/>
+                                        <!--pattern="[1-9]{5}" -->
 
+                                    </div>
+
+                                </div>
+                                <div class="row" style="margin-bottom: 10px">
+                                    <div class="col-md-2">
+                                        <input type="tel"
+                                               name="phone"
+                                               class="form-control input-sm"
+                                               placeholder="Phone"
+                                               ng-model="location.phone"
+                                               title="Phone e.g. (123)123-1234">
+                                        <!--pattern="[\(]\d{3}[\)]\d{3}[\-]\d{4}"-->
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <input type="email" name="email" class="form-control input-sm" autofocus placeholder="Email"
+                                               ng-model="location.email"/>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="row" style="margin-bottom: 10px">
-                                <div class="col-md-2">
-                                    <input type="tel"
-                                           name="phone"
-                                           pattern="[\(]\d{3}[\)]\d{3}[\-]\d{4}"
-                                           class="form-control input-sm"
-                                           placeholder="Phone"
-                                           ng-model="location.phone"
-                                           title="Phone format: (123)123-1234">
-
-                                </div>
-
-
-                                <div class="col-md-3">
-                                    <input type="email" name="email" class="form-control input-sm" autofocus placeholder="Email"
-                                           ng-model="location.email"/>
-                                </div>
-
-                            </div>
-                            </div>
-                        </form>
                         </div>
                         <!-- TODO: use constants for doctor types -->
                         <!--office hours-->
@@ -99,12 +96,11 @@
                                     <span class="caret pull-right"></span>
                                 </h4>
                             </div>
-                            <form id="officeHoursForm">
                             <div id="hours" class="panel-collapse collapse in">
                                 <div class="panel-body">
                                     <div class="col-md-2">
                                         <input list="days-of-the-week" name="day" class="form-control input-sm"  placeholder="Day"
-                                               ng-model="hour.day">
+                                               ng-model="day.weekDay">
                                         <datalist id="days-of-the-week">
                                             <option value="Monday">
                                             <option value="Tuesday">
@@ -112,7 +108,7 @@
                                             <option value="Thursday">
                                             <option value="Friday">
                                             <option value="Saturday">
-                                            <option value="Sunday">Sunday</option>
+                                            <option value="Sunday">
                                         </datalist>
                                     </div>
 
@@ -125,47 +121,29 @@
                                                ng-model="day.endTime"/>
                                     </div>
                                     <div class="col-sm-3">
-                                        <input type="submit" form="officeHoursForm" value="Add" class="btn btn-success btn-sm" ng-click="addDay()">
+                                        <input type="submit" value="Add" class="btn btn-success btn-sm" ng-click="addDay()">
                                     </div>
                                 </div>
 
                             </div>
-
+                            <!--office hours list-->
                             <pcs-list
-                                    ng-if="search.results.length"
+                                    ng-if="location.officeHours.length > 0"
                                     $log = "$log"
-                                    row-click = 'chooseDoctor'
-                                    headings="['Name', 'Specialty', 'Address', 'Office Hours', 'Phone']"
-                                    fields="[
-                                    {type:'value', fieldName:'fullName'},
-                                    {type:'value', fieldName:'specialityList'},
-                                    {type:'value', fieldName:'fullAddress'},
-                                    {type:'value', fieldName:'officeHoursList'},
-                                    {type:'value', fieldName:'phone'}
-                                ]"
-
+                                    headings="['','Office Hours']"
+                                    fields="officeHoursFields"
                                     rows="location.officeHours"
-                            >
+                                    >
                             </pcs-list>
-                        </form>
                         </div>
 
-                        <input type="submit" form="locationForm" value="Add Location" class="btn btn-success btn-sm" ng-click="addLocation()">
+                        <input type="submit" value="Add Location" class="btn btn-success btn-sm" ng-click="addLocation()">
                         <!--//TODO: adding locations restores all of them-->
                         <pcs-list
                                 ng-if="doctor.locations.length > 0"
                                 $log = "$log"
-                                headings="['', 'Address', 'Phone','Email']"
-                                fields="[
-                                    {type:'deleteButton', click:deleteLocation},
-                                    {type:'value', fieldName:['fullAddress']},
-                                    {type:'value', fieldName:'phone'},
-                                    {type:'value', fieldName:'email'},
-                                    {type:'value', fieldName:'email'},
-
-
-                                ]"
-
+                                headings="['', 'Address', 'Phone','Email', 'Office Hours']"
+                                fields="locationFields"
                                 rows="doctor.locations"
                                 >
                         </pcs-list>
@@ -173,70 +151,62 @@
                 </div>
             </div>
         </div>
-    </div>
 
+        <!-- Specialties -->
 
+        <fieldset style="margin-bottom:10px">
+            <legend>Specialties</legend>
+            <div class="col-sm-4">
+                <ui-select multiple ng-model="doctor.specialties" ng-disabled="disabled">
+                    <ui-select-match placeholder="Specialties...">{{$item.name}}</ui-select-match>
+                    <ui-select-choices
+                            repeat="specialty in specialties | filter:$select.search | orderBy: 'name'">
+                        <div ng-bind-html="specialty.get('name').htmlSafe | highlight: $select.search"></div>
+                        {{specialty.get('name')}}
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+        </fieldset>
 
-    <!-- Specialties -->
+        <!-- Insurance Accepted -->
+        <fieldset style="margin-bottom:10px">
+            <legend>Insurance Accepted</legend>
+            <div class="col-sm-4">
+                <ui-select multiple ng-model="doctor.insCarriers">
+                    <ui-select-match placeholder="Insurance...">{{$item.name}}</ui-select-match>
+                    <ui-select-choices
+                            repeat="ins in insCarriers | filter:$select.search | orderBy: 'name'">
+                        <div ng-bind-html="ins.name.htmlSafe | highlight: $select.search"></div>
+                        {{ins.name}}
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+        </fieldset>
 
-    <div>
-        <fieldset>
+        <!-- Sales people -->
+        <fieldset style="margin-bottom:10px">
+            <legend>Sales Person(s)</legend>
+            <div class="col-sm-4">
 
-            <h4>Specialties</h4>
-            <!--<pcs-multi-select-->
-                <!--model="doctor.specialties"-->
-                <!--emptyText = "'Specialties...'"-->
-                <!--choices = "specialties"-->
-                <!--$log = "$log"-->
-            <!--</pcs-multi-select>-->
+                <ui-select ng-model="doctor.salesPerson" ng-disabled="disabled">
+                    <ui-select-match placeholder="Sales person...">{{$item.fullName}}
+                    </ui-select-match>
+                    <ui-select-choices repeat="person in salesPeople | filter:$select.search | orderBy: 'name'">
+                        <div ng-bind-html="name.name.htmlSafe | highlight: $select.search"></div>
+                        {{person.fullName}}
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+        </fieldset>
 
-            <ui-select multiple ng-model="doctor.specialties" ng-disabled="disabled" style="width: 300px;">
-                <ui-select-match placeholder="Specialties...">{{$item.name}}</ui-select-match>
-                <ui-select-choices
-                        repeat="specialty in specialties | filter:$select.search | orderBy: 'name'">
-                    <div ng-bind-html="specialty.name.htmlSafe | highlight: $select.search"></div>
-                    {{specialty.name}}
-                </ui-select-choices>
-            </ui-select>
-
+        <fieldset style="margin-bottom:10px">
+            <legend>Notes</legend>
+            <div class="col-sm-4">
+                <textarea class="form-control" rows="3" data-ng-model="doctor.notes"></textarea>
+            </div>
         </fieldset>
     </div>
 
-    <!-- Insureance Accepted -->
-    <!--<fieldset>-->
-
-        <!--<h4>Insurance Accepted</h4>-->
-
-        <!--<ui-select multiple ng-model="doctor.insurance_accepted" style="width: 300px;">-->
-            <!--<ui-select-match placeholder="Insurance...">{{$item.name}}</ui-select-match>-->
-            <!--<ui-select-choices-->
-                    <!--repeat="carrier._id as carrier in insuranceCarriers | filter:$select.search | orderBy: 'name'">-->
-                <!--<div ng-bind-html="carrier.name.htmlSafe | highlight: $select.search"></div>-->
-                <!--{{carrier.name}}-->
-            <!--</ui-select-choices>-->
-        <!--</ui-select>-->
-    <!--</fieldset>-->
-
-    <!-- Sales persons -->
-    <!--<fieldset>-->
-
-        <!--<h4>Sales Person(s)</h4>-->
-
-        <!--<ui-select multiple ng-model="doctor.assigned" ng-disabled="disabled"-->
-                   <!--style="width: 300px;">-->
-            <!--<ui-select-match placeholder="Select people...">{{$item.first_name}}, {{$item.last_name}}-->
-            <!--</ui-select-match>-->
-            <!--<ui-select-choices repeat="name._id as name in usernames | filter:$select.search | orderBy: 'name'">-->
-                <!--<div ng-bind-html="name.name.htmlSafe | highlight: $select.search"></div>-->
-                <!--{{name.last_name}}, {{name.first_name}}-->
-            <!--</ui-select-choices>-->
-        <!--</ui-select>-->
-    <!--</fieldset>-->
-
-    <br/>
-
-    <h4>Notes</h4>
-    <textarea class="form-control" rows="3" data-ng-model="doctor.notes"></textarea>
 
 </div>
 

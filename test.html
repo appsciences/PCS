@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+Hello
+
+
+<script type="text/javascript" src="components/parse/parse-1.3.1.min.js"></script>
+
+
+
+<script type="text/javascript">
+    Parse.initialize("WqDGRd0E9ntpvRiU0OlDRYrEr19GflSzWrSzh5kZ", "hqQLu9cUbwFeIPcunmNnBK9VGKD10plbNFMaAgcp");
+    var Doc = Parse.Object.extend("Doctor");
+    var Loc = Parse.Object.extend("Location");
+    var loc = new Loc();
+    var doc = new Doc();
+
+    doc.set("firstName", "leo");
+    loc.set("address", "1 1st st");
+
+
+    var OfficeHours = function (weekDay) {
+        this.weekDay = weekDay;
+        this.startTime = new Date('January 1, 1970 09:00:00');
+        this.endTime = new Date('January 1, 1970 17:00:00');
+    };
+
+    Object.defineProperties(OfficeHours.prototype, {
+        schedule: {
+            get: function () {
+                return this.weekDay;
+            }
+        }
+    });
+
+    Object.defineProperties(OfficeHours.prototype, {
+        $$hashKey: {
+            writable: true}
+    });
+
+    Object.defineProperties(OfficeHours.prototype, {
+        $$hashKey: {
+            writable: true,
+            enumerable: true}
+    });
+
+    loc.add("officeHours", new OfficeHours("Monday"));
+
+    doc.add("locations", loc);
+    doc.save().then(
+            function (doctor) {
+                //TODO: Need to refresh the list
+                console.log("saved");
+            },
+            function (err) {
+                //TODO: Docor Save Error
+                console.log(err);
+            }
+    );
+
+
+</script>
+
+</body>
+</html>

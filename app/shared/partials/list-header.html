@@ -1,0 +1,17 @@
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header navbar-brand">
+            {{title}}
+        </div>
+        <div class="collapse navbar-collapse">
+            <form class="navbar-form navbar-left" role="search">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Search" data-ng-model="searchText">
+                </div>
+                <div ng-repeat="button in buttons" class="form-group">
+                    <button type="submit" class="btn btn-primary button" data-ng-click="button.click()" accesskey="button.accesskey">{{button.label}}</button>&nbsp;
+                </div>
+            </form>
+        </div>
+    </div>
+</nav>

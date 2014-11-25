@@ -1,6 +1,6 @@
 angular.module('csp.services.specialty',[]).
 
-factory('specialtyService',['parseService', function(parse) {
+factory('SpecialtyService',['parseService', function(parse) {
 
     var Specialty = Parse.Object.extend("Specialty");
 

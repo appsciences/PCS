@@ -1,24 +1,28 @@
-<div class="well">
-
-    <ng-include src="'shared/partials/list-header.html'" onload="title = 'Patients'; buttons=[
-        {label:'Add', click:add}]
-        ">
-    </ng-include>
-
-    <div ng-include="'../shared/partials/list-nav-tabs.html'" onload="tabs = [
-        {title:'All', class:'active', href:'#all'},
-        {title:'Inactive', class:'', href:'#inactive'}
-    ]"></div>
-    <!--<h1>Search: {{searchOptions}}</h1>-->
-    <list
-            rows="patients"
-            headings="['Actions', 'Name', 'Address', 'Phone']"
-            searchOptions="searchOptions"
-            fields="[
-                {type:'buttons', buttons:[{label:'Edit', click:edit}]},
-                {type:'multi-value', fieldNames:['firstName','lastName']},
-                {type:'value', fieldName:'address'},
-                {type:'value', fieldName:'phone'}
-            ]">
-    </list>
-</div>
+<pcs-list
+        show-header = "true"
+        show-tabs = "true"
+        title = "'Patients'"
+        $log = "$log"
+        buttons="[
+            {label:'Add', click:add}
+        ]"
+        tabs="[
+            {title:'All', class:'active', href:'#all'},
+            {title:'Inactive', class:'', href:'#inactive'}
+        ]"
+        headings="['', 'Name', 'Birth Date','Address','Insurance','Phone']"
+        filter-expression="{active:true, type:'referring'}"
+        fields="[
+            {type:'buttons', buttons:[{
+                label:'Edit',
+                click:edit
+            }]},
+            {type:'value', fieldName:'fullName'},
+            {type:'value', fieldName:'dob'},
+            {type:'value', fieldName:'fullAddress'},
+            {type:'value', fieldName:'insuranceList'},
+            {type:'value', fieldName:'phone'}
+        ]"
+        rows="patients"
+        >
+</pcs-list>

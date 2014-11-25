@@ -1,33 +1,37 @@
-<pcs-list
-    show-header = "true"
-    show-tabs = "true"
-    title = "'Appointments'"
-    $log = "$log"
-    buttons="[
-        {label:'Add', click:add, accesskey:'N'}]"
-    tabs="[
-        {title:'All', class:'active', href:'#referring'},
-        {title:'Upcoming', class:'', href:'#specialists'}]"
-    headings="['', 'Client', 'Doctor','Location', 'Date/Time']"
-    filter-expression="{active:true, type:'referring'}"
-    fields="[
-        {type:'buttons', buttons:[
-            {
-                label:'Edit',
-                click:edit
-            },
-            {
-                label:'Confirm1',
-                click:confirmFirs
-            },
-            {
-                label:'Confirm2',
-                click:confirmFirs
-            }]
-        },
-        {type:'value', field:['clientFullName']},
-        {type:'value', fieldName:'doctorFullName'},
-        {type:'value', fieldName:'locationsList'}
-    ]"
-    rows="appts"
->
+<div class="well">
+
+    <pcs-list-header
+            $log = "$log"
+            title = "'Appointments'"
+            buttons="[
+                {label:'Add', click:add, accesskey:'N'}
+            ]"
+    ></pcs-list-header>
+
+    <tabset>
+        <tab heading="All">
+            <pcs-list
+                class="'tab-pane active'"
+                headings="['', 'Client', 'Client Phone', 'Doctor', 'Location', 'Date/Time']"
+                filter-expression="{}"
+                fields = "apptFields"
+                rows="appts"
+            ></pcs-list>
+        </tab>
+
+        <tab heading="Upcoming">
+
+            <pcs-list
+                    html-id="'specialists'"
+                    class="'tab-pane'"
+                    headings="['', 'Client', 'Client Phone', 'Doctor', 'Location', 'Date/Time']"
+                    filter-expression="{active:true, type:'specialist'}"
+                    fields="apptFields"
+                    rows="appts"
+                    ></pcs-list>
+        </tab>
+
+
+    </tabset>
+
+</div>
