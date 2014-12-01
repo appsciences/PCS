@@ -1,6 +1,7 @@
 'use strict';
 
 // Declare app level module which depends on views, and components
+// TODO: take out modules not used by router and add as dependencies
 angular.module('csp', [
     'ngRoute',
     'ui.bootstrap',
@@ -13,24 +14,11 @@ angular.module('csp', [
     'csp.services.doctor',
     'csp.services.patient',
     'csp.services.appt',
-    'csp.services.insCarrier',
-    'csp.services.location',
-    'csp.services.specialty',
-    'csp.services.salesPerson',
-    'csp.services.officeHours',
 
     //Controllers
     'csp.doctor.ctrl',
     'csp.appt.ctrl',
-
-    //Controllers
-    'csp.doctor.ctrl',
-    'csp.appt.ctrl',
-    'csp.patient.ctrl',
-
-    //Directives
-    'csp.directive.listDirective'
-    //'csp.directive.multiSelectDirective',
+    'csp.patient.ctrl'
 
 ]).
 //need a loading indicator for routes if backend and thus resolve is slow
@@ -38,9 +26,35 @@ angular.module('csp', [
         $routeProvider.
             when('/doctors', {
                 templateUrl: 'doctors/doctor-list.html',
+                //templateUrl: 'test.html',
                 controller: 'doctorListCtrl',
+                //resolve: {
+                //    doctors: function (doctorListService, $timeout) {
+                //        return $timeout(function () {
+                //            return doctorListService;
+                //        });
+                //    }
+                //}
                 resolve: {
                     doctors: 'doctorListService'
+                    //doctors: function () {
+                    //    return [{
+                    //        isReferring: true,
+                    //        active: true,
+                    //        firstName: 'Jack',
+                    //        lastName: 'Johnson',
+                    //        specialties: [{
+                    //            name: 'Dentist'
+                    //        }],
+                    //        locations: [{
+                    //            address: '1 1st St',
+                    //            city: 'New York',
+                    //            state: 'NY',
+                    //            zip: '10009',
+                    //            phone: '(718)555-5555'
+                    //        }]
+                    //    }];
+                    //}
                 }
             }).
             when('/patients', {

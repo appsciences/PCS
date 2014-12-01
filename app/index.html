@@ -12,8 +12,8 @@
   <link rel="stylesheet" href="app.css">
 </head>
 <body>
-  <div class="container-fluid">
 
+  <div class="container-fluid">
     <ng-include src="'shared/partials/header.html'" onload="username='Leo'"></ng-include>
 
     <div class="col-sm-2">
@@ -47,17 +47,10 @@
   <script src="app.js"></script>
 
   <!--services-->
-  <script src="shared/services/parse-service.js"></script>
 
   <script src="locations/location-service.js"></script>
 
-  <script src="specialties/specialty-service.js"></script>
-  <script src="specialties/specialty-list-service.js"></script>
-
-  <script src="insurance-carriers/ins-carrier-service.js"></script>
-
   <script src="doctors/doctor-service.js"></script>
-  <script src="doctors/doctor-list-service.js"></script>
 
   <script src="patients/patient-service.js"></script>
 
@@ -67,11 +60,15 @@
 
   <script src="shared/services/office-hours-service.js"></script>
 
+  <script src="shared/services/parse-service.js"></script>
+
+  <script src="shared/services/specialty-service.js"></script>
+
+  <script src="shared/services/ins-carrier-service.js"></script>
 
   <!--directives-->
   <script src="shared/directives/list-directive.js"></script>
   <script src="shared/directives/list-header-directive.js"></script>
-  <!--<script src="shared/directives/multi-select-directive.js"></script>-->
 
 
   <!--controllers-->

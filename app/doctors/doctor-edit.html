@@ -1,5 +1,5 @@
 <ng-include src="'shared/partials/modal-header.html'" xmlns="http://www.w3.org/1999/html"></ng-include>
-<div class="modal-body" ng-class="modalClass">
+<div class="modal-body" ng-class="modalClass" id="{{dialogId}}">
     <div class="form-group">
         <fieldset style="margin-bottom: 10px">
             <legend>Name/Company</legend>
@@ -138,7 +138,6 @@
                         </div>
 
                         <input type="submit" value="Add Location" class="btn btn-success btn-sm" ng-click="addLocation()">
-                        <!--//TODO: adding locations restores all of them-->
                         <pcs-list
                                 ng-if="doctor.locations.length > 0"
                                 $log = "$log"
@@ -153,7 +152,7 @@
         </div>
 
         <!-- Specialties -->
-
+        <!--TODO: Not populating-->
         <fieldset style="margin-bottom:10px">
             <legend>Specialties</legend>
             <div class="col-sm-4">

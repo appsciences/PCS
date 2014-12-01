@@ -1,70 +1,93 @@
-//TODO:Need to figure out if this is better as service
-//TODO: lower case doesn't quite fit with .new
-
 angular.module('csp.services.parse', []).
 
     factory('parseService', function () {
 
-        var parseService = {};
+        var
+            parseService = {},
 
-        //filter collection1 retaining only objects that have ids in collection 2
-        parseService.filterByIds = function (collection1, collection2) {
-            var col2Ids = _.pluck(collection2, 'id');
+            getProp = function (obj, prop) {
+                return obj.get(prop);
+            },
 
-            return collection1.filter(function (col1Member) {
-                return _.contains(col2Ids, col1Member.id);
-            });
-        };
+            getThisProp = function (prop) {
+                return getProp(this, prop);
+            },
 
-        parseService.toJSObj =  function (parseObj, attributes) {
+            propGetByPropAndThisFunc = function (prop) {
+                return function () { return getProp(this, prop)};
+            },
 
-            attributes.forEach(function (attr) {
-                switch (attr.type) {
-                case "property":
-                    Object.defineProperty(parseObj.prototype, attr.name, {
-                        get: (attr.template === "set" ? undefined : function () {return this.get(attr.name); }),
-                        set: (attr.template === "get" ? undefined : function (val) { this.set(attr.name, val); })
-                    });
-                    break;
+            propGetByPropAndObjFunc = function (obj, prop) {
+                return function () { return getProp(obj, prop); };
+            },
 
-                case "properties":
-                    //TODO: factor this out into utils
-                    Object.defineProperty(parseObj.prototype, attr.name, {
+            propGetByPropFunc = function (prop) {
+                return function (obj) { return getProp(obj, prop); };
+            },
 
-                        get: (attr.template === "set" ? undefined : function () {
+            propSetByProprAndThisFunc = function (prop) {
+                return function (val) { this.set(prop, val); };
+            },
 
-                            var out = [], thisObj = this;
-
-                            attr.propNames.forEach(function (propName) {
-                                out.push(thisObj.get(propName));
-                            });
-                            return out.join(attr.delimiter);
-                        })
-                    });
-                    break;
-
-                case "collection":
-                    Object.defineProperty(parseObj.prototype, attr.name, {
-                        get: function () {
-                            return _.map(this.get(attr.collection), function (val) {
-                                return val.get('name');
-                            }).join(attr.delimiter);
+            removePropFunc = function (subStr) {
+                return function (obj) {
+                    Object.keys(obj).forEach(function (key) {
+                        if (key.indexOf(subStr) > -1) {
+                            delete obj[key];
                         }
                     });
-                    break;
+                };
+            },
+
+            getName = propGetByPropFunc('name');
+
+        parseService.model =  function (parseObj, properties) {
+
+            properties.forEach(function (prop) {
+
+                if (angular.isString(prop)) {
+                    Object.defineProperty(parseObj.prototype, prop, {
+                        get: (propGetByPropAndThisFunc(prop)),
+                        set: (propSetByProprAndThisFunc(prop))
+                    });
                 }
             });
 
+            return parseObj;
         };
 
         //removes any properties that start with $ as Parse hates them
         parseService.cleanse = function (collection) {
-            _.map(collection, function (item, index) {
-                collection[index] = _.omit(item, function (value, key) {
-                    return key.indexOf('$') > -1;
+            return collection.map(removePropFunc('$'));
+        };
+
+        parseService.getByIdFunc = function (Cls, includes) {
+            return function (id) {
+
+                var query = new Parse.Query(Cls);
+
+                includes.forEach(function (prop) {
+                    query.include(prop);
+                });
+
+                return query.get(id);
+            };
+        };
+
+        parseService.merge = function (outerCollection, innerCollectionName, outerProps, prefix) {
+
+            var result = [];
+
+            outerCollection.forEach(function (outerItem) {
+                outerItem[innerCollectionName].forEach(function (innerItem) {
+                    outerProps.forEach(function (prop) {
+                        innerItem[prefix + prop] = outerItem[prop];
+                    });
+                    result.push(innerItem);
                 });
             });
 
+            return result;
         };
 
         return parseService;

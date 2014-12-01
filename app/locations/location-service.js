@@ -1,4 +1,4 @@
-angular.module('csp.services.location', []).
+angular.module('csp.services.location', ['csp.services.doctor']).
 
     factory('LocationService', ['parseService', function (parse) {
 
@@ -29,50 +29,18 @@ angular.module('csp.services.location', []).
         });
 
         //create simple props
-        parse.toJSObj(
+        parse.model(
             Location,
             [
-                {name:  "address", type: "property", template:  "="},
-                {name:  "city", type: "property", template:  "="},
-                {name:  "state", type: "property", template:  "="},
-                {name:  "zip", type: "property", template:  "="},
-                {name:  "phone", type: "property", template:  "="},
-                {name:  "email", type: "property", template:  "="},
-                {name:  "officeHours", type: "property", template:  "="},
-                {name: "shortAddress", type: "properties", propNames: ['address', 'city'], template: "get", delimiter: " "}
+                "address",
+                "city",
+                "state",
+                "zip",
+                "phone",
+                "email",
+                "officeHours"
             ]
         );
-
-        Object.defineProperties(Location.prototype, {
-            officeHoursList: {
-                get: function () {
-                    return _.pluck(this.officeHours, "schedule");
-                }
-            },
-            //TODO: need a boxing solution. Master object is boxed but sub objects are not, so we cannot use custom properties on them
-            officeHoursListUnBoxed: {
-                get: function () {
-                    return _.map(this.officeHours, function (officeHours) {
-                        return officeHours.weekDay + " " +
-                            moment(officeHours.startTime).format("hh:mm a") + " - " +
-                            moment(officeHours.endTime).format("hh:mm a");
-                    });
-                }
-            },
-
-            officeHoursCopy: {
-                //TODO: need this to prevent Angular from inserting a $$hashKeys which parse doesn't like
-                get: function () {
-                    return angular.copy(this.officeHours);
-                }
-            },
-
-            fullAddress: {
-                get: function () {
-                    return this.address + ' ' + this.city + ', ' + this.state + ' ' + this.zip;
-                }
-            }
-        });
 
         return Location;
     }]).
@@ -101,16 +69,17 @@ angular.module('csp.services.location', []).
         query.find().then(function (doctors) {
             var result = [];
 
-            _.forEach(doctors,  function (doctor) {
-                _.forEach(doctor.get("locations"), function (location) {
-                    result.push(_.merge(location,
-                        _.pick(doctor,
-                            "fullName",
-                            "type",
-                            "specialtyNames")
-                        ));
-                });
-            });
+            parse.merge(
+                doctors,
+                'locations',
+                [
+                    "firstName",
+                    "lastName",
+                    "isSpecialist",
+                    "specialties"
+                ],
+                'doctor'
+            );
 
             deferred.resolve(result);
         });

@@ -25,14 +25,24 @@
                     <span class="glyphicon glyphicon-trash"></span>
                 </button>
 
-                <span ng-if="field.type=='value'">{{row[field.fieldName]}}</span>
+                <button
+                        ng-if="field.type=='editButton'"
+                        type="button"
+                        class="btn btn-info btn-sm"
+                        ng-click="field.click(row)">
+                    <span class="glyphicon glyphicon-edit"></span>
+                </button>
 
-                <!--TODO: The below is incorrect as it introduces extra space at the end-->
-                <span ng-if="field.type=='multi-value'" ng-repeat="fieldName in field.fieldNames">{{row[fieldName]}}&nbsp;</span>
+                <span ng-if="angular.isString(field)">{{row[field.name]}}</span>
 
-                <ul ng-if="field.type=='list'" class="list-unstyled">
-                    <li ng-repeat="value in row[field.fieldName]">{{value}}</li>
+                <span ng-if="field.type=='prop'">{{field.filter(row[field.name])}}</span>
+
+                <span ng-if="field.type=='obj'">{{field.filter(row)}}</span>
+
+                <ul ng-if="field.type=='vlist'" class="list-unstyled">
+                    <li ng-repeat="listItem in row[field.name]">{{field.filter(listItem)}}</li>
                 </ul>
+
 
                 <div
                     ng-if="field.type=='template'"

@@ -1,5 +1,3 @@
-//TODO: error handling
-//module already declared
 angular.module('csp.doctor.ctrl')
 
     .controller(
@@ -16,8 +14,13 @@ angular.module('csp.doctor.ctrl')
             'OfficeHoursService',
             function ($scope, $log, $modalInstance, doctor, specialties, insCarriers, salesPeople, Location, OfficeHours) {
 
-                //TODO: header text doesn't work
-                $scope.headerText = (doctor.isNew() ? 'New ' : 'Edit ') + doctor.typeString;
+                $scope.headerText = (doctor.isNew() ? 'New ' : 'Edit ') +
+                    doctor.isReferring ? "Referring Doctor" : "Specialist";
+
+                $scope.dialogId = doctor.isReferring ? "newReferringDoctorDialog" : "newSpecialistDoctorDialog";
+
+                $scope.closeId = doctor.isReferring ? "newReferringDoctorDialogClose" : "newSpecialistDoctorDialogClose";
+
 
                 $scope.$log = $log;
 
@@ -49,41 +52,33 @@ angular.module('csp.doctor.ctrl')
                     doctor.removeLocation(location);
                 };
 
-                var daysOfTheWeek = ["Monday",
-                    "Tuesday",
-                    "Wednesday",
-                    "Thursday",
-                    "Friday",
-                    "Saturday",
-                    "Sunday"], dayCounter = 0;
-
-                $scope.day = new OfficeHours(daysOfTheWeek[dayCounter]);
+                $scope.day = new OfficeHours(1);
 
                 $scope.addDay = function () {
                     $scope.location.addDay($scope.day);
-                    dayCounter = dayCounter + 1;
-                    if (dayCounter === daysOfTheWeek.length) {
-                        dayCounter = 0;
-                    }
-
-                    $scope.day = new OfficeHours(daysOfTheWeek[dayCounter]);
+                    $scope.day = new OfficeHours($scope.day.nextDay);
                 };
 
                 $scope.deleteDay = function (day) {
                     $scope.location.removeDay(day);
                 };
 
+                $scope.locationHeadings = ['', 'Address', 'Email'];
+
                 $scope.locationFields = [
                     {type: 'deleteButton', click: $scope.deleteLocation},
-                    {type: 'value', fieldName: 'fullAddress'},
-                    {type: 'value', fieldName: 'phone'},
-                    {type: 'value', fieldName: 'email'},
-                    {type: 'list', fieldName: 'officeHoursList'}
+                    {type: 'filteredThis', filter: 'toShortAddress'},
+                    'email'
                 ];
+
+                if ($scope.doctor.isSpecialist) {
+                    $scope.locationHeadings.push('Office Hours');
+                    $scope.locationFields.push({type: 'list', name: 'officeHours', filter: 'officeHours' });
+                }
 
                 $scope.officeHoursFields = [
                     {type: 'deleteButton', click: $scope.deleteDay},
-                    {type: 'value', fieldName: 'schedule'}
+                    {type: 'filteredThis', filter: 'officeHours'}
                 ];
 
             }]

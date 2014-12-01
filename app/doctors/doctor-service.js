@@ -1,14 +1,21 @@
-angular.module('csp.services.doctor', []).
+angular.module('csp.services.doctor', [
+    'csp.services.insCarrier',
+    'csp.services.specialty',
+    'csp.services.location',
+    'csp.services.salesPerson'
+]).
     factory('DoctorService',
         [
             'parseService',
             function (parse) {
+
+                var specialistStr = "specalist", referringStr = "referring";
+
                 var Doctor = Parse.Object.extend("Doctor", {
                     // Instance methods
 
                     initialize: function () {
                         this.active = true;
-                        //this.locations = [];
                     },
 
                     addLocation: function (location) {
@@ -21,62 +28,62 @@ angular.module('csp.services.doctor', []).
                         //cannot be called after add this.remove("locations", location);
                         this.set("locations", _.without(this.locations, location));
 
+                    },
+
+                    setSpecialist: function () {
+                        this.set("type", specialistStr);
+                    },
+
+                    setReferring: function () {
+                        this.set("type", referringStr);
                     }
+
                 }, {// Class methods
-                    getById: function (id) {
-                        var query = new Parse.Query(Doctor);
-                        query.include('specialties');
-                        query.include('locations');
-                        return query.get(id);
-                    }
+                    getById: parse.getByIdFunc(Doctor, [
+                        'specialties',
+                        'locations',
+                        'insProviders'])
                 });
 
-                parse.toJSObj(
+                //let's keep type private to prevent string errors
+                parse.model(
                     Doctor,
                     [
-                        {name: "type", type: "property", template: "="},
-                        {name: "firstName", type: "property", template: "="},
-                        {name: "lastName", type: "property", template: "="},
-                        {name: "fullName", type: "properties", propNames: ['firstName', 'lastName'], template: "get", delimiter: " "},
-                        {name: "company", type: "property", template: "="},
-                        {name: "active", type: "property", template: "="},
-                        {name: "specialties", type: "property", template: "="},
-                        {name: "locations", type: "property", template: "="},
-                        {
-                            name: "specialtyNames",
-                            type: "collection",
-                            collection: "specialties",
-                            property: "name",
-                            delimiter: ", "
-                        },
-                        {
-                            name: "insCarrierNames",
-                            type: "collection",
-                            collection: "insCarriers",
-                            property: "name",
-                            delimiter: ", "
-                        },
-                        {name: "note", template: "="}
+                        "firstName",
+                        "lastName",
+                        "company",
+                        "active",
+                        "specialties",
+                        "locations",
+                        "note"
                     ]
                 );
 
-                Object.defineProperty(Doctor.prototype, "locationList", {
-                    //returns array
-                    //TODO: currently there isn't a way to easily wrap Parse sub-objects to add properties
-                    //We may need a higher level way to pares parse objects into javascript objects, at least for read only purposes
+                Object.defineProperty(Doctor.prototype, "isReferring", {
                     get: function () {
-                        return _.map(this.locations, function (location) {
-                            return location.get('address') + ' ' + location.get('city') + ' Tel: ' + location.get('phone');
-                        });
+                        return this.get("type") === referringStr;
                     }
                 });
 
-                Object.defineProperty(Doctor.prototype, "typeString", {
+                Object.defineProperty(Doctor.prototype, "isSpecialist", {
                     get: function () {
-                        return this.type === "referring" ? "Referring Doctor" : "Specialist";
+                        return this.get("type") === specialistStr;
                     }
                 });
 
                 return Doctor;
             }
-        ]);
+        ])
+
+    .service('doctorListService', [
+        'DoctorService',
+        'SpecialtyService',
+        'InsCarrierService',
+        'LocationService',
+        function (Doctor, Specialty, InsCarrier, Location) {
+            var query = new Parse.Query(Doctor);
+            query.include('specialties');
+            query.include('insCarriers');
+            query.include('locations');
+            return query.find();
+        }]);

@@ -5,7 +5,7 @@ angular.module('csp.services.salesPerson',[]).
         var SalesPerson = Parse.Object.extend("SalesPerson");
 
         //create simple props
-        parse.toJSObj(
+        parse.model(
             SalesPerson, [
                 {name: "name", type:"property", template: "="},
                 {name: "firstName", type:"property", template: "="},

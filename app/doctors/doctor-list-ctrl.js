@@ -1,9 +1,14 @@
-angular.module('csp.doctor.ctrl', ["csp.directive.listHeaderDirective"])
+angular.module('csp.doctor.ctrl', [
+    "csp.directive.listHeaderDirective",
+    "csp.directive.listDirective",
+    "csp.services.location",
+    "csp.services.officeHours"])
     .controller(
         'doctorListCtrl',
         [
             '$scope',
             '$log',
+            '$filter',
             '$modal',
             '$route',
             'doctors',
@@ -11,26 +16,21 @@ angular.module('csp.doctor.ctrl', ["csp.directive.listHeaderDirective"])
             'specialtyListService',
             'insCarrierListService',
             'salesPersonListService',
-            function ($scope, $log, $modal, $route, doctors, Doctor, specialties, insCarriers, salesPeople) {
+            function ($scope, $log, $filter, $modal, $route, doctors, Doctor, Location, specialties, insCarriers, salesPeople) {
 
                 $scope.$log = $log;
+
+                $scope.$filter = $filter;
 
                 $scope.doctors = doctors;
 
                 //TODO: encapsulate and refactor
-                var showModal = function (doctorId, type) {
+                var showModal = function (doctor) {
                     var modalInstance = $modal.open({
                         templateUrl: 'doctors/doctor-edit.html',
                         controller: 'doctorEditCtrl',
                         resolve: {
-                            doctor: function () {
-                                if (doctorId) {
-                                    return Doctor.getById(doctorId);
-                                }
-                                var doc = new Doctor();
-                                doc.type = type;
-                                return doc;
-                            },
+                            doctor: function () {return doctor;},
                             specialties: function () {return specialties; },
                             insCarriers: function () {return insCarriers; },
                             salesPeople: function () {return salesPeople; }
@@ -59,20 +59,41 @@ angular.module('csp.doctor.ctrl', ["csp.directive.listHeaderDirective"])
                 };
 
                 $scope.addReferring = function () {
-                    showModal(null, "referring");
+                    var doc = new Doctor();
+                    doc.setReferring();
+                    showModal(doc, "referring");
                 };
 
                 $scope.addSpecialist = function () {
-                    showModal(null, "specialist");
+                    var doc = new Doctor();
+                    doc.setSpecialist();
+                    showModal(doc, "referring");
                 };
 
-                $scope.editReffering = function (id) {
-                    showModal(id, "referring");
+                $scope.edit = function (doctor) {
+                    showModal(doctor);
                 };
 
-                $scope.editSpecialist = function (id) {
-                    showModal(id, "specialist");
+                var listFields = function (doctorType) {
+                    return [
+                        {
+                            type: 'editButton',
+                            click: doctorType === 'referring' ? $scope.editReffering : $scope.editSpecialist
+                        },
+                        {type: 'obj', filter: $filter('fullName')},
+                        {type: 'prop', name: 'specialties', filter: $filter('nameList')},
+                        {type: 'vlist', name: 'locations', filter: $filter('toShortAddress')}
+                    ];
                 };
+
+                $scope.headings = ['', 'Name', 'Specialty', 'Locations'];
+
+                $scope.referringListFields = listFields('referring');
+
+                $scope.specialistListFields = listFields('specialist');
+
+                $scope.inactiveListFields = listFields('inactive');
+
             }
         ]
     );
