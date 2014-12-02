@@ -1,28 +1,42 @@
-<pcs-list
-        show-header = "true"
-        show-tabs = "true"
-        title = "'Patients'"
-        $log = "$log"
-        buttons="[
-            {label:'Add', click:add}
-        ]"
-        tabs="[
-            {title:'All', class:'active', href:'#all'},
-            {title:'Inactive', class:'', href:'#inactive'}
-        ]"
-        headings="['', 'Name', 'Birth Date','Address','Insurance','Phone']"
-        filter-expression="{active:true, type:'referring'}"
-        fields="[
-            {type:'buttons', buttons:[{
-                label:'Edit',
-                click:edit
-            }]},
-            {type:'value', fieldName:'fullName'},
-            {type:'value', fieldName:'dob'},
-            {type:'value', fieldName:'fullAddress'},
-            {type:'value', fieldName:'insuranceList'},
-            {type:'value', fieldName:'phone'}
-        ]"
-        rows="patients"
-        >
-</pcs-list>
+<div class="well">
+    <pcs-list-header
+            title = "'Doctors'"
+            $log = "$log"
+            buttons="headerButtons"
+            ></pcs-list-header>
+
+    <tabset>
+        <tab heading="Referring">
+            {{tab.content}}
+            <pcs-list
+                    class="'tab-pane active'"
+                    headings="headings"
+                    filter-expression="{active:true, isReferring:true}"
+                    fields="referringListFields"
+                    rows="doctors"
+                    ></pcs-list>
+        </tab>
+
+        <tab heading="Specialists">
+
+            <pcs-list
+                    class="'tab-pane'"
+                    headings="headings"
+                    filter-expression="{active:true, isSpecialist:true}"
+                    fields="specialistListFields"
+                    rows="doctors"
+                    ></pcs-list>
+        </tab>
+
+        <tab heading="Inactive">
+            <pcs-list
+                    class="'tab-pane'"
+                    headings="headings"
+                    filter-expression="{active:false}"
+                    fields="inactiveListFields"
+                    rows="doctors"
+                    ></pcs-list>
+        </tab>
+
+    </tabset>
+</div>

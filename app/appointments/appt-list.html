@@ -12,7 +12,7 @@
         <tab heading="All">
             <pcs-list
                 class="'tab-pane active'"
-                headings="['', 'Client', 'Client Phone', 'Doctor', 'Location', 'Date/Time']"
+                headings="headings"
                 filter-expression="{}"
                 fields = "apptFields"
                 rows="appts"
@@ -22,16 +22,13 @@
         <tab heading="Upcoming">
 
             <pcs-list
-                    html-id="'specialists'"
-                    class="'tab-pane'"
-                    headings="['', 'Client', 'Client Phone', 'Doctor', 'Location', 'Date/Time']"
-                    filter-expression="{}"
-                    fields="apptFields"
-                    rows="appts"
-                    ></pcs-list>
+                html-id="'specialists'"
+                class="'tab-pane'"
+                headings="headings"
+                filter-expression="{}"
+                fields="apptFields"
+                rows="appts"
+                ></pcs-list>
         </tab>
-
-
     </tabset>
-
 </div>

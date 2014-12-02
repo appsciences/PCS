@@ -71,6 +71,14 @@ angular.module('csp.services.doctor', [
                     }
                 });
 
+                //TODO: need to move to filter
+                Object.defineProperty(Doctor.prototype, "fullName", {
+                    get: function () {
+                        return this.firstName + ' ' + this.lastName;
+                    }
+                });
+
+
                 return Doctor;
             }
         ])

@@ -3,17 +3,17 @@ angular.module('csp.appt.ctrl', [])
     .controller('apptCtrl', [
         '$scope',
         '$modal',
+        '$filter',
         'ApptService',
-        'apptListService',
+        'appts',
         'doctorListService',
         'patientListService',
         'doctorLocationListService',
         'insCarrierListService',
         'specialtyListService',
-        function ($scope, $modal, Appt, appts, doctors, patients, locations, insCarriers, specialties) {
+        function ($scope, $modal, $filter, Appt, appts, doctors, patients, locations, insCarriers, specialties) {
 
             $scope.appts = appts;
-            //TODO: encapsulate and refactor
 
             var showModal = function (apptId) {
                 var modalInstance = $modal.open({
@@ -55,6 +55,8 @@ angular.module('csp.appt.ctrl', [])
                 showModal(id);
             };
 
+            $scope.headings = ['', 'Client', 'Client Phone', 'Doctor', 'Location', 'Date/Time'];
+
             $scope.apptFields = [
                 {type: 'buttons', buttons: [
                     {
@@ -67,13 +69,11 @@ angular.module('csp.appt.ctrl', [])
                         label: 'Confirm2',
                         click: $scope.confirm2
                     }]},
-                {type: 'value', fieldName: 'clientFullName'},
-                {type: 'value', fieldName: 'clientPhone'},
-                {type: 'value', fieldName: 'doctorFullName'},
-                {type: 'value', fieldName: 'doctorPhone'},
-                {type: 'value', fieldName: 'dateTime'},
-                {type: 'value', fieldName: 'locationFullAddress'},
-                {type: 'value', fieldName: 'locationPhone'}
+                {type: 'prop', name: 'patient', filter: $filter('fullName')},
+                {type: 'prop', name: 'patient', filter: $filter('phone')},
+                {type: 'prop', name: 'doctor', filter: $filter('fullName')},
+                {type: 'prop', name: 'location', filter: $filter('toShortAddressAndPhone')},
+                'dateTime'
             ];
 
         }]).
@@ -82,13 +82,14 @@ angular.module('csp.appt.ctrl', [])
         '$scope',
         '$modalInstance',
         '$log',
+        '$filter',
         'appt',
         'patients',
         'doctors',
         'specialties',
         'insCarriers',
         'locations',
-        function ($scope, $modal, $log, appt, patients, doctors, specialties, insCarriers, locations) {
+        function ($scope, $modal, $log, $filter, appt, patients, doctors, specialties, insCarriers, locations) {
 
             //header text
             $scope.headerText = appt.isNew() ? 'New Appointment' : 'Edit Appointment';
@@ -118,15 +119,15 @@ angular.module('csp.appt.ctrl', [])
 
             $scope.resultFields = [
                 {type: 'buttons', buttons: [{type: 'select', click: $scope.select}]},
-                {type: 'value', fieldName: 'fullName'},
-                {type: 'value', fieldName: 'specialtyNames'},
-                {type: 'value', fieldName: 'insCarrierNames'},
-                {type: 'value', fieldName: 'shortAddress'},
-                {type: 'value', fieldName: 'phone'},
+                {type: 'obj', filter: $filter('fullName')},
+                {type: 'prop', name: 'specialties', filter: $filter('nameList')},
+                {type: 'prop', name: 'insCarrierNames', filter: $filter('nameList')},
+                {type: 'obj', filter: $filter('toShortAddress')},
+                'phone',
                 {type: 'list', fieldName: 'officeHoursListUnBoxed'}
             ];
 
-//            $scope.searchParams = {type: 'specialist'};
+            $scope.searchParams = {isSpecialist: true};
             $scope.searchParams = {};
 
         }]);

@@ -24,7 +24,6 @@ angular.module('csp.doctor.ctrl', [
 
                 $scope.doctors = doctors;
 
-                //TODO: encapsulate and refactor
                 var showModal = function (doctor) {
                     var modalInstance = $modal.open({
                         templateUrl: 'doctors/doctor-edit.html',
@@ -45,8 +44,9 @@ angular.module('csp.doctor.ctrl', [
 
                         doctor.save().then(
                             function (doctor) {
-                                //TODO: Does not refresh the list
-                                $route.reload();
+                                //TODO: This only works for adds and does not fully refresh the list (in case of edits). Need hard refresh
+                                //$route.reload(); -- doesn't work
+                                $scope.doctors.push(doctor);
                             },
                             function (err) {
                                 //TODO: Docor Save Error

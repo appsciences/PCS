@@ -76,7 +76,18 @@ describe('Parse Service Test', function () {
                     ([{foo: 'innerBar', outerfoo: 'bar', outerfoo2: 'bar2'}])
                 )
             ).toBe(true);
-
+            expect(
+                angular.equals(
+                    parseService.merge(undefined, 'inner', ['foo','foo2'], 'outer'),
+                    ([])
+                )
+            ).toBe(true);
+            expect(
+                angular.equals(
+                    parseService.merge(obj3, 'wrong', ['foo','foo2'], 'outer'),
+                    ([])
+                )
+            ).toBe(true);
 
         }));
 

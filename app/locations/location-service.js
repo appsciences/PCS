@@ -67,9 +67,7 @@ angular.module('csp.services.location', ['csp.services.doctor']).
 
 
         query.find().then(function (doctors) {
-            var result = [];
-
-            parse.merge(
+            var result = parse.merge(
                 doctors,
                 'locations',
                 [

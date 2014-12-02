@@ -13,6 +13,8 @@ angular.module('csp.patient.ctrl', [])
 
             $scope.patients = patients;
 
+            $scope.headerButtons = [ {label: 'Add', click: $scope.add, id: 'addPatientButton'} ];
+
             var showModal = function(patientId)
             {
                 var modalInstance = $modal.open({

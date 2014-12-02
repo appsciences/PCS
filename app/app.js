@@ -1,7 +1,6 @@
 'use strict';
 
 // Declare app level module which depends on views, and components
-// TODO: take out modules not used by router and add as dependencies
 angular.module('csp', [
     'ngRoute',
     'ui.bootstrap',
@@ -50,5 +49,7 @@ angular.module('csp', [
                 redirectTo: '/'
             });
 
+        // TODO: Turn into service
+        //Parse initialization including keys
         Parse.initialize("WqDGRd0E9ntpvRiU0OlDRYrEr19GflSzWrSzh5kZ", "hqQLu9cUbwFeIPcunmNnBK9VGKD10plbNFMaAgcp");
     }]);

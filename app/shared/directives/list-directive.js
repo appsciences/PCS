@@ -28,8 +28,24 @@ angular.module('csp.directive.listDirective', [])
     }).filter('toShortAddress', function () {
         return function (location) {
 
-            if (location && location.address && location.city && location.phone) {
+            if (location && location.address && location.city) {
                 return location.address + ' ' + location.city;
+            }
+            return '';
+        };
+    }).filter('toShortAddressAndPhone', function () {
+        return function (location) {
+
+            if (location && location.address && location.city && location.phone) {
+                return location.address + ' ' + location.city + ' Phone: ' + location.phone;
+            }
+            return '';
+        };
+    }).filter('phone', function () {
+        return function (obj) {
+
+            if (obj && obj.phone) {
+                return obj.phone;
             }
             return '';
         };
