@@ -6,13 +6,20 @@ angular.module('csp.services.salesPerson',[]).
 
         //create simple props
         parse.model(
-            SalesPerson, [
-                {name: "name", type:"property", template: "="},
-                {name: "firstName", type:"property", template: "="},
-                {name: "lastName", type:"property", template: "="},
-                {name: "fullName", type:"properties", propNames: ['firstName', 'lastName'], template: "get"}
+            SalesPerson,
+            [
+                "firstName",
+                "lastName"
             ]
         );
+
+        //TODO: need to move to filter
+
+        Object.defineProperty(SalesPerson.prototype, "fullName", {
+            get: function () {
+                return this.firstName + ' ' + this.lastName;
+            }
+        });
         return SalesPerson;
     }]).
 

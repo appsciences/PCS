@@ -4,17 +4,17 @@
         <fieldset style="margin-bottom: 10px">
             <legend>Name/Company</legend>
             <div class="col-sm-4">
-                <input type="text" class="form-control" required="required"
+                <input type="text" name="firstName" class="form-control" required="required"
                        ng-model="doctor.firstName" autofocus placeholder="First Name" tooltip-placement="bottom"
                        tooltip="First name"/>
             </div>
             <div class="col-sm-4">
-                <input type="text" class="form-control" required="required"
+                <input type="text" name="lastName" class="form-control" required="required"
                        ng-model="doctor.lastName" placeholder="Last Name" tooltip-placement="bottom"
                        tooltip="Last name"/>
             </div>
             <div class="col-sm-4">
-                <input type="text" class="form-control" required="required"
+                <input type="text" name="company" class="form-control" required="required"
                        ng-model="doctor.company" placeholder="Company Name" tooltip-placement="bottom"
                        tooltip="Company name"/>
             </div>
@@ -38,7 +38,7 @@
                             <div class="form-group">
                                 <div class="row" style="margin-bottom: 10px">
                                     <div class="col-sm-5">
-                                        <input type="text" name="location" class="form-control input-sm" autofocus placeholder="Address"
+                                        <input type="text" name="address" class="form-control input-sm" autofocus placeholder="Address"
                                                ng-model="location.address"/>
                                     </div>
                                     <div class="col-sm-3">
@@ -89,7 +89,7 @@
                         </div>
                         <!-- TODO: use constants for doctor types -->
                         <!--office hours-->
-                        <div class="panel panel-default" ng-if="doctor.type == 'specialist'">
+                        <div class="panel panel-default" ng-if="doctor.isSpecialist">
                             <div class="panel-heading">
                                 <h4 class="panel-title">
                                     <a data-toggle="collapse" data-parent="#accordion" href="#hours">Location Office Hours</a>
@@ -130,7 +130,7 @@
                             <pcs-list
                                     ng-if="location.officeHours.length > 0"
                                     $log = "$log"
-                                    headings="['','Office Hours']"
+                                    headings="officeHoursHeadings"
                                     fields="officeHoursFields"
                                     rows="location.officeHours"
                                     >
@@ -141,7 +141,7 @@
                         <pcs-list
                                 ng-if="doctor.locations.length > 0"
                                 $log = "$log"
-                                headings="['', 'Address', 'Phone','Email', 'Office Hours']"
+                                headings="locationHeadings"
                                 fields="locationFields"
                                 rows="doctor.locations"
                                 >
@@ -211,5 +211,5 @@
 
 <div class="modal-footer" ng-class="modalClass">
     <button type="button" class="btn" data-ng-click="close()">Cancel</button>
-    <button class="btn btn-primary" data-ng-click="save()">Save</button>
+    <button class="btn btn-primary" id="pcsDoctorSave" ng-click="save()">Save</button>
 </div>

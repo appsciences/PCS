@@ -33,7 +33,7 @@ describe('List Filters', function() {
                     city: 'New York',
                     zip: '11355',
                     phone: '(555)555-5555'
-                })).toBe('1 1st St New York  Tel: (555)555-5555');
+                })).toBe('1 1st St New York');
             }));
     });
 

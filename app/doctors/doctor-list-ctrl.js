@@ -16,7 +16,7 @@ angular.module('csp.doctor.ctrl', [
             'specialtyListService',
             'insCarrierListService',
             'salesPersonListService',
-            function ($scope, $log, $filter, $modal, $route, doctors, Doctor, Location, specialties, insCarriers, salesPeople) {
+            function ($scope, $log, $filter, $modal, $route, doctors, Doctor, specialties, insCarriers, salesPeople) {
 
                 $scope.$log = $log;
 
@@ -74,25 +74,22 @@ angular.module('csp.doctor.ctrl', [
                     showModal(doctor);
                 };
 
-                var listFields = function (doctorType) {
-                    return [
+                var listFields =
+                    [
                         {
                             type: 'editButton',
-                            click: doctorType === 'referring' ? $scope.editReffering : $scope.editSpecialist
+                            click: $scope.edit
                         },
                         {type: 'obj', filter: $filter('fullName')},
                         {type: 'prop', name: 'specialties', filter: $filter('nameList')},
                         {type: 'vlist', name: 'locations', filter: $filter('toShortAddress')}
                     ];
-                };
 
                 $scope.headings = ['', 'Name', 'Specialty', 'Locations'];
 
-                $scope.referringListFields = listFields('referring');
-
-                $scope.specialistListFields = listFields('specialist');
-
-                $scope.inactiveListFields = listFields('inactive');
+                $scope.referringListFields =
+                    $scope.specialistListFields =
+                    $scope.inactiveListFields = listFields;
 
             }
         ]

@@ -54,7 +54,7 @@ angular.module('csp.services.location', ['csp.services.doctor']).
         return query.find();
     }]).
 
-    service('doctorLocationListService', ['$q', 'DoctorService', function ($q, Doctor) {
+    service('doctorLocationListService', ['$q', 'DoctorService', 'parseService', function ($q, Doctor, parse) {
 
         //turns doctors array into location array with read-only doctor properties
 

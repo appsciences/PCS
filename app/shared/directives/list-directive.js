@@ -29,7 +29,7 @@ angular.module('csp.directive.listDirective', [])
         return function (location) {
 
             if (location && location.address && location.city && location.phone) {
-                return location.address + ' ' + location.city + '  Tel: ' + location.phone;
+                return location.address + ' ' + location.city;
             }
             return '';
         };

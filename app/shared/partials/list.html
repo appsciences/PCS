@@ -33,7 +33,7 @@
                     <span class="glyphicon glyphicon-edit"></span>
                 </button>
 
-                <span ng-if="angular.isString(field)">{{row[field.name]}}</span>
+                <span ng-if="typeof(field) == string">{{row[field]}}</span>
 
                 <span ng-if="field.type=='prop'">{{field.filter(row[field.name])}}</span>
 

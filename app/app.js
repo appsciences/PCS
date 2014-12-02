@@ -28,33 +28,8 @@ angular.module('csp', [
                 templateUrl: 'doctors/doctor-list.html',
                 //templateUrl: 'test.html',
                 controller: 'doctorListCtrl',
-                //resolve: {
-                //    doctors: function (doctorListService, $timeout) {
-                //        return $timeout(function () {
-                //            return doctorListService;
-                //        });
-                //    }
-                //}
                 resolve: {
                     doctors: 'doctorListService'
-                    //doctors: function () {
-                    //    return [{
-                    //        isReferring: true,
-                    //        active: true,
-                    //        firstName: 'Jack',
-                    //        lastName: 'Johnson',
-                    //        specialties: [{
-                    //            name: 'Dentist'
-                    //        }],
-                    //        locations: [{
-                    //            address: '1 1st St',
-                    //            city: 'New York',
-                    //            state: 'NY',
-                    //            zip: '10009',
-                    //            phone: '(718)555-5555'
-                    //        }]
-                    //    }];
-                    //}
                 }
             }).
             when('/patients', {
