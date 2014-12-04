@@ -14,9 +14,9 @@
                        tooltip="Last name"/>
             </div>
             <div class="col-sm-4">
-                <input type="text" name="company" class="form-control" required="required"
+                <input type="text" name="company" class="form-control"
                        ng-model="doctor.company" placeholder="Company Name" tooltip-placement="bottom"
-                       tooltip="Company name"/>
+                       tooltip="Company name" ng-invalid="true"/>
             </div>
         </fieldset>
         <!--TODO: Accordions don't work mother father-->
@@ -33,21 +33,29 @@
                 <div class="panel-body">
                     <!-- Address stuff -->
                     <div class="panel-body">
+                        <form name="locationForm">
+
                         <div class="location">
                             <!--TODO: form is not validating-->
+
                             <div class="form-group">
                                 <div class="row" style="margin-bottom: 10px">
                                     <div class="col-sm-5">
-                                        <input type="text" name="address" class="form-control input-sm" autofocus placeholder="Address"
+                                        <label for="address">Address</label>
+                                        <input type="text" id="address" required="required"
+                                               class="form-control input-sm" autofocus placeholder="Address"
                                                ng-model="location.address"/>
                                     </div>
                                     <div class="col-sm-3">
-                                        <input type="text" name="city" class="form-control input-sm" placeholder="City/Town"
+                                        <label for="city">City</label>
+                                        <input type="text" id="city" class="form-control input-sm"
+                                               placeholder="City/Town"
                                                ng-model="location.city"/>
                                     </div>
                                     <div class="col-sm-1">
+                                        <label for="zip">State</label>
                                         <input type="text"
-                                               name="state"
+                                               id="state"
                                                maxlength="2"
                                                pattern="[A-Z]{2}"
                                                class="form-control input-sm"
@@ -57,32 +65,32 @@
                                     </div>
 
                                     <div class="col-md-2">
+                                        <label for="zip">Zip</label>
                                         <input type="text"
-                                               name="zip"
-                                               maxlegth="5"
+                                               id="zip"
+                                               maxlegth="10"
                                                class="form-control input-sm"
-                                               placeholder="Zip"
                                                ng-model="location.zip"
-                                               title="Zip Code e.g. 11355"/>
-                                        <!--pattern="[1-9]{5}" -->
-
+                                               title="Zip Code e.g. 11355"
+                                               ui-mask="99999"
+                                                ui-validate="$value.length == 5"/>
                                     </div>
 
                                 </div>
                                 <div class="row" style="margin-bottom: 10px">
                                     <div class="col-md-2">
-                                        <input type="tel"
+                                        <input type="text"
                                                name="phone"
                                                class="form-control input-sm"
-                                               placeholder="Phone"
                                                ng-model="location.phone"
-                                               title="Phone e.g. (123)123-1234">
-                                        <!--pattern="[\(]\d{3}[\)]\d{3}[\-]\d{4}"-->
+                                               title="Phone e.g. (123)123-1234"
+                                               required="required" ui-mask="(999) 999-9999">
                                     </div>
 
                                     <div class="col-md-3">
-                                        <input type="email" name="email" class="form-control input-sm" autofocus placeholder="Email"
-                                               ng-model="location.email"/>
+                                        <input type="email" name="email" class="form-control input-sm" autofocus
+                                               placeholder="Email" required="required"
+                                               ng-model="location.email" ui-validate/>
                                     </div>
                                 </div>
                             </div>
@@ -136,7 +144,10 @@
                             </pcs-list>
                         </div>
 
-                        <input type="submit" value="Add Location" class="btn btn-success btn-sm" ng-click="addLocation()">
+                        <input ng-if="locationForm.$valid" type="submit" value="Add Location" class="btn btn-success btn-sm" ng-click="addLocation()">
+
+                        </form>
+
                         <pcs-list
                                 ng-if="doctor.locations.length > 0"
                                 $log = "$log"
@@ -150,59 +161,63 @@
             </div>
         </div>
 
-        <!-- Specialties -->
-        <!--TODO: Not populating-->
-        <fieldset style="margin-bottom:10px">
-            <legend>Specialties</legend>
-            <div class="col-sm-4">
-                <ui-select multiple ng-model="doctor.specialties" ng-disabled="disabled">
-                    <ui-select-match placeholder="Specialties...">{{$item.name}}</ui-select-match>
-                    <ui-select-choices
-                            repeat="specialty in specialties | filter:$select.search | orderBy: 'name'">
-                        <div ng-bind-html="specialty.get('name').htmlSafe | highlight: $select.search"></div>
-                        {{specialty.get('name')}}
-                    </ui-select-choices>
-                </ui-select>
-            </div>
-        </fieldset>
+        <form name="doctorForm">
 
-        <!-- Insurance Accepted -->
-        <fieldset style="margin-bottom:10px">
-            <legend>Insurance Accepted</legend>
-            <div class="col-sm-4">
-                <ui-select multiple ng-model="doctor.insCarriers">
-                    <ui-select-match placeholder="Insurance...">{{$item.name}}</ui-select-match>
-                    <ui-select-choices
-                            repeat="ins in insCarriers | filter:$select.search | orderBy: 'name'">
-                        <div ng-bind-html="ins.name.htmlSafe | highlight: $select.search"></div>
-                        {{ins.name}}
-                    </ui-select-choices>
-                </ui-select>
-            </div>
-        </fieldset>
+            <!-- Specialties -->
+            <!--TODO: Not populating-->
+            <fieldset style="margin-bottom:10px">
+                <legend>Specialties</legend>
+                <div class="col-sm-4">
+                    <ui-select multiple ng-model="doctor.specialties" ng-disabled="disabled" required="required">
+                        <ui-select-match placeholder="Specialties...">{{$item.name}}</ui-select-match>
+                        <ui-select-choices
+                                repeat="specialty in specialties | filter:$select.search | orderBy: 'name'">
+                            <div ng-bind-html="specialty.get('name').htmlSafe | highlight: $select.search"></div>
+                            {{specialty.get('name')}}
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </fieldset>
 
-        <!-- Sales people -->
-        <fieldset style="margin-bottom:10px">
-            <legend>Sales Person(s)</legend>
-            <div class="col-sm-4">
+            <!-- Insurance Accepted -->
+            <fieldset style="margin-bottom:10px">
+                <legend>Insurance Accepted</legend>
+                <div class="col-sm-4">
+                    <ui-select multiple ng-model="doctor.insCarriers">
+                        <ui-select-match placeholder="Insurance...">{{$item.name}}</ui-select-match>
+                        <ui-select-choices
+                                repeat="ins in insCarriers | filter:$select.search | orderBy: 'name'">
+                            <div ng-bind-html="ins.name.htmlSafe | highlight: $select.search"></div>
+                            {{ins.name}}
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </fieldset>
 
-                <ui-select ng-model="doctor.salesPerson" ng-disabled="disabled">
-                    <ui-select-match placeholder="Sales person...">{{$item.fullName}}
-                    </ui-select-match>
-                    <ui-select-choices repeat="person in salesPeople | filter:$select.search | orderBy: 'name'">
-                        <div ng-bind-html="name.name.htmlSafe | highlight: $select.search"></div>
-                        {{person.fullName}}
-                    </ui-select-choices>
-                </ui-select>
-            </div>
-        </fieldset>
+            <!-- Sales people -->
+            <fieldset style="margin-bottom:10px">
+                <legend>Sales Person(s)</legend>
+                <div class="col-sm-4">
 
-        <fieldset style="margin-bottom:10px">
-            <legend>Notes</legend>
-            <div class="col-sm-4">
-                <textarea class="form-control" rows="3" data-ng-model="doctor.notes"></textarea>
-            </div>
-        </fieldset>
+                    <ui-select ng-model="doctor.salesPerson" ng-disabled="disabled">
+                        <ui-select-match placeholder="Sales person...">{{$item.fullName}}
+                        </ui-select-match>
+                        <ui-select-choices repeat="person in salesPeople | filter:$select.search | orderBy: 'name'">
+                            <div ng-bind-html="name.name.htmlSafe | highlight: $select.search"></div>
+                            {{person.fullName}}
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </fieldset>
+
+            <fieldset style="margin-bottom:10px">
+                <legend>Notes</legend>
+                <div class="col-sm-4">
+                    <textarea class="form-control" rows="3" data-ng-model="doctor.notes"></textarea>
+                </div>
+            </fieldset>
+            
+        </form>
     </div>
 
 
