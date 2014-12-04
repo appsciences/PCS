@@ -2,7 +2,9 @@
  * Created by levushka on 11/18/14.
  */
 angular.module('csp.services.officeHours', []).
+    //TODO: This is shit. Rewrite
     //TODO: put office hours directive on Git. Also try turning this into a web component
+
     factory('OfficeHoursService', [ function () {
 
         var OfficeHours = function (dayOfTheWeekNumber) {
