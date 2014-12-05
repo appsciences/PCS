@@ -8,23 +8,21 @@ bower install
 
 ### Project structure ###
 
-- **/app** - all app logic
-- **/<component> - all angular files related to component
-- **/<component>/*-ctrl - controller files
-- **/<component>/*-service - service files
-- **/<component>/*-test - unit tests
-- **/shared/css - css files
-- **/shared/directives - directives files
-- **/shared/partials - partials files
-- **/directives/css - shared directives files
-- **/partials/css - shared directives files
-- **/partials/css - shared services
+- /app/** - all application angular files
+- app/&lt;component> - all angular files related to component
+- app/&lt;component>/*-ctrl - controller files
+- app/&lt;component>/*-service - service files
+- app/&lt;component>/*-test - unit tests
+- app/shared/css - css files
+- app/shared/directives - directives files
+- app/shared/partials - partials files
+- app/shared/services - shared services
 
-- **/e2e-test** - end to end tests
-- **package.json** - stores everything required to install node.js app
-- **README.md** - this file
-- **karma.conf.js** - karma config file for unit testing
-- **protractor.conf.js** - protractor config file for end to end testing
+- e2e-test/* - end to end tests
+- package.json - stores everything required to install node.js app
+- README.md - this file
+- karma.conf.js - karma config file for unit testing
+- protractor.conf.js - protractor config file for end to end testing
 
 
 ### Run Tests ###
