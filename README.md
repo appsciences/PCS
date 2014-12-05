@@ -1,6 +1,7 @@
 # Installation #
 
 npm install
+npm run update-webdriver
 npm install -g bower
 bower install
 

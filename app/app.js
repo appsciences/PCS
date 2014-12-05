@@ -4,6 +4,8 @@
 angular.module('csp', [
     'ngRoute',
     'ui.bootstrap',
+    'ui.mask',
+    'ui.validate',
     'ui.select',
     'ngSanitize',
     'ui.grid',

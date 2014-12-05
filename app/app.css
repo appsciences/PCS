@@ -37,3 +37,10 @@ body {
   background-color: transparent !important;
   color: transparent !important;
 }
+
+input[type="text"].ng-invalid, input[type="email"].ng-invalid, .ui-select-bootstrap.ng-invalid {
+  border-color: #ED341C;
+  outline: 0;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(249, 124, 119, .6);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(249, 124, 119, .6);
+}
