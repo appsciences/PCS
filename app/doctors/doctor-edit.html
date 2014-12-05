@@ -3,20 +3,22 @@
     <div class="form-group">
         <fieldset style="margin-bottom: 10px">
             <legend>Name/Company</legend>
-            <div class="col-sm-4">
+            <div class="col-sm-4" ng-show="!doctor.company">
                 <input type="text" name="firstName" class="form-control" required="required"
                        ng-model="doctor.firstName" autofocus placeholder="First Name" tooltip-placement="bottom"
                        tooltip="First name"/>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-4" ng-show="!doctor.company">
                 <input type="text" name="lastName" class="form-control" required="required"
                        ng-model="doctor.lastName" placeholder="Last Name" tooltip-placement="bottom"
-                       tooltip="Last name"/>
+                       tooltip="Last name"
+                       />
             </div>
             <div class="col-sm-4">
                 <input type="text" name="company" class="form-control"
                        ng-model="doctor.company" placeholder="Company Name" tooltip-placement="bottom"
-                       tooltip="Company name" ng-invalid="true"/>
+                       tooltip="Company name" ng-invalid="true" required="required"
+                       ng-show="!doctor.firstName && !doctor.lastName"/>
             </div>
         </fieldset>
         <!--TODO: Accordions don't work mother father-->
@@ -168,7 +170,7 @@
             <fieldset style="margin-bottom:10px">
                 <legend>Specialties</legend>
                 <div class="col-sm-4">
-                    <ui-select multiple ng-model="doctor.specialties" ng-disabled="disabled" required="required">
+                    <ui-select multiple ng-model="doctor.specialties" ng-disabled="disabled" ui-validate="'validateSpecialties($doctor.specialties)'">
                         <ui-select-match placeholder="Specialties...">{{$item.name}}</ui-select-match>
                         <ui-select-choices
                                 repeat="specialty in specialties | filter:$select.search | orderBy: 'name'">
@@ -216,7 +218,7 @@
                     <textarea class="form-control" rows="3" data-ng-model="doctor.notes"></textarea>
                 </div>
             </fieldset>
-            
+
         </form>
     </div>
 

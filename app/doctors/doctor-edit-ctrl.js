@@ -81,11 +81,11 @@ angular.module('csp.doctor.ctrl')
                     {type: 'obj', filter: $filter('officeHours')}
                 ];
 
-                $scope.validateCompany = function() {
-                  if($scope.doctor.firstName.length>0) {
-                      return false;
-                  }
-                    return true;
+                $scope.validateSpecialties = function() {
+                    if($scope.doctor.specialties.length>0) {
+                        return true;
+                    }
+                    return false;
                 };
 
             }]
