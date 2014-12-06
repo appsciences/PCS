@@ -1,0 +1,21 @@
+<ng-include src="'shared/partials/modal-header.html'"></ng-include>
+<div class="modal-body" ng-class="modalClass">
+    <form name="namedForm">
+        <div class="form-group">
+            <fieldset>
+                <div class="col-sm-4">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" class="form-control" required="required"
+                           ng-model="model.name" placeholder="Name" tooltip-placement="bottom"
+                           tooltip="{{modelName}} Name"/>
+                </div>
+            </fieldset>
+        </div>
+
+        <div class="modal-footer" ng-class="modalClass">
+            <button type="button" class="btn" data-ng-click="close()">Cancel</button>
+            <button class="btn btn-primary" ng-disabled="!namedForm.$valid" data-ng-click="save()">Save</button>
+        </div>
+    </form>
+
+</div>

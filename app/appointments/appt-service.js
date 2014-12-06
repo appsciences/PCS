@@ -12,14 +12,14 @@ angular.module('csp.services.appt', [
 
                 }, {// Class methods
                     getById: parse.getByIdFunc(Appt, [
-                        'patient',
+                        'model',
                         'doctor',
                         'location'])
                 });
 
             //create simple props
             parse.model(Appt, [
-                "patient",
+                "model",
                 "doctor",
                 "location",
                 "date",
@@ -40,7 +40,7 @@ angular.module('csp.services.appt', [
         function (Appt) {
 
             var query = new Parse.Query(Appt);
-            query.include('patient');
+            query.include('model');
             query.include('doctor');
             query.include('location');
             return query.find();

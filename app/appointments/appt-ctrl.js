@@ -69,8 +69,8 @@ angular.module('csp.appt.ctrl', [])
                         label: 'Confirm2',
                         click: $scope.confirm2
                     }]},
-                {type: 'prop', name: 'patient', filter: $filter('fullName')},
-                {type: 'prop', name: 'patient', filter: $filter('phone')},
+                {type: 'prop', name: 'model', filter: $filter('fullName')},
+                {type: 'prop', name: 'model', filter: $filter('phone')},
                 {type: 'prop', name: 'doctor', filter: $filter('fullName')},
                 {type: 'prop', name: 'location', filter: $filter('toShortAddressAndPhone')},
                 'dateTime'

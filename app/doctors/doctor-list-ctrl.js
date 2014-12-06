@@ -75,15 +75,11 @@ angular.module('csp.doctor.ctrl', [
                     showModal(doctor);
                 };
 
-                $scope.referringListFields =
-                    [
-                        {
-                            type: 'editButton',
-                            click: $scope.edit
-                        },
-                        {type: 'obj', filter: $filter('fullName')},
-                        {type: 'vlist', name: 'locations', filter: $filter('toShortAddress')}
-                    ];
+                $scope.referringListFields = [
+                    {type: 'editButton', click: $scope.edit},
+                    {type: 'obj', filter: $filter('fullName')},
+                    {type: 'vlist', name: 'locations', filter: $filter('toShortAddress')}
+                ];
 
                 $scope.specialistListFields = $scope.referringListFields.push(
                     {type: 'prop', name: 'specialties', filter: $filter('nameList')}

@@ -3,9 +3,13 @@ angular.module('csp.services.patient', ['csp.services.insCarrier']).
         function (parse) {
             var Patient = Parse.Object.extend("Patient", {
                     // Instance methods
+                    initialize: function () {
+                        this.active = true;
+                    }
 
                 }, {// Class methods
-                    getById: function(id) {
+
+                    getById: function (id) {
                         var query = new Parse.Query(Patient);
                         return query.get(id);
                     }
@@ -16,6 +20,8 @@ angular.module('csp.services.patient', ['csp.services.insCarrier']).
                 [
                     "firstName",
                     "lastName",
+                    "address",
+                    "zip",
                     "phone",
                     "email",
                     "active",
@@ -32,7 +38,6 @@ angular.module('csp.services.patient', ['csp.services.insCarrier']).
         'PatientService',
         'InsCarrierService',
         function (Patient) {
-
             var query = new Parse.Query(Patient);
             return query.find();
         }]);

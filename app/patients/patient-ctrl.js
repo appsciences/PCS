@@ -5,14 +5,13 @@ angular.module('csp.patient.ctrl', [])
         [
             '$scope',
             '$modal',
+            '$filter',
             'patients',
             'insCarrierListService',
             'PatientService',
-            function ($scope, $modal, patients, insCarriers, Patient) {
+            function ($scope, $modal, $filter, patients, insCarriers, Patient) {
 
                 $scope.patients = patients;
-
-                $scope.headerButtons = [ {label: 'Add', click: $scope.add, id: 'addPatientButton'} ];
 
                 var showModal = function (patient) {
                     var modalInstance = $modal.open({
@@ -29,48 +28,71 @@ angular.module('csp.patient.ctrl', [])
                     });
 
                     modalInstance.result.then(function (patient) {
+                        var addNewPatient = patient.isNew();
+
                         patient.save().then(function (patient) {
-                            $scope.patients.refresh();
+                            if (addNewPatient) {
+                                $scope.patients.push(patient);
+                            }
                         }, function (err) {
                             //TODO: Patient Save Error
+                            err;
                         });
 
                     }, function (err) {
                         //TODO: Modal Result Error
+                        err;
                     });
 
-                }
+                };
 
                 $scope.add = function () {
                     showModal(new Patient());
-                }
+                };
 
                 $scope.edit = function (patient) {
-                    showModal(Patient.getById(patient));
+                    showModal(patient);
                 };
-    }]).
+
+                $scope.headerButtons = [ {label: 'Add', click: $scope.add, id: 'addPatientButton'} ];
+
+                $scope.headings = [ '', 'Name', 'Address', 'Zip Code', 'Phone' ];
+
+
+                $scope.fields = [
+                    {type: 'editButton', click: $scope.edit},
+                    {type: 'obj', filter: $filter('fullName')},
+                    "address",
+                    "zip",
+                    "phone"
+                ];
+            }
+        ]
+    ).
 
     controller(
-    'patientEditCtrl', [
-        '$scope',
-        '$modalInstance',
-        'patient',
-        'insCarriers',
-        function($scope, $modalInstance, patient, insCarriers) {
+        'patientEditCtrl',
+        [
+            '$scope',
+            '$modalInstance',
+            'patient',
+            'insCarriers',
+            function ($scope, $modalInstance, patient, insCarriers) {
 
-            //header text
-            $scope.headerText = patient.isNew() ? 'New Patient' : 'Edit Patient';
+                //header text
+                $scope.headerText = patient.isNew() ? 'New Patient' : 'Edit Patient';
 
-            $scope.patient = patient;
+                $scope.patient = patient;
 
-            $scope.insCarriers = insCarriers;
+                $scope.insCarriers = insCarriers;
 
-            $scope.save = function () {
-                $modalInstance.close($scope.patient);
-            };
+                $scope.save = function () {
+                    $modalInstance.close($scope.patient);
+                };
 
-            $scope.close = function () {
-                $modalInstance.dismiss('cancel');
-            };
+                $scope.close = function () {
+                    $modalInstance.dismiss('cancel');
+                };
 
-        }]);
+            }]
+    );

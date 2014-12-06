@@ -22,6 +22,8 @@ describe('Patient Service Test', function () {
 
             expect(model).toBeDefined();
 
+            expect(model.active).toBe(true);
+
             model.firstName = "foo";
 
             expect(model.firstName).toBeDefined();

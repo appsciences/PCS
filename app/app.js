@@ -19,7 +19,8 @@ angular.module('csp', [
     //Controllers
     'csp.doctor.ctrl',
     'csp.appt.ctrl',
-    'csp.patient.ctrl'
+    'csp.patient.ctrl',
+    'csp.shared.ctrl'
 
 ]).
 //need a loading indicator for routes if backend and thus resolve is slow
@@ -47,8 +48,45 @@ angular.module('csp', [
                     appts: 'apptListService'
                 }
             }).
+            when('/admin', {
+                templateUrl: 'appointments/appt-list.html',
+                controller: 'apptCtrl',
+                resolve: {
+                    appts: 'apptListService'
+                }
+            }).
+            when('/specialties', {
+                templateUrl: 'shared/partials/named-list.html',
+                controller: 'namedCtrl',
+                resolve: {
+                    models: 'specialtyListService',
+                    ModelService: 'SpecialtyService',
+                    modelName: function () {
+                        return 'Specialty';
+                    }
+                }
+            }).
+            when('/insCarriers', {
+                templateUrl: 'shared/partials/named-list.html',
+                controller: 'namedCtrl',
+                resolve: {
+                    models: 'insCarrierListService',
+                    ModelService: 'InsCarrierService',
+                    modelName: function () {
+                        return 'Insurance Carrier';
+                    }
+                }
+            }).
+            when('/users', {
+                templateUrl: 'appointments/appt-list.html',
+                controller: 'apptCtrl',
+                resolve: {
+                    appts: 'apptListService'
+                }
+            }).
+
             otherwise({
-                redirectTo: '/'
+                templateUrl: 'shared/partials/dashboard.html'
             });
 
         // TODO: Turn into service
