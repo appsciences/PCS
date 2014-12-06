@@ -1,53 +1,57 @@
 <ng-include src="'shared/partials/modal-header.html'"></ng-include>
 <div class="modal-body" ng-class="modalClass">
-    <form name="userMain">
+    <form name="patientForm">
         <div class="form-group">
             <fieldset >
                 <legend>Name/Birth Date</legend>
                 <div class="col-sm-4">
-
-                    <input type="text" class="form-control" required="required"
+                    <label for="firstName">First Name</label>
+                    <input type="text" id="firstName" class="form-control" required="required"
                            ng-model="patient.firstName" placeholder="First Name" tooltip-placement="bottom"
                            tooltip="First name"/>
                 </div>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" required="required"
+                    <label for="lastName">Last Name</label>c
+                    <input type="text" id="lastName" class="form-control" required="required"
                            ng-model="patient.lastName" placeholder="Last Name" tooltip-placement="bottom"
                            tooltip="Last name"/>
                 </div>
                 <div class="col-sm-3">
-                    <input type="date" class="form-control" required="required"
+                    <label for="dob">Last Name</label>c
+                    <input type="date" id="dob" class="form-control"
                            ng-model="patient.dob" placeholder="Birth Date" tooltip-placement="bottom"
                            tooltip="Birth Date"/>
                 </div>
 
             </fieldset>
             <fieldset style="margin-top:10px">
-                <legend>Address</legend>
+                <label for="address">Address</label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" required="required"
+                    <input type="text" id="address" class="form-control"
                            ng-model="patient.address" placeholder="Address" tooltip-placement="bottom"
                            tooltip="Address"/>
                 </div>
-                <div class="col-sm-4">
-                    <input type="text" class="form-control" required="required"
-                           ng-model="patient.city" placeholder="City" tooltip-placement="bottom"
-                           tooltip="City"/>
-                </div>
                 <div class="col-sm-2">
-                    <input type="text" class="form-control" required="required" maxlength="5"
-                           ng-model="patient.dob" placeholder="Zip Code" tooltip-placement="bottom"
-                           tooltip="Zip Code"/>
+                        <label for="zip">Zip Code</label>
+                        <input type="text"
+                               id="zip"
+                               maxlegth="5"
+                               class="form-control input-sm"
+                               ng-model="location.zip"
+                               title="Zip Code e.g. 11355"
+                               ui-mask="99999"
+                               ui-validate="$value.length == 5"/>
                 </div>
             </fieldset>
             <fieldset style="margin-top:10px">
-                <legend>Contact Info</legend>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" required="required"
+                    <label for="phone">Phone</label>
+                    <input type="text" id="phone" class="form-control" required="required"
                        ng-model="patient.phone" placeholder="Phone" tooltip-placement="bottom"
                        tooltip="First name"/>
                 </div>
                 <div class="col-sm-4">
+                    <label for="phone">Email</label>
                     <input type="text" class="form-control" required="required"
                            ng-model="patient.email" placeholder="Email" tooltip-placement="bottom"
                            tooltip="Last name"/>
@@ -56,7 +60,6 @@
             <fieldset style="margin-top:10px">
                 <legend>Insurance</legend>
                 <div class="col-sm-4">
-
                      <ui-select multiple ng-model="patient.insCarriers" ng-disabled="disabled">
                         <ui-select-match placeholder="Insurance...">{{$item.name}}</ui-select-match>
                         <ui-select-choices
@@ -80,6 +83,6 @@
 
     <div class="modal-footer" ng-class="modalClass">
         <button type="button" class="btn" data-ng-click="close()">Cancel</button>
-        <button class="btn btn-primary" data-ng-click="save()">Save</button>
+        <button class="btn btn-primary" ng-disabled="use" data-ng-click="save()">Save</button>
     </div>
 </div>

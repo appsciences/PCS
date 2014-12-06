@@ -4,9 +4,16 @@ angular.module('csp.services.parse', []).
 
         var parseService = {};
 
+        /**TODO:
+         * While Parse object is global, let's hang it off here to be more "Angular". This also helps with not having to
+         * include $window everywhere or use global Parse and get linter bitchin'
+         */
+
+
+
         /**
-         * Parse objects use 'get()' and 'set()' to get and set values. Angular likes staight up JS objects
-         * Given Parse class and a list of props this will wrap getters and setters to function like JS objects
+         * Parse objects use 'get()' and 'set()' to get and set values. Angular likes straight up JS objects
+         * Given Parse class and a list of props this will wrap getters and setters into good old JS props
          *
          * Given Parse class name
          * @param ParseClass
@@ -62,8 +69,9 @@ angular.module('csp.services.parse', []).
          * TODO: In need of better solution, seems like a hack
          *
          * It is some times necessary to flatten a result returned from the database
-         * e.g. instead of Doctors; [name:'name', locations[{adress:'address'}] we want a list by address
-         * as in [{address:'address', doctorName:'name' ...
+         * e.g. instead of hierarchical Doctors->Locaitons e.g. [name:'name', locations[{adress:'address'}] we want a list by location
+         * as in Locations: [{address:'address', doctorName:'name' ...
+         * This is where relational would be useful.
          *
          *
          * @param outerCollection

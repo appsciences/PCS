@@ -29,7 +29,7 @@ angular.module('csp.doctor.ctrl', [
                         templateUrl: 'doctors/doctor-edit.html',
                         controller: 'doctorEditCtrl',
                         resolve: {
-                            doctor: function () {return doctor;},
+                            doctor: function () {return doctor; },
                             specialties: function () {return specialties; },
                             insCarriers: function () {return insCarriers; },
                             salesPeople: function () {return salesPeople; }
@@ -50,11 +50,12 @@ angular.module('csp.doctor.ctrl', [
                             },
                             function (err) {
                                 //TODO: Docor Save Error
-                                var a = err;
+                                err;
                             }
                         );
                     }, function (err) {
                         //TODO: Modal Result Error
+                        err;
                     });
                 };
 
@@ -74,23 +75,19 @@ angular.module('csp.doctor.ctrl', [
                     showModal(doctor);
                 };
 
-                var listFields =
+                $scope.referringListFields =
                     [
                         {
                             type: 'editButton',
                             click: $scope.edit
                         },
                         {type: 'obj', filter: $filter('fullName')},
-                        {type: 'prop', name: 'specialties', filter: $filter('nameList')},
                         {type: 'vlist', name: 'locations', filter: $filter('toShortAddress')}
                     ];
 
-                $scope.headings = ['', 'Name', 'Specialty', 'Locations'];
-
-                $scope.referringListFields =
-                    $scope.specialistListFields =
-                    $scope.inactiveListFields = listFields;
-
+                $scope.specialistListFields = $scope.referringListFields.push(
+                    {type: 'prop', name: 'specialties', filter: $filter('nameList')}
+                );
             }
         ]
     );
