@@ -74,13 +74,10 @@ angular.module('csp.doctor.ctrl', [
                 $scope.edit = function (doctor) {
                     showModal(doctor);
                 };
-                $scope.headings = [ '', 'Name', 'Address', 'Zip Code', 'Phone' ];
 
                 $scope.referringHeadings = [ '', 'Name', 'Locations' ];
 
                 $scope.specialistHeadings = $scope.referringHeadings.concat('Specialties');
-
-
 
                 $scope.referringListFields = [
                     {type: 'editButton', click: $scope.edit},

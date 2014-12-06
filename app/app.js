@@ -55,7 +55,7 @@ angular.module('csp', [
                     appts: 'apptListService'
                 }
             }).
-            when('/specialties', {
+            when('/admin/specialties', {
                 templateUrl: 'shared/partials/named-list.html',
                 controller: 'namedCtrl',
                 resolve: {
@@ -66,7 +66,7 @@ angular.module('csp', [
                     }
                 }
             }).
-            when('/insCarriers', {
+            when('/admin/insCarriers', {
                 templateUrl: 'shared/partials/named-list.html',
                 controller: 'namedCtrl',
                 resolve: {
@@ -77,8 +77,8 @@ angular.module('csp', [
                     }
                 }
             }).
-            when('/users', {
-                templateUrl: 'appointments/appt-list.html',
+            when('admin/users', {
+                templateUrl: 'shared/partials/admin-dashboard.html',
                 controller: 'apptCtrl',
                 resolve: {
                     appts: 'apptListService'

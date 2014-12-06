@@ -50,7 +50,7 @@ angular.module('csp.directive.listDirective', [])
             return '';
         };
     }).filter('officeHours', ['$filter', function ($filter) {
-        return function(officeHoursEntry){
+        return function (officeHoursEntry) {
             if (officeHoursEntry && officeHoursEntry.startTime && officeHoursEntry.endTime) {
                 return $filter('date')(officeHoursEntry.startTime, "EEE h:mm a") + ' - ' +
                     $filter('date')(officeHoursEntry.endTime, "h:mm a");

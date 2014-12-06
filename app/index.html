@@ -17,9 +17,9 @@
     <ng-include src="'shared/partials/header.html'" onload="username='Leo'"></ng-include>
 
     <div class="col-sm-2" ng-controller="menuCtrl">
-      <!--<ng-include ng-if="$location.path().indexOf('admin') === -1" src="'shared/partials/main-menu.html'"></ng-include>-->
-      <ng-include src="'shared/partials/main-menu.html'"></ng-include>
-      <!--<ng-include ng-if="$location.path().indexOf('admin') > -1" src="'shared/partials/admin-menu.html'"></ng-include>-->
+      <ng-include ng-if="$location.path().indexOf('admin') === -1" src="'shared/partials/main-menu.html'"></ng-include>
+      <!--<ng-include src="'shared/partials/main-menu.html'"></ng-include>-->
+      <ng-include ng-if="$location.path().indexOf('admin') > -1" src="'shared/partials/admin-menu.html'"></ng-include>
 
     </div>
     <div class="col-sm-10" ng-view></div>
