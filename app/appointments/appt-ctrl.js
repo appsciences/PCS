@@ -118,7 +118,7 @@ angular.module('csp.appt.ctrl', [])
             $scope.resultHeadings = ['', 'Doctor', 'Specialties', 'Insurance', 'Address', 'Phone', 'Office Hours'];
 
             $scope.resultFields = [
-                {type: 'buttons', buttons: [{type: 'select', click: $scope.select}]},
+                {type: 'selectButton', click: $scope.select},
                 {type: 'obj', filter: $filter('fullName')},
                 {type: 'prop', name: 'specialties', filter: $filter('nameList')},
                 {type: 'prop', name: 'insCarrierNames', filter: $filter('nameList')},
@@ -128,6 +128,5 @@ angular.module('csp.appt.ctrl', [])
             ];
 
             $scope.searchParams = {isSpecialist: true};
-            $scope.searchParams = {};
 
         }]);

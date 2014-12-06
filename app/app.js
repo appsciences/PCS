@@ -49,7 +49,7 @@ angular.module('csp', [
                 }
             }).
             when('/admin', {
-                templateUrl: 'appointments/appt-list.html',
+                templateUrl: 'shared/partials/admin-dashboard.html',
                 controller: 'apptCtrl',
                 resolve: {
                     appts: 'apptListService'
@@ -91,5 +91,15 @@ angular.module('csp', [
 
         // TODO: Turn into service
         //Parse initialization including keys
-        Parse.initialize("WqDGRd0E9ntpvRiU0OlDRYrEr19GflSzWrSzh5kZ", "hqQLu9cUbwFeIPcunmNnBK9VGKD10plbNFMaAgcp");
+        //PCS-mail Parse.initialize("WqDGRd0E9ntpvRiU0OlDRYrEr19GflSzWrSzh5kZ", "hqQLu9cUbwFeIPcunmNnBK9VGKD10plbNFMaAgcp");
+        //pcs-test
+        Parse.initialize("SQ5lAttlyexQHRcMB08np25VvkaXszQH1ryHSGSj", "ytefvQ5TqFQtFtJQ9YRJKwDmi7MSsVXSZeVMsSbe");
+
+    }]).
+
+    controller('menuCtrl', ['$scope', '$location', '$window', function ($scope, $location, $window) {
+
+        $scope.$location = $location;
+        $scope.$window = $window;
+
     }]);

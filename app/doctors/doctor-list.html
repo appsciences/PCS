@@ -12,7 +12,7 @@
             {{tab.content}}
             <pcs-list
                     class="'tab-pane active'"
-                    headings="headings"
+                    headings="referringHeadings"
                     filter-expression="{active:true, isReferring:true}"
                     fields="referringListFields"
                     rows="doctors"
@@ -25,7 +25,7 @@
                     class="'tab-pane'"
                     headings="headings"
                     filter-expression="{active:true, isSpecialist:true}"
-                    fields="specialistListFields"
+                    fields="specialistHeadings"
                     rows="doctors"
                     ></pcs-list>
         </tab>

@@ -15,9 +15,9 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'bower_components/angular/angular.js',
-      'bower_components/angular-mocks/angular-mocks.js',   // for angular.mock.module and inject.
-      'bower_components/moment/moment.js',
+      'app/bower_components/angular/angular.js',
+      'app/bower_components/angular-mocks/angular-mocks.js',   // for angular.mock.module and inject.
+      'app/bower_components/moment/moment.js',
       'components/low-dash/lodash.min.js',
       'components/parse/parse-1.3.1.min.js',
       'app/parse-init.js',

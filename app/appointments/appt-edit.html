@@ -2,6 +2,8 @@
 
 <div class="modal-body" ng-class="modalClass">
     <!--Doctor Search-->
+    <legend>Choose Specialist</legend>
+
     <div class="panel panel-default">
 
         <div class="panel-heading">
@@ -114,8 +116,7 @@
         </div>
     </div>
     <!--Appt Details-->
-    Search Params: {{searchParams}}
-
+    <!--<pre>Search Params: {{searchParams}}</pre>-->
     <pcs-list
             $log = $log
             headings="resultHeadings"
@@ -123,7 +124,8 @@
             fields="resultFields"
             rows="resultRows"
     ></pcs-list>
-    <!--Patient-->
+
+    <legend>Appointment Details</legend>
     <form name="mainForm" class="form-horizontal">
         <!--Patients-->
         <div class="form-group">

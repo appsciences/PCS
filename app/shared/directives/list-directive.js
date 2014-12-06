@@ -37,7 +37,7 @@ angular.module('csp.directive.listDirective', [])
         return function (location) {
 
             if (location && location.address && location.city && location.phone) {
-                return location.address + ' ' + location.city + ' Phone: ' + location.phone;
+                return location.address + ' ' + location.city + ' Ph: ' + location.phone;
             }
             return '';
         };

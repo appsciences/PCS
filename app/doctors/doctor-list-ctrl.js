@@ -74,14 +74,21 @@ angular.module('csp.doctor.ctrl', [
                 $scope.edit = function (doctor) {
                     showModal(doctor);
                 };
+                $scope.headings = [ '', 'Name', 'Address', 'Zip Code', 'Phone' ];
+
+                $scope.referringHeadings = [ '', 'Name', 'Locations' ];
+
+                $scope.specialistHeadings = $scope.referringHeadings.concat('Specialties');
+
+
 
                 $scope.referringListFields = [
                     {type: 'editButton', click: $scope.edit},
                     {type: 'obj', filter: $filter('fullName')},
-                    {type: 'vlist', name: 'locations', filter: $filter('toShortAddress')}
+                    {type: 'vlist', name: 'locations', filter: $filter('toShortAddressAndPhone')}
                 ];
 
-                $scope.specialistListFields = $scope.referringListFields.push(
+                $scope.specialistListFields = $scope.referringListFields.concat(
                     {type: 'prop', name: 'specialties', filter: $filter('nameList')}
                 );
             }
