@@ -91,9 +91,8 @@ angular.module('csp', [
 
         // TODO: Turn into service
         //Parse initialization including keys
-        //PCS-mail Parse.initialize("WqDGRd0E9ntpvRiU0OlDRYrEr19GflSzWrSzh5kZ", "hqQLu9cUbwFeIPcunmNnBK9VGKD10plbNFMaAgcp");
-        //pcs-test
-        Parse.initialize("SQ5lAttlyexQHRcMB08np25VvkaXszQH1ryHSGSj", "ytefvQ5TqFQtFtJQ9YRJKwDmi7MSsVXSZeVMsSbe");
+        //PCS-dev
+        Parse.initialize("WqDGRd0E9ntpvRiU0OlDRYrEr19GflSzWrSzh5kZ", "hqQLu9cUbwFeIPcunmNnBK9VGKD10plbNFMaAgcp");
 
     }]).
 

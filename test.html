@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+<!-- test file for experimentation -->
+
 <html>
 <head lang="en">
     <meta charset="UTF-8">
@@ -11,14 +13,20 @@
 <div id="addReferringButton"></div>
 
 
-<!--<script type="text/javascript" src="components/parse/parse-1.3.1.min.js"></script>-->
+<script type="text/javascript" src="app/bower_components/parse/parse.min.js"></script>
 
-<!--<script type="text/javascript">-->
-//    Parse.initialize("WqDGRd0E9ntpvRiU0OlDRYrEr19GflSzWrSzh5kZ", "hqQLu9cUbwFeIPcunmNnBK9VGKD10plbNFMaAgcp");
-//    var Doc = Parse.Object.extend("Doctor");
-//    var Loc = Parse.Object.extend("Location");
-//    var loc = new Loc();
-//    var doc = new Doc();
+<script type="text/javascript">
+
+    //Parse.initialize("WqDGRd0E9ntpvRiU0OlDRYrEr19GflSzWrSzh5kZ", "hqQLu9cUbwFeIPcunmNnBK9VGKD10plbNFMaAgcp");
+    //dev
+    Parse.initialize("SQ5lAttlyexQHRcMB08np25VvkaXszQH1ryHSGSj", "ytefvQ5TqFQtFtJQ9YRJKwDmi7MSsVXSZeVMsSbe");
+
+
+
+    var Doc = Parse.Object.extend("Doctor");
+    var Loc = Parse.Object.extend("Location");
+    var loc = new Loc();
+    var doc = new Doc();
 //
 //    doc.set("firstName", "leo");
 //    loc.set("address", "1 1st st");
@@ -62,7 +70,7 @@
 //                console.log(err);
 //            }
 //    );
-<!--</script>-->
+</script>
 
 </body>
 </html>
