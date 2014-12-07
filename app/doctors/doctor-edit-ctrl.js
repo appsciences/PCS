@@ -82,7 +82,14 @@ angular.module('csp.doctor.ctrl')
                 ];
 
                 $scope.validateSpecialties = function() {
-                    if($scope.doctor.specialties.length>0) {
+                    if($scope.doctor.specialties !== undefined && $scope.doctor.specialties.length>0) {
+                        return true;
+                    }
+                    return false;
+                };
+
+                $scope.validateInsCarriers = function() {
+                    if($scope.doctor.insCarriers !== undefined && $scope.doctor.insCarriers.length>0) {
                         return true;
                     }
                     return false;
