@@ -25,7 +25,9 @@ angular.module('csp.appt.ctrl', [])
                         },
                         specialties: function () { return specialties; },
                         insCarriers: function () { return insCarriers; },
-                        doctors: function () { return doctors; },
+                        doctors: function () {
+                            return doctors;
+                        },
                         locations: function () { return locations; },
                         patients: function () { return patients; }
                     },
@@ -120,13 +122,17 @@ angular.module('csp.appt.ctrl', [])
             $scope.resultFields = [
                 {type: 'selectButton', click: $scope.select},
                 {type: 'obj', filter: $filter('fullName')},
-                {type: 'prop', name: 'specialties', filter: $filter('nameList')},
+                {type: 'prop', name: 'doctorspecialties', filter: $filter('nameList')},
                 {type: 'prop', name: 'insCarrierNames', filter: $filter('nameList')},
                 {type: 'obj', filter: $filter('toShortAddress')},
                 'phone',
                 {type: 'list', fieldName: 'officeHoursListUnBoxed'}
             ];
 
-            $scope.searchParams = {isSpecialist: true};
+            console.log($scope.resultRows);
+
+            $scope.searchParams = {
+                'doctorisSpecialist': true
+            };
 
         }]);

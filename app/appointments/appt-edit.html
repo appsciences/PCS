@@ -41,7 +41,7 @@
                         <!--TODO: Filtering should be "or"-->
                         <div class="col-sm-4">
                             <div class="input-group">
-                                <ui-select ng-model="searchParams.doctorSpecialties" ng-disabled="disabled">
+                                <ui-select ng-model="searchParams.doctorspecialties" ng-disabled="disabled">
                                     <ui-select-match placeholder="Specialty...">{{$select.selected.name}}</ui-select-match>
                                     <ui-select-choices repeat="specialty.name as specialty in specialties | filter:$select.search | orderBy: 'name'">
                                         <div ng-bind-html="specialty.name.htmlSafe | highlight: $select.search"></div>
@@ -49,7 +49,7 @@
                                     </ui-select-choices>
                                 </ui-select>
                                 <span class="input-group-btn">
-                                    <button ng-click="searchParams.doctorSpecialties = undefined" class="btn btn-default">
+                                    <button ng-click="searchParams.doctorspecialties = undefined" class="btn btn-default">
                                         <span class="glyphicon glyphicon-trash"></span>
                                     </button>
                                 </span>
@@ -117,13 +117,14 @@
     </div>
     <!--Appt Details-->
     <!--<pre>Search Params: {{searchParams}}</pre>-->
+
+    <!--{{resultRows}}-->
     <pcs-list
             $log = $log
             headings="resultHeadings"
             filter-expression="searchParams"
             fields="resultFields"
-            rows="resultRows"
-    ></pcs-list>
+            rows="resultRows"></pcs-list>
 
     <legend>Appointment Details</legend>
     <form name="mainForm" class="form-horizontal">

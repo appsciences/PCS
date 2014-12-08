@@ -26,6 +26,8 @@ angular.module('csp.doctor.ctrl')
 
                 $scope.doctor = doctor;
 
+                $scope.docSpec = angular.copy($scope.doctor.specialties);
+
                 $scope.specialties = specialties;
 
                 $scope.insCarriers = insCarriers;

@@ -55,7 +55,8 @@ angular.module('csp.services.doctor', [
                         "active",
                         "specialties",
                         "locations",
-                        "note"
+                        "note",
+                        "type"
                     ]
                 );
 
@@ -88,10 +89,25 @@ angular.module('csp.services.doctor', [
         'SpecialtyService',
         'InsCarrierService',
         'LocationService',
-        function (Doctor, Specialty, InsCarrier, Location) {
+        '$q',
+        function (Doctor, Specialty, InsCarrier, Location,$q) {
+            var defer = $q.defer();
             var query = new Parse.Query(Doctor);
+
             query.include('specialties');
             query.include('insCarriers');
             query.include('locations');
-            return query.find();
+
+            query.find({
+                success : function(aPresentations) {
+                    defer.resolve(aPresentations);
+                },
+                error : function(aError) {
+                    defer.reject(aError);
+                }
+            });
+
+            return defer.promise;
+
+            //return query.find();
         }]);

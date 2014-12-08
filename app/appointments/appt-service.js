@@ -32,16 +32,28 @@ angular.module('csp.services.appt', [
 
     service('apptListService', [
         'ApptService',
+        '$q',
         'PatientService',
         'DoctorService',
         'SpecialtyService',
         'InsCarrierService',
         'LocationService',
-        function (Appt) {
-
+        function (Appt,$q) {
+            var defer = $q.defer();
             var query = new Parse.Query(Appt);
+
             query.include('model');
             query.include('doctor');
             query.include('location');
-            return query.find();
+
+            query.find({
+                success : function(aPresentations) {
+                    defer.resolve(aPresentations);
+                },
+                error : function(aError) {
+                    defer.reject(aError);
+                }
+            });
+
+            return defer.promise;
         }]);
