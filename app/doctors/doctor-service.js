@@ -89,8 +89,9 @@ angular.module('csp.services.doctor', [
         'SpecialtyService',
         'InsCarrierService',
         'LocationService',
+        'notify',
         '$q',
-        function (Doctor, Specialty, InsCarrier, Location,$q) {
+        function (Doctor, Specialty, InsCarrier, Location, notify, $q) {
             var defer = $q.defer();
             var query = new Parse.Query(Doctor);
 
@@ -103,6 +104,7 @@ angular.module('csp.services.doctor', [
                     defer.resolve(aPresentations);
                 },
                 error : function(aError) {
+                    notify({ message:'We are sorry. There has been an error while retrieving the doctors list.', classes: 'alert-danger' });
                     defer.reject(aError);
                 }
             });

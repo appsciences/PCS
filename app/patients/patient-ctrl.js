@@ -29,16 +29,9 @@ angular.module('csp.patient.ctrl', [])
 
                     modalInstance.result.then(function (patient) {
                         var addNewPatient = patient.isNew();
-
-                        patient.save().then(function (patient) {
-                            if (addNewPatient) {
-                                $scope.patients.push(patient);
-                            }
-                        }, function (err) {
-                            //TODO: Patient Save Error
-                            err;
-                        });
-
+                        if (addNewPatient) {
+                            $scope.patients.push(patient);
+                        }
                     }, function (err) {
                         //TODO: Modal Result Error
                         err;
@@ -77,7 +70,8 @@ angular.module('csp.patient.ctrl', [])
             '$modalInstance',
             'patient',
             'insCarriers',
-            function ($scope, $modalInstance, patient, insCarriers) {
+            'notify',
+            function ($scope, $modalInstance, patient, insCarriers, notify) {
 
                 //header text
                 $scope.headerText = patient.isNew() ? 'New Patient' : 'Edit Patient';
@@ -87,12 +81,16 @@ angular.module('csp.patient.ctrl', [])
                 $scope.insCarriers = insCarriers;
 
                 $scope.save = function () {
-                    $modalInstance.close($scope.patient);
+                    patient.save().then(function (patient) {
+                        $modalInstance.close($scope.patient);
+                    }, function (err) {
+                        notify({ message:'We are sorry. There has been an error while saving the patient data.', classes: 'alert-danger' });
+                        err;
+                    });
                 };
 
                 $scope.close = function () {
                     $modalInstance.dismiss('cancel');
                 };
-
             }]
     );

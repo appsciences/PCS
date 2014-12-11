@@ -6,3 +6,7 @@ components/
 tmp
 .DS_Store
 .idea
+.classpath
+.project
+.settings/
+target/

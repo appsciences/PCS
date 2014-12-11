@@ -36,13 +36,9 @@ angular.module('csp.appt.ctrl', [])
                 });
 
                 modalInstance.result.then(function (appt) {
-                    appt.save().then(function (appt) {
+                    if(appt.isNew()) {
                         $scope.appts.push(appt);
-                    }, function (err) {
-                        //TODO: Appt Save Error
-                        var p = err;
-                    });
-
+                    }
                 }, function (err) {
                     //TODO: Modal Result Error
                 });
@@ -91,7 +87,8 @@ angular.module('csp.appt.ctrl', [])
         'specialties',
         'insCarriers',
         'locations',
-        function ($scope, $modal, $log, $filter, appt, patients, doctors, specialties, insCarriers, locations) {
+        'notify',
+        function ($scope, $modal, $log, $filter, appt, patients, doctors, specialties, insCarriers, locations, notify) {
 
             //header text
             $scope.headerText = appt.isNew() ? 'New Appointment' : 'Edit Appointment';
@@ -105,7 +102,11 @@ angular.module('csp.appt.ctrl', [])
             $scope.resultRows = locations;
 
             $scope.save = function () {
-                $modal.close($scope.appt);
+                appt.save().then(function (appt) {
+                    $modal.close($scope.appt);
+                }, function (err) {
+                    notify({ message:'We are sorry. There has been an error while saving the appointment data.', classes: 'alert-danger' });
+                });
             };
 
             $scope.close = function () {

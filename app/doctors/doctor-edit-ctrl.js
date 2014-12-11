@@ -13,7 +13,8 @@ angular.module('csp.doctor.ctrl')
             'salesPeople',
             'LocationService',
             'OfficeHoursService',
-            function ($scope, $log, $filter, $modalInstance, doctor, specialties, insCarriers, salesPeople, Location, OfficeHours) {
+            'notify',
+            function ($scope, $log, $filter, $modalInstance, doctor, specialties, insCarriers, salesPeople, Location, OfficeHours, notify) {
 
                 $scope.headerText = (doctor.isNew() ? 'New ' : 'Edit ') +
                     (doctor.isReferring ? "Referring Doctor" : "Specialist");
@@ -37,7 +38,16 @@ angular.module('csp.doctor.ctrl')
                 $scope.location = new Location();
 
                 $scope.save = function () {
-                    $modalInstance.close($scope.doctor);
+                    doctor.save().then(
+                        function () {
+                            //TODO: This only works for adds and does not fully refresh the list (in case of edits). Need hard refresh
+                            //$route.reload(); -- doesn't work
+                            $modalInstance.close($scope.doctor);
+                        },
+                        function (err) {
+                            notify({ message:'We are sorry. There has been an error while saving the doctors data.', classes: 'alert-danger' });
+                        }
+                    );
                 };
 
                 $scope.close = function () {
