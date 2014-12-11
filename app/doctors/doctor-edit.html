@@ -2,28 +2,30 @@
 
 <div class="modal-body" ng-class="modalClass" id="{{dialogId}}">
     <div class="form-group">
-        <fieldset style="margin-bottom: 10px">
-            <legend>Name/Company</legend>
-            <div class="col-sm-4">
-                <label for="firstName">First Name</label>
-                <input type="text" id="firstName" class="form-control" required="required"
-                       ng-model="doctor.firstName" autofocus placeholder="First Name" tooltip-placement="bottom"
-                       tooltip="First name"/>
-            </div>
-            <div class="col-sm-4">
-                <label for="lastName">Last Name</label>
-                <input type="text" id="lastName" class="form-control" required="required"
-                       ng-model="doctor.lastName" placeholder="Last Name" tooltip-placement="bottom"
-                       tooltip="Last name"
-                        />
-            </div>
-            <div class="col-sm-4">
-                <label for="company">Company</label>
-                <input type="text" id="company" class="form-control"
-                       ng-model="doctor.company" placeholder="Company Name" tooltip-placement="bottom"
-                       tooltip="Company name" ng-invalid="true"/>
-            </div>
-        </fieldset>
+        <ng-form name="doctorForm">
+            <fieldset style="margin-bottom: 10px">
+                <legend>Name/Company</legend>
+                <div class="col-sm-4">
+                    <label for="firstName">First Name</label>
+                    <input type="text" id="firstName" class="form-control" required="required"
+                           ng-model="doctor.firstName" autofocus placeholder="First Name" tooltip-placement="bottom"
+                           tooltip="First name"/>
+                </div>
+                <div class="col-sm-4">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" id="lastName" class="form-control" required="required"
+                           ng-model="doctor.lastName" placeholder="Last Name" tooltip-placement="bottom"
+                           tooltip="Last name"
+                            />
+                </div>
+                <div class="col-sm-4">
+                    <label for="company">Company</label>
+                    <input type="text" id="company" class="form-control"
+                           ng-model="doctor.company" placeholder="Company Name" tooltip-placement="bottom"
+                           tooltip="Company name" ng-invalid="true"/>
+                </div>
+            </fieldset>
+        </ng-form>
         <!--TODO: Accordions don't work mother father-->
         <!-- locations -->
         <div class="panel panel-default">
@@ -180,7 +182,7 @@
         </div>
 
 
-        <ng-form name="doctorForm">
+        <ng-form name="doctorDetailsForm">
             <!-- Specialties -->
             <fieldset style="margin-bottom:10px" ng-if="doctor.isSpecialist">
                 <legend>Specialties</legend>

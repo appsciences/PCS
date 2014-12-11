@@ -6,6 +6,7 @@ angular.module('csp.doctor.ctrl')
             '$scope',
             '$log',
             '$filter',
+            '$modal',
             '$modalInstance',
             'doctor',
             'specialties',
@@ -13,7 +14,7 @@ angular.module('csp.doctor.ctrl')
             'salesPeople',
             'LocationService',
             'OfficeHoursService',
-            function ($scope, $log, $filter, $modalInstance, doctor, specialties, insCarriers, salesPeople, Location, OfficeHours) {
+            function ($scope, $log, $filter, $modal, $modalInstance, doctor, specialties, insCarriers, salesPeople, Location, OfficeHours) {
 
                 $scope.headerText = (doctor.isNew() ? 'New ' : 'Edit ') +
                     (doctor.isReferring ? "Referring Doctor" : "Specialist");
@@ -36,12 +37,33 @@ angular.module('csp.doctor.ctrl')
 
                 $scope.location = new Location();
 
+                var showConfirmModal = function () {
+                    var modalInstance = $modal.open({
+                        templateUrl: 'shared/partials/modal-confirm.html',
+                        controller: 'modalConfirmCtrl',
+                        size: 'sm'
+                    });
+
+                    modalInstance.result.then(function () {
+                        $modalInstance.dismiss('cancel');
+                    }, null);
+                };
+
                 $scope.save = function () {
                     $modalInstance.close($scope.doctor);
                 };
 
                 $scope.close = function () {
-                    $modalInstance.dismiss('cancel');
+
+                    var dirty = $scope.doctorForm.$dirty |
+                        $scope.locationForm.$dirty |
+                        $scope.doctorDetailsForm.$dirty;
+
+                    if(dirty) {
+                        showConfirmModal();
+                    } else {
+                        $modalInstance.dismiss('cancel');
+                    }
                 };
 
                 $scope.addLocation = function () {
@@ -99,3 +121,17 @@ angular.module('csp.doctor.ctrl')
 
             }]
     );
+
+angular.module('csp.doctor.ctrl').controller('modalConfirmCtrl', [
+    '$scope',
+    '$modalInstance',
+    function ($scope, $modalInstance) {
+        $scope.ok = function () {
+            $modalInstance.close();
+        };
+
+        $scope.cancel = function () {
+            $modalInstance.dismiss('cancel');
+        };
+    }
+]);
