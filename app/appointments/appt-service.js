@@ -32,13 +32,14 @@ angular.module('csp.services.appt', [
 
     service('apptListService', [
         'ApptService',
+        'notify',
         '$q',
         'PatientService',
         'DoctorService',
         'SpecialtyService',
         'InsCarrierService',
         'LocationService',
-        function (Appt,$q) {
+        function (Appt,notify,$q) {
             var defer = $q.defer();
             var query = new Parse.Query(Appt);
 
@@ -51,6 +52,7 @@ angular.module('csp.services.appt', [
                     defer.resolve(aPresentations);
                 },
                 error : function(aError) {
+                    notify({ message:'We are sorry. There has been an error while retrieving the appointment list.', classes: 'alert-danger' });
                     defer.reject(aError);
                 }
             });

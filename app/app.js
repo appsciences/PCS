@@ -9,6 +9,7 @@ angular.module('csp', [
     'ui.select',
     'ngSanitize',
     'ui.grid',
+    'cgNotify',
 
     //Services
     'csp.services.parse',

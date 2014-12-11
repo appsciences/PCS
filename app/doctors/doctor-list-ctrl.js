@@ -41,18 +41,9 @@ angular.module('csp.doctor.ctrl', [
                     modalInstance.result.then(function (doctor) {
                         //TODO: need to geocode
                         var isNew = doctor.isNew();
-
-                        doctor.save().then(
-                            function (doctor) {
-                                //TODO: This only works for adds and does not fully refresh the list (in case of edits). Need hard refresh
-                                //$route.reload(); -- doesn't work
-                                $scope.doctors.push(doctor);
-                            },
-                            function (err) {
-                                //TODO: Docor Save Error
-                                err;
-                            }
-                        );
+                        if(isNew) {
+                            $scope.doctors.push(doctor);
+                        }
                     }, function (err) {
                         //TODO: Modal Result Error
                         err;
