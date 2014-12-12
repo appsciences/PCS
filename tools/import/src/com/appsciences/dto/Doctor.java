@@ -6,6 +6,7 @@ import java.util.List;
 public class Doctor {
 	
 	private String id;
+	private boolean active;
 	private String firstName;
 	private String lastName;
 	private String practiceLocation;
@@ -13,9 +14,12 @@ public class Doctor {
 	private String thirdLocation;
 	private String fourthLocation;
 	private String fieldOfMedicine;
+	private String type;
 	private List<Pointer> locations;
 	
 	public Doctor() {
+		active = true;
+		type = "referring";
 		locations = new ArrayList<Pointer>();		
 	}
 	
@@ -24,6 +28,13 @@ public class Doctor {
 	}
 	public void setId(String id) {
 		this.id = id;
+	}
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 	public String getFirstName() {
 		return firstName;
@@ -66,6 +77,13 @@ public class Doctor {
 	}
 	public void setFieldOfMedicine(String fieldOfMedicine) {
 		this.fieldOfMedicine = fieldOfMedicine;
+	}
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 	public List<Pointer> getLocations() {
 		return locations;

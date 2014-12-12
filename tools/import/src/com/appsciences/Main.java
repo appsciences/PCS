@@ -167,22 +167,27 @@ public class Main {
 		}
 		
 		for (CSVRecord record : locationRecords) {
-			
 			Location location = new Location();
-			
 			String name[] = record.get(0).split(", ");
-
-			if(name[0] != null)
+			
+			if(name.length > 0 && name[0] != null)
 				location.setLastName(name[0]);
 			
-			if(name.length == 2)
+			if(name.length == 2 )
 				location.setFirstName(name[1]);
 			
-			location.setZipCode(record.get(1));
+			location.setZip(record.get(1));
 			location.setPhone(record.get(2));
 			location.setFax(record.get(3));
-			location.setStreet(record.get(4));
-			location.setCity(record.get(5));
+			location.setAddress(record.get(4));
+			
+			String city[] = record.get(5).split(", ");
+			
+			if(city.length > 0 && city[0] != null)
+				location.setCity(city[0]);
+			
+			if(city[1] != null)
+				location.setState(city[1]);
 			
 			locationList.add(location);
 		}
@@ -192,14 +197,14 @@ public class Main {
 			List<String> doctorLocationsId = new ArrayList<String>();
 			
 			try {
-				//doctorId = sendPost("Doctor", gson.toJson(doctor));
+				doctorId = sendPost("Doctor", gson.toJson(doctor));
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 				e.printStackTrace();
 			}
 			
 			for(Location location : locationList) {
-				if(location.getFirstName().equals(doctor.getFirstName()) && location.getLastName().equals(doctor.getLastName()) ) {
+				if(capitalize(location.getFirstName()).equals(doctor.getFirstName()) && capitalize(location.getLastName()).equals(doctor.getLastName()) ) {
 					
 					String locationId = null;
 					
@@ -209,9 +214,6 @@ public class Main {
 					pointer1.setClassName("Doctor");
 
 					location.setDoctor(pointer1);
-					
-					location.setFirstName(null);
-					location.setLastName(null);
 					
 					try {
 						locationId = sendPost("Location", gson.toJson(location));

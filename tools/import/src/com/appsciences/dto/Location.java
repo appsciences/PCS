@@ -5,11 +5,12 @@ public class Location {
 	private String id;
 	private String firstName;
 	private String lastName;
-	private String zipCode;
+	private String zip;
 	private String phone;
 	private String fax;
-	private String street;
+	private String address;
 	private String city;
+	private String state;
 	
 	private Pointer doctor;
 	
@@ -31,11 +32,11 @@ public class Location {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	public String getZipCode() {
-		return zipCode;
+	public String getZip() {
+		return zip;
 	}
-	public void setZipCode(String zipCode) {
-		this.zipCode = zipCode;
+	public void setZip(String zip) {
+		this.zip = zip;
 	}
 	public String getPhone() {
 		return phone;
@@ -49,17 +50,23 @@ public class Location {
 	public void setFax(String fax) {
 		this.fax = fax;
 	}
-	public String getStreet() {
-		return street;
+	public String getAddress() {
+		return address;
 	}
-	public void setStreet(String street) {
-		this.street = street;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 	public String getCity() {
 		return city;
 	}
 	public void setCity(String city) {
 		this.city = city;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
 	}
 	public Pointer getDoctor() {
 		return doctor;
