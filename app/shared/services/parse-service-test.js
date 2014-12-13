@@ -104,5 +104,16 @@ describe('Parse Service Test', function () {
             expect(actual[0]).toBe(a2);
             expect(actual[1]).toBe(b);
         }));
+
+        it('should allow undefined instancesToReplaceWith collection', inject(function (parseService) {
+            var a = {id: '1'},
+                b = {id: '2'};
+
+            var actual = parseService.replaceSameEntities([a, b], undefined);
+
+            expect(actual.length).toBe(2);
+            expect(actual[0]).toBe(a);
+            expect(actual[1]).toBe(b);
+        }));
     });
 });
