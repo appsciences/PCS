@@ -39,5 +39,6 @@ angular.module('csp.services.patient', ['csp.services.insCarrier']).
         'InsCarrierService',
         function (Patient) {
             var query = new Parse.Query(Patient);
+            query.include('insCarriers');
             return query.find();
         }]);

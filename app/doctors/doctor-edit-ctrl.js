@@ -1,4 +1,9 @@
-angular.module('csp.doctor.ctrl')
+angular.module('csp.doctor.ctrl', [
+    "csp.directive.listHeaderDirective",
+    "csp.directive.listDirective",
+    "csp.services.location",
+    "csp.services.officeHours",
+    "csp.services.parse"])
 
     .controller(
         'doctorEditCtrl',
@@ -13,7 +18,9 @@ angular.module('csp.doctor.ctrl')
             'salesPeople',
             'LocationService',
             'OfficeHoursService',
-            function ($scope, $log, $filter, $modalInstance, doctor, specialties, insCarriers, salesPeople, Location, OfficeHours) {
+            'parseService',
+            function ($scope, $log, $filter, $modalInstance, doctor, specialties, insCarriers, salesPeople, Location,
+                      OfficeHours, parse) {
 
                 $scope.headerText = (doctor.isNew() ? 'New ' : 'Edit ') +
                     (doctor.isReferring ? "Referring Doctor" : "Specialist");
@@ -28,11 +35,11 @@ angular.module('csp.doctor.ctrl')
 
                 $scope.docSpec = angular.copy($scope.doctor.specialties);
 
-                $scope.specialties = specialties;
+                $scope.specialties = parse.replaceSameEntities(specialties, doctor.specialties);
 
-                $scope.insCarriers = insCarriers;
+                $scope.insCarriers = parse.replaceSameEntities(insCarriers, doctor.insCarriers);
 
-                $scope.salesPeople = salesPeople;
+                $scope.salesPeople = parse.replaceSameEntities(salesPeople, doctor.salesPeople);
 
                 $scope.location = new Location();
 

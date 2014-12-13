@@ -1,8 +1,4 @@
-angular.module('csp.doctor.ctrl', [
-    "csp.directive.listHeaderDirective",
-    "csp.directive.listDirective",
-    "csp.services.location",
-    "csp.services.officeHours"])
+angular.module('csp.doctor.ctrl')
     .controller(
         'doctorListCtrl',
         [

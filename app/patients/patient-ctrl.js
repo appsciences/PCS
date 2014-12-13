@@ -1,4 +1,6 @@
-angular.module('csp.patient.ctrl', [])
+angular.module('csp.patient.ctrl', [
+    'csp.services.parse'
+])
 
     .controller(
         'patientListCtrl',
@@ -77,14 +79,15 @@ angular.module('csp.patient.ctrl', [])
             '$modalInstance',
             'patient',
             'insCarriers',
-            function ($scope, $modalInstance, patient, insCarriers) {
+            'parseService',
+            function ($scope, $modalInstance, patient, insCarriers, parse) {
 
                 //header text
                 $scope.headerText = patient.isNew() ? 'New Patient' : 'Edit Patient';
 
                 $scope.patient = patient;
 
-                $scope.insCarriers = insCarriers;
+                $scope.insCarriers = parse.replaceSameEntities(insCarriers, patient.insCarriers);
 
                 $scope.save = function () {
                     $modalInstance.close($scope.patient);

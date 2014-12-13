@@ -16,14 +16,22 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       'app/bower_components/angular/angular.js',
-      'app/bower_components/angular-mocks/angular-mocks.js',   // for angular.mock.module and inject.
+      'app/bower_components/angular-route/angular-route.min.js',
+      'app/bower_components/angular-sanitize/angular-sanitize.min.js',
+      'app/bower_components/angular-mocks/angular-mocks.js',   // for angular.mock.module and inject.'
+      'app/bower_components/angular-bootstrap/ui-bootstrap.min.js',
+      'app/bower_components/angular-ui-utils/ui-utils.min.js',
+      'app/bower_components/angular-ui-select/dist/select.min.js',
+      'app/bower_components/angular-ui-grid/ui-grid.min.js',
       'app/bower_components/moment/moment.js',
-      'components/low-dash/lodash.min.js',
-      'components/parse/parse-1.3.1.min.js',
+      'app/bower_components/lodash/dist/lodash.min.js',
+      'app/bower_components/parse/parse.min.js',
       'app/parse-init.js',
+      'app/**/*-ctrl.js',             // application sources
       'app/**/*-service.js',             // application sources
       'app/**/*-directive.js',             // application sources
-      'app/**/*-test.js'
+      'app/**/*-test.js',
+      'app/app.js'
     ],
 
 

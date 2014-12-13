@@ -185,7 +185,7 @@
             <fieldset style="margin-bottom:10px" ng-if="doctor.isSpecialist">
                 <legend>Specialties</legend>
                 <div class="col-sm-4">
-                    <ui-select multiple ng-model="doctor.specialties" ng-disabled="disabled"
+                    <ui-select multiple ng-model="doctor.specialties"
                                ui-validate="'validateSpecialties($doctor.specialties)'">
                         <ui-select-match placeholder="Specialties...">{{$item.name}}</ui-select-match>
                         <ui-select-choices
@@ -218,8 +218,8 @@
                 <legend>Sales Person(s)</legend>
                 <div class="col-sm-4">
 
-                    <ui-select ng-model="doctor.salesPerson" ng-disabled="disabled">
-                        <ui-select-match placeholder="Sales person...">{{$item.fullName}}
+                    <ui-select multiple ng-model="doctor.salesPeople">
+                        <ui-select-match placeholder="Sales people...">{{$item.fullName}}
                         </ui-select-match>
                         <ui-select-choices repeat="person in salesPeople | filter:$select.search | orderBy: 'name'">
                             <div ng-bind-html="name.name.htmlSafe | highlight: $select.search"></div>

@@ -104,6 +104,40 @@ angular.module('csp.services.parse', []).
             return result;
         };
 
+        /**
+         * Replaces instances of Parse objects in entities collection with instancesToReplaceWith when they match by
+         * Parse object id.
+         * This is required when there are multiple instances of the same Parse entity. This happens when they are
+         * pulled by different Parse queries, e.g. pulling patients with child collections of associated insurance
+         * carriers and the full list of insurance carriers in a separate query. These instances will not be equal while
+         * they represent the same Parse entity. If you bind patient's insurance carriers and the full list of
+         * insurance carriers to say multi select control then it will not behave as expected.
+         *
+         *
+         * @param entities
+         * @param instancesToReplaceWith
+         * @returns {Array}
+         */
+        parseService.replaceSameEntities = function (entities, instancesToReplaceWith) {
+            if (!(angular.isArray(entities) && angular.isArray(instancesToReplaceWith))) {
+                console.log("parseService.replaceSameEntities is used with illegal parameters");
+                return [];
+            }
+
+            var result = [];
+
+            entities.forEach(function (entity) {
+                var instanceToReplaceWith = _.find(instancesToReplaceWith, {'id': entity.id});
+                if (instanceToReplaceWith) {
+                    result.push(instanceToReplaceWith);
+                } else {
+                    result.push(entity);
+                }
+            });
+
+            return result;
+        };
+
 
         /**
          * Priavate utility property setters and getters.
