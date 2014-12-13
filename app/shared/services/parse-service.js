@@ -119,6 +119,7 @@ angular.module('csp.services.parse', []).
          * @returns {Array}
          */
         parseService.replaceSameEntities = function (entities, instancesToReplaceWith) {
+            instancesToReplaceWith = instancesToReplaceWith || [];
             if (!(angular.isArray(entities) && angular.isArray(instancesToReplaceWith))) {
                 console.log("parseService.replaceSameEntities is used with illegal parameters");
                 return [];
