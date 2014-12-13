@@ -92,4 +92,28 @@ describe('Parse Service Test', function () {
         }));
 
     });
+
+    describe('parse service, replaceSameEntities', function () {
+        it('should replace intance with the same Parse entity id', inject(function (parseService) {
+            var a1 = {id: '1'},
+                b = {id: '2'},
+                a2 = {id: '1'};
+
+            var actual = parseService.replaceSameEntities([a1, b], [a2]);
+
+            expect(actual[0]).toBe(a2);
+            expect(actual[1]).toBe(b);
+        }));
+
+        it('should allow undefined instancesToReplaceWith collection', inject(function (parseService) {
+            var a = {id: '1'},
+                b = {id: '2'};
+
+            var actual = parseService.replaceSameEntities([a, b], undefined);
+
+            expect(actual.length).toBe(2);
+            expect(actual[0]).toBe(a);
+            expect(actual[1]).toBe(b);
+        }));
+    });
 });

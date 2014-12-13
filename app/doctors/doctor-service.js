@@ -54,6 +54,8 @@ angular.module('csp.services.doctor', [
                         "company",
                         "active",
                         "specialties",
+                        "insCarriers",
+                        "salesPeople",
                         "locations",
                         "note",
                         "type"
@@ -88,26 +90,15 @@ angular.module('csp.services.doctor', [
         'DoctorService',
         'SpecialtyService',
         'InsCarrierService',
+        'SalesPersonService',
         'LocationService',
-        '$q',
-        function (Doctor, Specialty, InsCarrier, Location,$q) {
-            var defer = $q.defer();
+        function (Doctor) {
             var query = new Parse.Query(Doctor);
 
             query.include('specialties');
             query.include('insCarriers');
+            query.include('salesPeople');
             query.include('locations');
 
-            query.find({
-                success : function(aPresentations) {
-                    defer.resolve(aPresentations);
-                },
-                error : function(aError) {
-                    defer.reject(aError);
-                }
-            });
-
-            return defer.promise;
-
-            //return query.find();
+            return query.find();
         }]);
