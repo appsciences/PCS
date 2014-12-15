@@ -9,6 +9,7 @@ angular.module('csp', [
     'ui.select',
     'ngSanitize',
     'ui.grid',
+    'uiGmapgoogle-maps',
 
     //Services
     'csp.services.parse',
@@ -95,6 +96,14 @@ angular.module('csp', [
         Parse.initialize("WqDGRd0E9ntpvRiU0OlDRYrEr19GflSzWrSzh5kZ", "hqQLu9cUbwFeIPcunmNnBK9VGKD10plbNFMaAgcp");
 
     }]).
+
+    config(function(uiGmapGoogleMapApiProvider) {
+        uiGmapGoogleMapApiProvider.configure({
+            key: 'AIzaSyDjg_uIdwLYCydZY9jbZTnBu0OlpH-3EnQ',
+            v: '3.18',
+            libraries: ''
+        });
+    }).
 
     controller('menuCtrl', ['$scope', '$location', '$window', function ($scope, $location, $window) {
 

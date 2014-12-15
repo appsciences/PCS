@@ -117,14 +117,25 @@
     </div>
     <!--Appt Details-->
     <!--<pre>Search Params: {{searchParams}}</pre>-->
-
-    <!--{{resultRows}}-->
-    <pcs-list
-            $log = $log
-            headings="resultHeadings"
-            filter-expression="searchParams"
-            fields="resultFields"
-            rows="resultRows"></pcs-list>
+    <div class="row">
+        <!--{{resultRows}}-->
+        <div class="col-md-8">
+            <pcs-list
+                    $log=$log
+                    headings="resultHeadings"
+                    filter-expression="searchParams"
+                    fields="resultFields"
+                    rows="resultRows"></pcs-list>
+        </div>
+        <div class="col-md-4">
+            <ui-gmap-google-map center='map.center' zoom='map.zoom' ng-if="true">
+                <ui-gmap-marker ng-repeat="location in resultRows | filter:searchParams | filter:map.hasLocation"
+                                coords="location.coordinates"
+                                idkey="location.id">
+                </ui-gmap-marker>
+            </ui-gmap-google-map>
+        </div>
+    </div>
 
     <legend>Appointment Details</legend>
     <form name="mainForm" class="form-horizontal">

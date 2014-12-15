@@ -3,7 +3,8 @@ angular.module('csp.doctor.ctrl', [
     "csp.directive.listDirective",
     "csp.services.location",
     "csp.services.officeHours",
-    "csp.services.parse"])
+    "csp.services.parse",
+    "csp.services.geocoding"])
 
     .controller(
         'doctorEditCtrl',
@@ -19,8 +20,9 @@ angular.module('csp.doctor.ctrl', [
             'LocationService',
             'OfficeHoursService',
             'parseService',
+            'geocode',
             function ($scope, $log, $filter, $modalInstance, doctor, specialties, insCarriers, salesPeople, Location,
-                      OfficeHours, parse) {
+                      OfficeHours, parse, geocode) {
 
                 $scope.headerText = (doctor.isNew() ? 'New ' : 'Edit ') +
                     (doctor.isReferring ? "Referring Doctor" : "Specialist");
@@ -52,8 +54,14 @@ angular.module('csp.doctor.ctrl', [
                 };
 
                 $scope.addLocation = function () {
-                    doctor.addLocation($scope.location);
-                    $scope.location = new Location();
+                    geocode($scope.location)
+                        .then(function (coordintes) {
+                            $scope.location.coordinates = coordintes;
+                        })
+                        .finally(function () {
+                            doctor.addLocation($scope.location);
+                            $scope.location = new Location();
+                        });
                 };
 
                 $scope.deleteLocation = function (location) {

@@ -1,4 +1,6 @@
-angular.module('csp.appt.ctrl', [])
+angular.module('csp.appt.ctrl', [
+    'uiGmapgoogle-maps'
+])
 
     .controller('apptCtrl', [
         '$scope',
@@ -103,6 +105,14 @@ angular.module('csp.appt.ctrl', [])
             $scope.timePeriods = ['Morning', 'Afternoon', 'Evening'];
 
             $scope.resultRows = locations;
+
+            $scope.map = {
+                center: { latitude: 40.83, longitude: -73.98 },
+                zoom: 12,
+                hasCoordinates: function (location) {
+                    return !!location.coordinates
+                }
+            };
 
             $scope.save = function () {
                 $modal.close($scope.appt);

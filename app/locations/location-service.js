@@ -38,7 +38,8 @@ angular.module('csp.services.location', ['csp.services.doctor']).
                 "zip",
                 "phone",
                 "email",
-                "officeHours"
+                "officeHours",
+                "coordinates"
             ]
         );
 

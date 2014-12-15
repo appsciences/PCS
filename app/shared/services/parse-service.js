@@ -139,6 +139,10 @@ angular.module('csp.services.parse', []).
             return result;
         };
 
+        parseService.geoPoint = function(latitude, longitude) {
+            return new Parse.GeoPoint({latitude: latitude, longitude: longitude});
+        };
+
 
         /**
          * Priavate utility property setters and getters.
