@@ -9,6 +9,7 @@ angular.module('csp', [
     'ui.select',
     'ngSanitize',
     'ui.grid',
+    'ui.grid.pagination',
 
     //Services
     'csp.services.parse',

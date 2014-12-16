@@ -15,6 +15,43 @@ angular.module('csp.appt.ctrl', [])
 
             $scope.appts = appts;
 
+            $scope.appointmentScope = {
+                editAppointment : function(apptId){
+                    showModal(apptId);
+                }
+            };
+
+            var actionsTemplate = "<div><button type='button' class='btn btn-info btn-sm' ng-click='getExternalScopes().editAppointment(COL_FIELD)'> <span class='glyphicon glyphicon-edit'></span></button></div>";
+
+            $scope.appointmentGrid = {
+                enableSorting: true,
+                data : $scope.appts,
+                enableHorizontalScrollbar: false,
+                enableVerticalScrollbar: false,
+                columnDefs: [
+                    { name: 'Actions', field: 'id', width: 100, cellTemplate: actionsTemplate },
+                    { name:'Date', field: 'date' }
+                ]
+            };
+
+            $scope.appointmentGrid.rowsPerPage = 15;
+            $scope.appointmentGrid.onRegisterApi = function (gridApi) {
+                $scope.gridApi = gridApi;
+            };
+
+            $scope.refreshData = function (searchTerm) {
+                $scope.appointmentGrid.data = $scope.appts;
+                $scope.appointmentGrid.data = $filter('filter')($scope.appointmentGrid.data,function(value, index){
+
+                    if(searchTerm === undefined || searchTerm == "")
+                        return true;
+
+                    var date = (value.attributes.date !== undefined) ?  value.attributes.date.toLowerCase().indexOf(searchTerm) : -1;
+
+                    return (date != -1);
+                }, undefined);
+            };
+
             var showModal = function (apptId) {
                 var modalInstance = $modal.open({
                     templateUrl: 'appointments/appt-edit.html',

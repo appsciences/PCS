@@ -8,27 +8,27 @@
             ></pcs-list-header>
 
     <tabset>
-        <tab heading="Referring">
+        <tab heading="Referring" ng-click="onTabSelect('referring')">
             {{tab.content}}
-            <pcs-list
-                    class="'tab-pane active'"
-                    headings="referringHeadings"
-                    filter-expression="{active:true, isReferring:true}"
-                    fields="referringListFields"
-                    rows="doctors"
-                    ></pcs-list>
         </tab>
-
-        <tab heading="Specialists">
-
-            <pcs-list
-                    class="'tab-pane'"
-                    headings="specialistHeadings"
-                    filter-expression="{active:true, isSpecialist:true}"
-                    fields="specialistListFields"
-                    rows="doctors"
-                    ></pcs-list>
+        <tab heading="Specialists" ng-click="onTabSelect('specialist')">
         </tab>
-
     </tabset>
+    <div class="container-fluid">
+        <div class="row row-buffer">
+            <input type="text" ng-model="search" ng-change="refreshData(search)" placeholder="Search..." class="form-control"/>
+        </div>
+        <div class="row row-buffer">
+            <div ui-grid-pagination ui-grid="doctorGrid" external-scopes="doctorScope" class="listGrid"></div>
+        </div>
+        <div class="row center-block clearfix row-buffer">
+            <div class="col-md-8">
+                <p>Page: {{ gridApi.pagination.getPage() }} of {{ gridApi.pagination.getTotalPages() }}</p>
+            </div>
+            <div class="col-md-4 text-right">
+                <button type="button" class="btn btn-success" ng-click="gridApi.pagination.previousPage()">previous page</button>
+                <button type="button" class="btn btn-success" ng-click="gridApi.pagination.nextPage()">next page</button>
+            </div>
+        </div>
+    </div>
 </div>
