@@ -107,16 +107,43 @@ angular.module('csp.appt.ctrl', [
             $scope.resultRows = locations;
 
             $scope.map = {
-                center: { latitude: 40.83, longitude: -73.98 },
-                zoom: 12,
-                hasCoordinates: function (location) {
-                    return !!location.coordinates
+                center: { //New York
+                    latitude: 40.7055608,
+                    longitude: -74.0283031
+                },
+                zoom: 10,
+                getMarkers: function () {
+                    return _.chain($filter('filter')(locations, $scope.searchParams))
+                        .filter('coordinates')
+                        .map(function (location) {
+                            return {
+                                coordinates: location.coordinates,
+                                title: location.doctorfirstName + ' ' + location.doctorlastName,
+                                details: _.map(location.doctorspecialties, 'name').join(', '),
+                                id: location.id,
+                                windowOptions: {  // cant' put this into html as anlgular-google-map doesn't support it
+                                    disableAutoPan: true,
+                                    maxWidth: 100
+                                }
+                            }
+                        })
+                        .valueOf();
+                },
+                events: {
+                    mouseover: function (gMarker, eventName, model) {
+                        model.showWindow = true;
+                        $scope.$apply();
+                    },
+                    mouseout: function (gMarker, eventName, model) {
+                        model.showWindow = false;
+                        $scope.$apply();
+                    }
                 }
             };
 
-            $scope.getSpecialties = function(location) {
-                return _.map(location.doctorspecialties, 'name').join();
-            };
+            $scope.$watch('searchParams', function() {
+                $scope.map.markers = $scope.map.getMarkers();
+            }, true);
 
             $scope.save = function () {
                 $modal.close($scope.appt);
@@ -142,8 +169,6 @@ angular.module('csp.appt.ctrl', [
                 'phone',
                 {type: 'list', fieldName: 'officeHoursListUnBoxed'}
             ];
-
-            console.log($scope.resultRows);
 
             $scope.searchParams = {
                 'doctorisSpecialist': true

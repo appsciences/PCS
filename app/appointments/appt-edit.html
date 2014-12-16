@@ -128,17 +128,19 @@
                     rows="resultRows"></pcs-list>
         </div>
         <div class="col-md-4">
-            <ui-gmap-google-map center='map.center' zoom='map.zoom' ng-if="true">
-                <ui-gmap-marker ng-repeat="location in resultRows | filter:searchParams | filter:map.hasLocation"
-                                coords="location.coordinates"
-                                idkey="location.id">
-                    <ui-gmap-window>
+            <ui-gmap-google-map center="map.center" zoom="map.zoom" pan="true">
+                <ui-gmap-markers
+                        models="map.markers"
+                        coords="'coordinates'"
+                        events="map.events"
+                        fit="true">
+                    <ui-gmap-windows show="'showWindow'" options="'windowOptions'">
                         <div class="map-marker-info">
-                            <div class="map-marker-info-title">{{location.doctorfirstName}}&nbsp;{{location.doctorlastName}}</div>
-                            <div class="map-marker-info-details">{{getSpecialties(location)}}</div>
+                            <div class="map-marker-info-title" ng-non-bindable>{{title}}</div>
+                            <div class="map-marker-info-details" ng-non-bindable>{{details}}</div>
                         </div>
-                    </ui-gmap-window>
-                </ui-gmap-marker>
+                    </ui-gmap-windows>
+                </ui-gmap-markers>
             </ui-gmap-google-map>
         </div>
     </div>
