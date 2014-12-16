@@ -46,3 +46,6 @@ input[type="text"].ng-invalid, input[type="email"].ng-invalid, .ui-select-bootst
 }
 
 .angular-google-map-container { height: 300px; }
+
+.map-marker-info-title { font-weight: bold; }
+.map-marker-info-details { font-size: 0.75em; }

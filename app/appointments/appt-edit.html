@@ -132,6 +132,12 @@
                 <ui-gmap-marker ng-repeat="location in resultRows | filter:searchParams | filter:map.hasLocation"
                                 coords="location.coordinates"
                                 idkey="location.id">
+                    <ui-gmap-window>
+                        <div class="map-marker-info">
+                            <div class="map-marker-info-title">{{location.doctorfirstName}}&nbsp;{{location.doctorlastName}}</div>
+                            <div class="map-marker-info-details">{{getSpecialties(location)}}</div>
+                        </div>
+                    </ui-gmap-window>
                 </ui-gmap-marker>
             </ui-gmap-google-map>
         </div>

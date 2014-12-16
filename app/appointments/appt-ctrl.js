@@ -114,6 +114,10 @@ angular.module('csp.appt.ctrl', [
                 }
             };
 
+            $scope.getSpecialties = function(location) {
+                return _.map(location.doctorspecialties, 'name').join();
+            };
+
             $scope.save = function () {
                 $modal.close($scope.appt);
             };
