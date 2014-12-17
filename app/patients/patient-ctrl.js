@@ -1,5 +1,6 @@
 angular.module('csp.patient.ctrl', [
-    'csp.services.parse'
+    'csp.services.parse',
+    'csp.services.geocoding'
 ])
 
     .controller(
@@ -80,7 +81,8 @@ angular.module('csp.patient.ctrl', [
             'patient',
             'insCarriers',
             'parseService',
-            function ($scope, $modalInstance, patient, insCarriers, parse) {
+            'geocode',
+            function ($scope, $modalInstance, patient, insCarriers, parse, geocode) {
 
                 //header text
                 $scope.headerText = patient.isNew() ? 'New Patient' : 'Edit Patient';
@@ -90,7 +92,13 @@ angular.module('csp.patient.ctrl', [
                 $scope.insCarriers = parse.replaceSameEntities(insCarriers, patient.insCarriers);
 
                 $scope.save = function () {
-                    $modalInstance.close($scope.patient);
+                    geocode(patient)
+                        .then(function (coordintes) {
+                            patient.coordinates = coordintes;
+                        })
+                        .finally(function () {
+                            $modalInstance.close($scope.patient);
+                        });
                 };
 
                 $scope.close = function () {

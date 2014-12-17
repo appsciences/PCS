@@ -24,6 +24,7 @@ angular.module('csp.services.patient', ['csp.services.insCarrier']).
                     "zip",
                     "phone",
                     "email",
+                    "coordinates",
                     "active",
                     "dob",
                     "insCarriers",
