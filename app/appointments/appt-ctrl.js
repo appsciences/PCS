@@ -93,7 +93,9 @@ angular.module('csp.appt.ctrl', [
         'specialties',
         'insCarriers',
         'locations',
-        function ($scope, $modal, $log, $filter, appt, patients, doctors, specialties, insCarriers, locations) {
+        '$timeout',
+        function ($scope, $modal, $log, $filter, appt, patients, doctors, specialties, insCarriers, locations,
+                  $timeout) {
 
             //header text
             $scope.headerText = appt.isNew() ? 'New Appointment' : 'Edit Appointment';
@@ -121,6 +123,7 @@ angular.module('csp.appt.ctrl', [
                                 title: location.doctorfirstName + ' ' + location.doctorlastName,
                                 details: _.map(location.doctorspecialties, 'name').join(', '),
                                 id: location.id,
+                                showWindow: false,
                                 windowOptions: {  // cant' put this into html as anlgular-google-map doesn't support it
                                     disableAutoPan: true,
                                     maxWidth: 100
@@ -143,6 +146,8 @@ angular.module('csp.appt.ctrl', [
 
             $scope.$watch('searchParams', function() {
                 $scope.map.markers = $scope.map.getMarkers();
+                $scope.map.redrawMarkers = true; //workaround for marker windows not showing after filtering
+                $timeout(function() {$scope.map.redrawMarkers = false});
             }, true);
 
             $scope.save = function () {

@@ -129,13 +129,15 @@
         </div>
         <div class="col-md-4">
             <ui-gmap-google-map center="map.center" zoom="map.zoom" pan="true">
-                <ui-gmap-markers
+                <ui-gmap-markers ng-if="!map.redrawMarkers"
                         models="map.markers"
                         coords="'coordinates'"
                         events="map.events"
                         fit="true">
-                    <ui-gmap-windows show="'showWindow'" options="'windowOptions'">
-                        <div class="map-marker-info">
+                    <ui-gmap-windows
+                            show="'showWindow'"
+                            options="'windowOptions'">
+                        <div class="map-marker-info" ng-non-bindable>
                             <div class="map-marker-info-title" ng-non-bindable>{{title}}</div>
                             <div class="map-marker-info-details" ng-non-bindable>{{details}}</div>
                         </div>
