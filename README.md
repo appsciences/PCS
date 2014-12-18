@@ -45,3 +45,21 @@ Command Line:
 - Run app/index.html from WebStorm or browser.
 
 ### It just works! Sort of...###
+
+## Import tool ##
+
+### The import tool requires Java and Maven to be installed. ###
+
+Open the file `....\tools\import\src\com\appsciences\Main.java` and set the Parse API Keys in the lines 37 and 38.
+
+In a terminal, go to the `....\tools\import` location and run the following commands:
+```
+mvn compile
+mvn package
+```
+
+Then run the following command setting the corresponding routes, please note that the lastest two parameters are the path for the CSV files to import.
+
+```
+java -classpath D:\Sources\PCS\tools\import\target\classes;C:\Users\guillermo\.m2\repository\org\apache\commons\commons-csv\1.0\commons-csv-1.0.jar;C:\Users\guillermo\.m2\repository\com\google\code\gson\gson\2.3.1\gson-2.3.1.jar com.appsciences.Main D:/Doctors.csv D:/Locations.csv
+```
