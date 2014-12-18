@@ -26,15 +26,21 @@ angular.module('csp.doctor.ctrl', [
 
                 $scope.activeTab = 'referring';
 
+                $scope.originalDoctor = null;
+
                 $scope.onTabSelect = function(tab) {
                     $scope.activeTab = tab;
                     $scope.refreshData($scope.search);
                 };
 
                 $scope.doctorScope = {
-                    edit : function(doctorId){
-                        var d = Doctor.getById(doctorId);
-                        showModal(doctorId);
+                    edit : function(doctorId) {
+                        for(var i = 0; i<$scope.doctors.length; i++) {
+                            if($scope.doctors[i].id == doctorId)
+                                $scope.originalDoctor = angular.copy($scope.doctors[i]);
+                        }
+
+                        showModal($scope.originalDoctor);
                     }
                 };
 
@@ -107,7 +113,19 @@ angular.module('csp.doctor.ctrl', [
                             function (doctor) {
                                 //TODO: This only works for adds and does not fully refresh the list (in case of edits). Need hard refresh
                                 //$route.reload(); -- doesn't work
-                                $scope.doctors.push(doctor);
+
+                                if(!isNew) {
+                                    for(var i=0; i<$scope.doctors.length; i++) {
+                                        if($scope.doctors[i].id == doctor.id)
+                                            $scope.doctors[i] = doctor;
+                                    }
+                                    $scope.refreshData();
+                                } else {
+                                    $scope.doctors.push(doctor);
+
+                                    $scope.refreshData();
+                                    $scope.gridApi.pagination.seek($scope.gridApi.pagination.getPage());
+                                }
                             },
                             function (err) {
                                 //TODO: Docor Save Error

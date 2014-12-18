@@ -15,9 +15,16 @@ angular.module('csp.appt.ctrl', [])
 
             $scope.appts = appts;
 
+            $scope.originalAppt = null;
+
             $scope.appointmentScope = {
-                editAppointment : function(apptId){
-                    showModal(apptId);
+                editAppointment : function(apptId) {
+                    for(var i = 0; i<$scope.appts.length; i++) {
+                        if($scope.appts[i].id == apptId)
+                            $scope.originalAppt = angular.copy($scope.appts[i]);
+                    }
+
+                    showModal($scope.originalAppt);
                 }
             };
 
@@ -73,8 +80,20 @@ angular.module('csp.appt.ctrl', [])
                 });
 
                 modalInstance.result.then(function (appt) {
+                    var isNew = appt.isNew();
                     appt.save().then(function (appt) {
-                        $scope.appts.push(appt);
+                        if(!isNew) {
+                            for(var i=0; i<$scope.appts.length; i++) {
+                                if($scope.appts[i].id == appt.id)
+                                    $scope.appts[i] = appt;
+                            }
+                            $scope.refreshData();
+                        } else {
+                            $scope.appts.push(appt);
+
+                            $scope.refreshData();
+                            $scope.gridApi.pagination.seek($scope.gridApi.pagination.getPage());
+                        }
                     }, function (err) {
                         //TODO: Appt Save Error
                         var p = err;

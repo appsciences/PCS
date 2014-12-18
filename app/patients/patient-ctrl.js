@@ -13,10 +13,16 @@ angular.module('csp.patient.ctrl', [])
 
                 $scope.patients = patients;
 
+                $scope.originalPatient = null;
+
                 $scope.patientScope = {
-                    editPatient : function(patientId){
-                        var p = Patient.getById(patientId);
-                        showModal(p);
+                    editPatient : function(patientId) {
+                        for(var i = 0; i<$scope.patients.length; i++) {
+                            if($scope.patients[i].id == patientId)
+                                $scope.originalPatient = angular.copy($scope.patients[i]);
+                        }
+
+                        showModal($scope.originalPatient);
                     }
                 };
 
@@ -77,8 +83,17 @@ angular.module('csp.patient.ctrl', [])
                         var addNewPatient = patient.isNew();
 
                         patient.save().then(function (patient) {
-                            if (addNewPatient) {
+                            if(!addNewPatient) {
+                                for(var i=0; i<$scope.patients.length; i++) {
+                                    if($scope.patients[i].id == patient.id)
+                                        $scope.patients[i] = patient;
+                                }
+                                $scope.refreshData();
+                            } else {
                                 $scope.patients.push(patient);
+
+                                $scope.refreshData();
+                                $scope.gridApi.pagination.seek($scope.gridApi.pagination.getPage());
                             }
                         }, function (err) {
                             //TODO: Patient Save Error
