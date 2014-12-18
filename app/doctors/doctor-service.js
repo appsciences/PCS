@@ -39,7 +39,7 @@ angular.module('csp.services.doctor', [
                     }
 
                 }, {// Class methods
-                    getById: parse.getByIdFunc(Doctor, [
+                    getById: parse.getByIdFunc('Doctor', [
                         'specialties',
                         'locations',
                         'insProviders'])

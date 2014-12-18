@@ -15,6 +15,50 @@ angular.module('csp.appt.ctrl', [])
 
             $scope.appts = appts;
 
+            $scope.originalAppt = null;
+
+            $scope.appointmentScope = {
+                editAppointment : function(apptId) {
+                    for(var i = 0; i<$scope.appts.length; i++) {
+                        if($scope.appts[i].id == apptId)
+                            $scope.originalAppt = angular.copy($scope.appts[i]);
+                    }
+
+                    showModal($scope.originalAppt);
+                }
+            };
+
+            var actionsTemplate = "<div><button type='button' class='btn btn-info btn-sm' ng-click='getExternalScopes().editAppointment(COL_FIELD)'> <span class='glyphicon glyphicon-edit'></span></button></div>";
+
+            $scope.appointmentGrid = {
+                enableSorting: true,
+                data : $scope.appts,
+                enableHorizontalScrollbar: false,
+                enableVerticalScrollbar: false,
+                columnDefs: [
+                    { name: 'Actions', field: 'id', width: 100, cellTemplate: actionsTemplate },
+                    { name:'Date', field: 'date' }
+                ]
+            };
+
+            $scope.appointmentGrid.rowsPerPage = 15;
+            $scope.appointmentGrid.onRegisterApi = function (gridApi) {
+                $scope.gridApi = gridApi;
+            };
+
+            $scope.refreshData = function (searchTerm) {
+                $scope.appointmentGrid.data = $scope.appts;
+                $scope.appointmentGrid.data = $filter('filter')($scope.appointmentGrid.data,function(value, index){
+
+                    if(searchTerm === undefined || searchTerm == "")
+                        return true;
+
+                    var date = (value.attributes.date !== undefined) ?  value.attributes.date.toLowerCase().indexOf(searchTerm) : -1;
+
+                    return (date != -1);
+                }, undefined);
+            };
+
             var showModal = function (apptId) {
                 var modalInstance = $modal.open({
                     templateUrl: 'appointments/appt-edit.html',
@@ -36,8 +80,20 @@ angular.module('csp.appt.ctrl', [])
                 });
 
                 modalInstance.result.then(function (appt) {
+                    var isNew = appt.isNew();
                     appt.save().then(function (appt) {
-                        $scope.appts.push(appt);
+                        if(!isNew) {
+                            for(var i=0; i<$scope.appts.length; i++) {
+                                if($scope.appts[i].id == appt.id)
+                                    $scope.appts[i] = appt;
+                            }
+                            $scope.refreshData();
+                        } else {
+                            $scope.appts.push(appt);
+
+                            $scope.refreshData();
+                            $scope.gridApi.pagination.seek($scope.gridApi.pagination.getPage());
+                        }
                     }, function (err) {
                         //TODO: Appt Save Error
                         var p = err;

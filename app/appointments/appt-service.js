@@ -11,7 +11,7 @@ angular.module('csp.services.appt', [
                 // Instance methods
 
                 }, {// Class methods
-                    getById: parse.getByIdFunc(Appt, [
+                    getById: parse.getByIdFunc('Appt', [
                         'model',
                         'doctor',
                         'location'])
